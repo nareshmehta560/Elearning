@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
-    <link href="style.css" rel="stylesheet"/>
+    <link href="../static/style.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="container">
@@ -18,9 +18,9 @@
         </ul>
     </div>
     <div class="form-container">
-        <div id="registerForm" class="form">
+        <div id="registerFormm" class="form">
             <h2>Register</h2>
-            <form action="/registerForm" method="POST">
+            <form id="registerForm" action="/registerForm" method="POST">
                 <input type="text" name="firstName" placeholder="First Name">
                 <input type="text" name="lastName" placeholder="Last Name">
                 <input type="text" name="username"  placeholder="Username">
@@ -30,8 +30,67 @@
                 <input type="submit" value="Register">
             </form>
         </div>
-
     </div>
+    <script>
+        //#reset the registration form back to its original form
+        function resetTabs() {
+            const tabs = document.querySelectorAll(".tabs li");
+            tabs.forEach(function(tab) {
+                tab.style.color = "";
+                tab.style.fontSize = "";
+                tab.style.fontWeight = "";
+            });
+        }
+
+        document.getElementById("registerTab").addEventListener("click", function() {
+            resetTabs();
+            document.getElementById("registerForm").style.display = "block";
+            const selected = document.getElementById("registerTab");
+            selected.style.color = "Orange";
+            selected.style.fontSize = "larger";
+            selected.style.fontWeight = "Bold";
+
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            registerForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Get form data
+                const formData = new FormData('registerForm');
+                const password = formData.get('password');
+                const confirmPassword = formData.get('confirmPassword');
+
+                // Validate password and confirm password
+                if (password !== confirmPassword) {
+                    alert('Password do not match');
+                    return;
+                }
+                if((password.length() < 8) && (password.length() > 15)) {
+                    alert('Password must contain 8-15 characters!')
+                }
+
+                // Send the form data to the server using fetch
+                fetch('/register', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Display a notification
+                        alert(data.message); // You can use a more sophisticated notification library here
+
+                        // Optionally, reset the form
+                        registerForm.reset();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Handle errors here if necessary
+                    });
+            });
+        });
+    </script>
 </div>
 </body>
 </html>
