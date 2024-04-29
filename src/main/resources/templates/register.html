@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <div class="intro">
+        <h1>Welcome to your E-Learning platform!</h1>
+        <p>Let's begin the quest of Knowledge... </p>
+        <img src="introLogo.png" alt="">
+    </div>
+    <div class="tabs">
+        <ul>
+            <li id="registerTab">Register</li>
+        </ul>
+    </div>
+    <div class="form-container">
+        <div id="registerForm" class="form">
+            <h2>Register</h2>
+            <form action="/registerForm" method="POST">
+                <input type="text" name="firstName" placeholder="First Name">
+                <input type="text" name="lastName" placeholder="Last Name">
+                <input type="text" name="username"  placeholder="Username">
+                <input type="email" name="email" placeholder="Email Address">
+                <input type="password" name="password" placeholder="Password">
+                <input type="password" name="confirmPassword" placeholder="Confirm Password">
+                <input type="submit" value="Register">
+            </form>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
