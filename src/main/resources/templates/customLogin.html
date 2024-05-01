@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="../static/style.css" rel="stylesheet"/>
 </head>
 <body>
-$END$
+<div class="container">
+    <div class="intro">
+        <h1>Welcome to your E-Learning platform!</h1>
+        <p>Let's begin the quest of Knowledge... </p>
+        <img src="login.jpeg" alt="">
+    </div>
+    <div class="tabs">
+        <ul>
+            <li id="loginTab"></li>
+        </ul>
+    </div>
+    <div class="form-container">
+
+        <div id="loginForm" class="form" style="display: block;">
+            <h2>Login</h2>
+            <form action="/login" method="POST">
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <input type="submit" value="Login">
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.getElementById("loginTab").addEventListener("click", function() {
+        resetTabs();
+        document.getElementById("loginForm").style.display = "block";
+        var selected = document.getElementById("loginTab");
+        selected.style.color = "Orange";
+        selected.style.fontSize = "larger";
+        selected.style.fontWeight = "Bold";
+    });
+
+</script>
 </body>
 </html>
