@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 @Entity
 @lombok.Getter
 @lombok.Setter
+@Table(name = "user_data")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(unique = true)
+    private int id;
+
     private String firstName;
     private String lastName;
     private String username;
