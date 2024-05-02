@@ -13,4 +13,8 @@ public class HomeController {
     public  String displayHome() {
         return "home";
     }
+    @GetMapping(value = "/uploadCourse")
+    public String upload() {
+        return
+    }
 }
