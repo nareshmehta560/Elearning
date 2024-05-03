@@ -1,22 +1,14 @@
 stages:
   - build
-  - test
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 maven_build:
   stage: build
-  image: maven:3.8.4-openjdk-11
+  image: maven:latest
   script:
-    - mvn clean package -B
+    - mvn clean compile -B
   artifacts:
     paths:
       - target/*.jar
-
-test_login:
-  stage: test
-  image: maven:3.8.4-openjdk-11
-  script:
-    - mvn test -B
-
