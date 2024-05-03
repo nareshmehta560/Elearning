@@ -19,11 +19,12 @@ public class ElearningplatformApplication {
     @Bean
     public CommandLineRunner demo(UserRepository repository, RoleRepository roleRepo) {
         return (args) -> {
-            // create a new user
+
             Role userRole = new Role("USER");
             Role adminRole = new Role("ADMIN");
             userRole = roleRepo.save(userRole);
             adminRole = roleRepo.save(adminRole);
+            // create a new user
             User user = new User();
             user.setUserName("testUser");
             user.setPassWord("$2a$12$NZ0jhuPxZGGuCIhEkvnJr.gOghvuMbN4M3BZgWSWnOh24BBbrQ.Wy");
