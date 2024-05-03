@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
@@ -12,3 +13,9 @@ maven_build:
   artifacts:
     paths:
       - target/*.jar
+
+  maven_test:
+    stage: test
+    image: maven:latest
+    script:
+      - mvn test
