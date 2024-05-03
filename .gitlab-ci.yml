@@ -14,8 +14,8 @@ maven_build:
     paths:
       - target/*.jar
 
-  maven_test:
-    stage: test
-    image: maven:latest
-    script:
-      - mvn test -Dtest=com.example.elearningplatform.LoginTest
+maven_test:
+  stage: test
+  image: maven:latest
+  script:
+     - mvn test -Dtest=com.example.elearningplatform.LoginTest
