@@ -92,12 +92,13 @@
                     <version>3.11.0</version>
 				<configuration>
                     <release>17</release>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.22</version> <!-- Specify the version of lombok -->
+                        </path>
+                    </annotationProcessorPaths>
 				</configuration>
 			</plugin>
 		</plugins>
