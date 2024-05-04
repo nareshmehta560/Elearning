@@ -9,9 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 public class HomeController {
     @Autowired
@@ -24,6 +21,7 @@ public class HomeController {
     public String displayLogin() {
         return "customLogin";
     }
+
     @GetMapping(value = "/home")
     public  String displayHome(Model model) {
         Iterable<User> users = userRepository.findAll();
@@ -34,7 +32,8 @@ public class HomeController {
         return "home";
     }
     @GetMapping(value = "/uploadCourse")
-    public String upload() {
+    public String upload(Model model) {
+        model.addAttribute("newcourse", new Course());
         return "upload";
     }
 }

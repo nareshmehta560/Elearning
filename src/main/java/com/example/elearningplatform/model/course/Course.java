@@ -2,20 +2,19 @@ package com.example.elearningplatform.model.course;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 public class Course {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String courseName;
-    private String description;
-    private double price;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<CourseFile> files = new ArrayList<>();
+    private String name;
+
+    private String description;
+
+    @Lob
+    private byte[] photo; // Field to store course photo as byte array
 
     public Long getId() {
         return id;
@@ -25,12 +24,12 @@ public class Course {
         this.id = id;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getName() {
+        return name;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -41,21 +40,11 @@ public class Course {
         this.description = description;
     }
 
-    public double getPrice() {
-        return price;
+    public byte[] getPhoto() {
+        return photo;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public List<CourseFile> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<CourseFile> files) {
-        this.files = files;
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 }
-
-

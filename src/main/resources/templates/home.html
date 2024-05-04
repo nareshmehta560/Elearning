@@ -44,9 +44,8 @@
         <!-- Loop through courses and display each row -->
         <tr th:each="course : ${courses}">
             <td th:text="${course.id}"></td>
-            <td th:text="${course.courseName}"></td>
+            <td th:text="${course.name}"></td>
             <td th:text="${course.description}"></td>
-            <td th:text="${course.price}"></td>
         </tr>
         </tbody>
     </table>

@@ -1,199 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Upload</title>
-    <link rel="stylesheet" href="src/main/resources/template/styles.css">
+    <title>Upload Course</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 600px;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
+            font-family: Arial, sans-serif;
             text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
+            padding-top: 50px; /* Adjust top padding for vertical centering */
         }
 
         form {
-            display: flex;
-            flex-direction: column;
+            width: 80%;
+            max-width: 400px;
+            margin: 0 auto; /* Center the form horizontally */
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         label {
             font-weight: bold;
             margin-bottom: 8px;
+            display: block;
+            text-align: left;
         }
 
         input[type="text"],
         textarea,
-        input[type="number"],
-        button,
         input[type="file"] {
-            padding: 12px;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin-bottom: 20px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
+            box-sizing: border-box;
         }
 
-        input[type="text"]:focus,
-        textarea:focus,
-        input[type="number"]:focus,
-        button:focus,
-        input[type="file"]:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        button {
+        button[type="submit"] {
             background-color: #007bff;
             color: #fff;
+            padding: 12px 20px;
             border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        #message {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
             border-radius: 4px;
-            color: #155724;
-            display: none;
-        }
-        /* Style for file items in the file list */
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        /* Style for delete button */
-        .delete-button {
-            color: #be0707;
-            background-color: transparent;
-            border: none;
-            padding: 0;
             cursor: pointer;
-            font-size: 14px;
-            text-decoration: underline;
-            transition: color 0.3s ease;
+            font-size: 16px;
         }
 
-        .delete-button:hover {
-            color: #e10606;
+        button[type="submit"]:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
-
 <body>
-<div class="container">
-    <h1>Upload a New Course</h1>
-    <form id="courseForm" action="/upload" method="post" enctype="multipart/form-data">
-        <label for="courseName">Course Name:</label>
-        <input type="text" id="courseName" name="courseName" required><br><br>
-
-        <label for="category">Category:</label>
-        <input type="text" id="category" name="category"><br><br>
-
-        <label for="description">Description:</label><br>
-        <textarea id="description" name="description" rows="4" required></textarea><br><br>
-
-        <label for="files">Select Course Files:</label>
-        <input type="file" id="files" name="files[]" accept=".pdf, .jpg, .jpeg, .png, .mp4" multiple required><br>
-        <small>Accepted file types: PDF, JPG, JPEG, PNG, MP4</small><br><br>
-
-        <!-- Container to display selected file names -->
-        <div id="fileList"></div>
-        <label for="price">Price ($):</label>
-        <input type="number" id="price" name="price" min="0" step="0.01"><br><br>
-
+<h2>Upload a New Course</h2>
+<form th:action="@{/courseupload}" th:object="${newcourse}" method="post" enctype="multipart/form-data">
+    <div>
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" />
+    </div>
+    <div>
+        <label>Description:</label>
+        <textarea th:field="*{description}"></textarea>
+    </div>
+    <div>
+        <label>Photo:</label>
+        <input type="file" name="file" />
+    </div>
+    <div>
         <button type="submit">Upload Course</button>
-    </form>
-    <div id="message"></div>
-</div>
-
-<script>
-    document.getElementById('files').addEventListener('change', function(event) {
-        var fileListContainer = document.getElementById('fileList');
-
-        // Get selected files
-        var files = event.target.files;
-
-        // Display selected files with delete buttons
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            var fileName = file.name;
-
-            // Create a div container for each file item
-            var fileItemContainer = document.createElement('div');
-            fileItemContainer.className = 'file-item-container';
-
-            // Display file name
-            var fileNameSpan = document.createElement('span');
-            fileNameSpan.textContent = fileName;
-            fileItemContainer.appendChild(fileNameSpan);
-
-            // Create delete button for this file
-            var deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Delete';
-            deleteButton.className = 'delete-button';
-            deleteButton.addEventListener('click', function(e) {
-                // Remove the file item container when delete button is clicked
-                e.target.parentNode.remove();
-            });
-            fileItemContainer.appendChild(deleteButton);
-
-            // Append file item container to file list container
-            fileListContainer.appendChild(fileItemContainer);
-        }
-    });
-
-    document.getElementById('courseForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-        var courseName = document.getElementById('courseName').value;
-        var description = document.getElementById('description').value;
-        var files = document.getElementById('files').files; // Get array of selected files
-        var formData = new FormData();
-        formData.append('courseName', courseName);
-        formData.append('description', description);
-        for (var i = 0; i < files.length; i++) {
-            formData.append('files[]', files[i]);
-        }
-    });
-</script>
+    </div>
+</form>
 </body>
-
 </html>
