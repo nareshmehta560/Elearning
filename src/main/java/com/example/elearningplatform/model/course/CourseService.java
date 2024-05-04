@@ -4,6 +4,7 @@ import com.example.elearningplatform.repositories.CourseFileRepository;
 import com.example.elearningplatform.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -24,6 +25,7 @@ import java.util.List;
         @Autowired
         private CourseFileRepository courseFileRepository;
 
+        @PostMapping("/uploadCourse")
         public Course uploadCourse(String courseName, String description, List<MultipartFile> files, double price) throws IOException {
             Course course = new Course();
             course.setCourseName(courseName);

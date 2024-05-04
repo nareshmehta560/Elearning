@@ -28,10 +28,12 @@ public class CourseController {
                                           @RequestParam("files") List<MultipartFile> files) {
         try {
             Course course = courseService.uploadCourse(courseName, description, files, price);
+            System.out.println(course);
             return ResponseEntity.ok().body("Course '" + course.getCourseName() + "' uploaded successfully!");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload course.");
         }
     }
+
 }
 

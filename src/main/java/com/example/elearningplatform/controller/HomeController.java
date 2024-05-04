@@ -16,6 +16,8 @@ import java.util.List;
 public class HomeController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
     private CourseRepository courseRepository;
 
     @GetMapping(value = {"","/","customLogin"})

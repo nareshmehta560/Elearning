@@ -1,7 +1,9 @@
 package com.example.elearningplatform;
 
+import com.example.elearningplatform.model.course.Course;
 import com.example.elearningplatform.model.role.Role;
 import com.example.elearningplatform.model.user.User;
+import com.example.elearningplatform.repositories.CourseRepository;
 import com.example.elearningplatform.repositories.RoleRepository;
 import com.example.elearningplatform.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -17,7 +19,7 @@ public class ElearningplatformApplication {
 
 	}
     @Bean
-    public CommandLineRunner demo(UserRepository repository, RoleRepository roleRepo) {
+    public CommandLineRunner demo(UserRepository repository, RoleRepository roleRepo, CourseRepository courseRepository) {
         return (args) -> {
             // create a new user
             Role userRole = new Role("USER");
@@ -33,6 +35,12 @@ public class ElearningplatformApplication {
 
             // save the user to the database
             repository.save(user);
+
+            Course course = new Course();
+            course.setId(1L);
+            course.setCourseName("Mathematik");
+            course.setDescription("THISI IS MATHEMATIK LOOLLL");
+            courseRepository.save(course);
         };
     }
 
