@@ -1,5 +1,7 @@
 package com.example.elearningplatform.model.course;
 
+import com.example.elearningplatform.repositories.CourseFileRepository;
+import com.example.elearningplatform.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

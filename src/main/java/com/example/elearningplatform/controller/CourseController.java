@@ -1,5 +1,7 @@
-package com.example.elearningplatform.model.course;
+package com.example.elearningplatform.controller;
 
+import com.example.elearningplatform.model.course.Course;
+import com.example.elearningplatform.model.course.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

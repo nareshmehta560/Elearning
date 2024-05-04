@@ -1,12 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>home</title>
 </head>
 <body>
     <h1>here will be Dashboard </h1>
-   <button onclick="/uploadCourse">Upload course</button>
+    <form action="/uploadCourse" method="get">
+        <!-- Use a styled submit button to mimic a regular button -->
+        <button type="submit">Upload course</button>
+    </form>
 
+    <!-- User List -->
+    <h1>User List</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through users and display each row -->
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.userName}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Course List -->
+    <h1>Course List</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Course Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through courses and display each row -->
+        <tr th:each="course : ${courses}">
+            <td th:text="${course.id}"></td>
+            <td th:text="${course.courseName}"></td>
+            <td th:text="${course.description}"></td>
+            <td th:text="${course.price}"></td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>
