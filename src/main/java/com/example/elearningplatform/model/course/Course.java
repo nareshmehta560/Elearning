@@ -8,13 +8,16 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
 
     private String description;
 
+    private String category;
+
+    private Double price;
+
     @Lob
-    private byte[] photo; // Field to store course photo as byte array
+    private byte[] field;  // renamed from 'photo'
 
     public Long getId() {
         return id;
@@ -40,11 +43,27 @@ public class Course {
         this.description = description;
     }
 
-    public byte[] getPhoto() {
-        return photo;
+    public String getCategory() {
+        return category;
     }
 
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public byte[] getField() {
+        return field;
+    }
+
+    public void setField(byte[] field) {
+        this.field = field;
     }
 }

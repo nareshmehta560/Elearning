@@ -26,10 +26,13 @@ public class CourseController {
     }
 
     @PostMapping("/courseupload")
-    public String submitCourseForm(@ModelAttribute("newcourse") Course course) {
+    public String submitCourseForm(@ModelAttribute("newcourse") Course course,
+                                   @RequestParam("file") MultipartFile file) throws IOException {
+        if (!file.isEmpty()) {
+            course.setField(file.getBytes());
+        }
         courseService.saveCourse(course);
         return "redirect:/home";
     }
-
 }
 
