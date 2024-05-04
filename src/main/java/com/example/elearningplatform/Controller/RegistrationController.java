@@ -14,18 +14,31 @@ public class RegistrationController {
     @Autowired
     private UserRepository userRepo;
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("user", new User());
         return "register";
     }
     @PostMapping ("/register")
-    public String userRegistration(@ModelAttribute User user) {
+    public String userRegistration(@ModelAttribute User user, Model model) {
+        //Checking if the username already exists
+        User existingUser = userRepo.findByUsername(user.getUsername());
+        if(existingUser != null) {
+            model.addAttribute("error","Username already exists!");
+            return "register";
+        }
+        User existingEmail = userRepo.findByEmail(user.getEmail());
+        if(existingEmail != null) {
+            model.addAttribute("error","Account with this email already exists!");
+            return "register";
+        }
+        // Checking if the password and confirm password fields match
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            model.addAttribute("error","Passwords do not match!");
+            return "register";
+        }
         System.out.println(user.toString());
         //validate
-        System.out.println(user.getFirstName());
-        System.out.println(user.getLastName());
-        System.out.println(user.getUsername());
-        System.out.println(user.getEmail());
-
+        System.out.println("Registration successfull!");
         User user_inserted = userRepo.save(user);
         return "home";
     }

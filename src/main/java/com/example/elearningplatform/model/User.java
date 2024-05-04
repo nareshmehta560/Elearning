@@ -19,6 +19,7 @@ public class User {
 
 
     private String password;
+    @Transient
     private String confirmPassword;
 
     public User(String firstName, String lastName, String username, String email, String password, String confirmPassword) {

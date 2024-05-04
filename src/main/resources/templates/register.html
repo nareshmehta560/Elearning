@@ -125,55 +125,265 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: red;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #errorMsg {
+            color: red;
+        }
+        .input-error {
+            border: 1px solid red;
+        }
+
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="intro">
-        <h1>Welcome to your E-Learning platform!</h1>
-        <p>Let's begin the quest of Knowledge... </p>
-        <img src="/images/introLogo.png" alt="Website logo">
-    </div>
-    <div class="tabs">
-        <ul>
-            <li id="registerTab">Register</li>
-        </ul>
-    </div>
-    <div class="form-container">
-        <div id="registerFormm" class="form">
-            <h2>Register</h2>
-            <form id="registerForm" action="register" method="POST">
-                <input type="text" name="firstName" placeholder="First Name">
-                <input type="text" name="lastName" placeholder="Last Name">
-                <input type="text" name="username"  placeholder="Username">
-                <input type="email" name="email" placeholder="Email Address">
-                <input type="password" name="password" placeholder="Password">
-                <input type="password" name="confirmPassword" placeholder="Confirm Password">
-                <input type="submit" value="Register">
-            </form>
+    <div class="container">
+        <div class="intro">
+            <h1>Welcome to your E-Learning platform!</h1>
+            <p>Let's begin the quest of Knowledge... </p>
+            <img src="/images/introLogo.png" alt="Website logo">
+        </div>
+        <div class="tabs">
+            <ul>
+                <li id="registerTab"></li>
+            </ul>
+        </div>
+        <div class="form-container">
+            <div id="registerFormm" class="form">
+                <h2>Register</h2>
+                <form id="registerForm" action="register" method="POST">
+                    <!-- Display error message -->
+                    <p style="color:red" th:text="${error}"></p>
+                    <div id="myModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p id="errorMsg"></p>
+                        </div>
+                    </div>
+                    <input type="text" id="firstName" name="firstName" placeholder="First Name" autofocus autocapitalize="words" required>
+                    <input type="text" id="lastName" name="lastName" placeholder="Last Name" autocapitalize="words" required>
+                    <input type="text" id="username" name="username"  placeholder="Username" required>
+                    <input type="email" id="email" name="email" placeholder="Email Address" required>
+                    <input type="checkbox" onclick="showHidePassword()" id="togglePassword">Show Password
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                    <input type="submit" value="Register" onmouseover="validateForm()">
+                </form>
+            </div>
         </div>
     </div>
     <script>
-        //#reset the registration form back to its original form
-        function resetTabs() {
-            const tabs = document.querySelectorAll(".tabs li");
-            tabs.forEach(function(tab) {
-                tab.style.color = "";
-                tab.style.fontSize = "";
-                tab.style.fontWeight = "";
-            });
+
+        function validateForm() {
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            const modal = document.getElementById("myModal");
+            const span = document.getElementsByClassName("close")[0];
+            const errorMsg = document.getElementById("errorMsg");
+
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+            if (!firstName || !lastName || !username || !email || !password || !confirmPassword) {
+                if(firstName) {
+                    var regex = /^[A-Za-z]+$/;
+                    if (!regex.test(firstName)) {
+                        errorMsg.innerHTML = "First name must consist of alphabets only.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        document.getElementById("lastName").classList.add('input-error');
+                        return false;
+                    }
+                }
+                if(lastName) {
+                    var regex = /^[A-Za-z]+$/;
+                    if (!regex.test(lastName)) {
+                        errorMsg.innerHTML = "Last name must consist of alphabets only.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        document.getElementById("lastName").classList.add('input-error');
+                        return false;
+                    }
+                }
+                if(username) {
+                    if (username.length < 4 || username.length > 12) {
+                        errorMsg.innerHTML = "Username must be between 4 and 12 characters.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+                    // Check if the username starts with an alphabet and consists of only alphabets and numbers
+                    var regex = /^[A-Za-z][A-Za-z0-9]*$/;
+                    if (!regex.test(username)) {
+                        errorMsg.innerHTML = "Username must start with an alphabet and consist of only alphabets and numbers.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+                }
+                if(password){
+                    if (password.length < 8 || password.length > 15) {
+                        errorMsg.innerHTML = "Password must be between 8 and 15 characters.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+                    // Check if the password contains at least one number
+                    const hasNumber = /\d/;
+                    if (!hasNumber.test(password)) {
+                        errorMsg.innerHTML = "Password must contain at least one number.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+
+                    // Check if the password contains at least one special character
+                    const hasSpecialChar = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+                    if (!hasSpecialChar.test(password)) {
+                        errorMsg.innerHTML = "Password must contain at least one special character.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+                    if(confirmPassword) {
+                        if (password != confirmPassword) {
+                            errorMsg.innerHTML = "Passwords do not match.";
+                            modal.style.display = "block";
+                            return false;
+                        }
+                    }
+                }
+                errorMsg.innerHTML = "Please fill out all fields.";
+                modal.style.display = "block";
+                return false;
+            } else {
+                if(firstName) {
+                    var regex = /^[A-Za-z]+$/;
+                    if (!regex.test(firstName)) {
+                        errorMsg.innerHTML = "First name must consist of alphabets only.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        document.getElementById("lastName").classList.add('input-error');
+                        return false;
+                    }
+                }
+                if(lastName) {
+                    var regex = /^[A-Za-z]+$/;
+                    if (!regex.test(firstName)) {
+                        errorMsg.innerHTML = "Last name must consist of alphabets only.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        document.getElementById("lastName").classList.add('input-error');
+                        return false;
+                    }
+                }
+                if(username) {
+                    if (username.length < 4 || username.length > 12) {
+                        errorMsg.innerHTML = "Username must be between 4 and 12 characters.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+                    // Check if the username starts with an alphabet and consists of only alphabets and numbers
+                    var regex = /^[A-Za-z][A-Za-z0-9]*$/;
+                    if (!regex.test(username)) {
+                        errorMsg.innerHTML = "Username must start with an alphabet and consist of only alphabets and numbers.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+                }
+                if(password){
+                    if (password.length < 8 || password.length > 15) {
+                        errorMsg.innerHTML = "Password must be between 8 and 15 characters.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+                    // Check if the password contains at least one number
+                    const hasNumber = /\d/;
+                    if (!hasNumber.test(password)) {
+                        errorMsg.innerHTML = "Password must contain at least one number.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+
+                    // Check if the password contains at least one special character
+                    const hasSpecialChar = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+                    if (!hasSpecialChar.test(password)) {
+                        errorMsg.innerHTML = "Password must contain at least one special character.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+                    if(confirmPassword) {
+                        if (password != confirmPassword) {
+                            errorMsg.innerHTML = "Passwords do not match.";
+                            modal.style.display = "block";
+                            return false;
+                        }
+                    }
+                }
+
+            }
+            return true;
         }
-
-        document.getElementById("registerTab").addEventListener("click", function() {
-            resetTabs();
-            document.getElementById("registerForm").style.display = "block";
-            const selected = document.getElementById("registerTab");
-            selected.style.color = "Orange";
-            selected.style.fontSize = "larger";
-            selected.style.fontWeight = "Bold";
-
-        });
-
+        function showHidePassword() {
+            var passwordField = document.getElementById("password");
+            var confirmPass= document.getElementById("confirmPassword");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                confirmPass.type = "text";
+            } else {
+                passwordField.type = "password";
+                confirmPass.type = "password";
+            }
+        }
 
     </script>
 </div>
