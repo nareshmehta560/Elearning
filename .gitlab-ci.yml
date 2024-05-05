@@ -18,4 +18,4 @@ maven_test:
   stage: test
   image: maven:latest
   script:
-     - mvn test -Dtest=com.example.elearningplatform.LoginTest
+     - mvn test -Dtest=com.stw_II.elearningplatform.LoginTest
