@@ -203,7 +203,6 @@
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-
     </script>
     <script>
         //function to check if the form is filled correctly
@@ -408,13 +407,14 @@
             }
             return true;
         }
+        //stops displaying the error message on typing
         $(document).ready(function(){
-            // Clear error message when user starts typing in the username field
+            // Clears error message when user starts typing in the username field
             $("#username").on('input', function(){
                 $("#MsgError").text('');
             });
 
-            // Clear error message when user starts typing in the email field
+            // Clears error message when user starts typing in the email field
             $("#email").on('input', function(){
                 $("#MsgError").text('');
             });

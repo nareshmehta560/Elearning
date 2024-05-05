@@ -3,6 +3,7 @@ package com.example.elearningplatform.Controller;
 import com.example.elearningplatform.Repository.UserRepository;
 import com.example.elearningplatform.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,8 @@ public class RegistrationController {
     @Autowired
     private UserRepository userRepo;
 
-   // @Autowired
-    //private BCryptPasswordEncoder passwordEncoder;
+   @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -41,7 +42,7 @@ public class RegistrationController {
         }
 
         //Encode the password
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         //validate
         System.out.println(user.toString());
