@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegistrationController {
     @Autowired
     private UserRepository userRepo;
+
+   // @Autowired
+    //private BCryptPasswordEncoder passwordEncoder;
+
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("user", new User());
@@ -24,21 +28,30 @@ public class RegistrationController {
         User existingUser = userRepo.findByUsername(user.getUsername());
         if(existingUser != null) {
             model.addAttribute("error","Username already exists!");
+            model.addAttribute("user", user);
             return "register";
         }
+
+        //Checking if the email-address is already registered.
         User existingEmail = userRepo.findByEmail(user.getEmail());
         if(existingEmail != null) {
             model.addAttribute("error","Account with this email already exists!");
+            model.addAttribute("user", user);
             return "register";
         }
-        // Checking if the password and confirm password fields match
+        /* Checking if the password and confirm password fields match
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             model.addAttribute("error","Passwords do not match!");
             return "register";
         }
-        System.out.println(user.toString());
+         */
+        //Encode the password
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         //validate
+        System.out.println(user.toString());
         System.out.println("Registration successfull!");
+
         User user_inserted = userRepo.save(user);
         return "home";
     }

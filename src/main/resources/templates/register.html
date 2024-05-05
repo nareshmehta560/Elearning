@@ -193,13 +193,13 @@
                             <p id="errorMsg"></p>
                         </div>
                     </div>
-                    <input type="text" id="firstName" name="firstName" placeholder="First Name" autofocus autocapitalize="words" required>
-                    <input type="text" id="lastName" name="lastName" placeholder="Last Name" autocapitalize="words" required>
-                    <input type="text" id="username" name="username"  placeholder="Username" required>
-                    <input type="email" id="email" name="email" placeholder="Email Address" required>
+                    <input type="text" th:value="${user.firstName}" id="firstName" name="firstName" placeholder="First Name" autofocus autocapitalize="words" required>
+                    <input type="text" th:value="${user.lastName}" id="lastName" name="lastName" placeholder="Last Name" autocapitalize="words" required>
+                    <input type="text" th:value="${user.username}" id="username" name="username"  placeholder="Username" required>
+                    <input type="email" th:value="${user.email}" id="email" name="email" placeholder="Email Address" required>
                     <input type="checkbox" onclick="showHidePassword()" id="togglePassword">Show Password
-                    <input type="password" id="password" name="password" placeholder="Password" required>
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                    <input type="password" th:value="${user.password}" id="password" name="password" placeholder="Password" required>
+                    <input type="password" th:value="${user.confirmPassword}" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
                     <input type="submit" value="Register" onmouseover="validateForm()">
                 </form>
             </div>
@@ -228,7 +228,9 @@
                     modal.style.display = "none";
                 }
             }
+            //checks the input filed requirements in not completely filled situation
             if (!firstName || !lastName || !username || !email || !password || !confirmPassword) {
+                //checks if the first name is free of numbers
                 if(firstName) {
                     var regex = /^[A-Za-z]+$/;
                     if (!regex.test(firstName)) {
@@ -239,6 +241,7 @@
                         return false;
                     }
                 }
+                //checks if the last name is free of numbers
                 if(lastName) {
                     var regex = /^[A-Za-z]+$/;
                     if (!regex.test(lastName)) {
@@ -249,7 +252,9 @@
                         return false;
                     }
                 }
+                //checks if the requirement for username are fulfilled
                 if(username) {
+                    //checks if the length of the username
                     if (username.length < 4 || username.length > 12) {
                         errorMsg.innerHTML = "Username must be between 4 and 12 characters.";
                         errorMsg.style.color = "red";
@@ -265,6 +270,7 @@
                         return false;
                     }
                 }
+                //checks if the requirement for the password is fulfilled
                 if(password){
                     if (password.length < 8 || password.length > 15) {
                         errorMsg.innerHTML = "Password must be between 8 and 15 characters.";
@@ -281,7 +287,7 @@
                         return false;
                     }
 
-                    // Check if the password contains at least one special character
+                    // Checks if the password contains at least one special character
                     const hasSpecialChar = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
                     if (!hasSpecialChar.test(password)) {
                         errorMsg.innerHTML = "Password must contain at least one special character.";
@@ -289,6 +295,7 @@
                         modal.style.display = "block";
                         return false;
                     }
+                    //Checks if the given passwords match
                     if(confirmPassword) {
                         if (password != confirmPassword) {
                             errorMsg.innerHTML = "Passwords do not match.";
@@ -300,7 +307,8 @@
                 errorMsg.innerHTML = "Please fill out all fields.";
                 modal.style.display = "block";
                 return false;
-            } else {
+            } else {  //checks the form in complete filled situation
+
                 if(firstName) {
                     var regex = /^[A-Za-z]+$/;
                     if (!regex.test(firstName)) {
