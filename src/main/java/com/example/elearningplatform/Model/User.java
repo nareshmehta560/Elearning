@@ -2,6 +2,8 @@ package com.example.elearningplatform.Model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @lombok.Getter
 @lombok.Setter
@@ -17,5 +19,7 @@ public class User {
     private String password;
     @Column(name = "`email`")
     private String email;
+    @OneToMany(mappedBy = "")
+    private List<InstructorApplication> instructorApplications;
 
 }
