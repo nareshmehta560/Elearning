@@ -7,16 +7,17 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding-top: 50px; /* Adjust top padding for vertical centering */
+            background-color: #f5f5f5; /* Set a light background color */
         }
 
         form {
             width: 80%;
-            max-width: 400px;
+            max-width: 600px; /* Increase max-width for larger screens */
             margin: 0 auto; /* Center the form horizontally */
-            background-color: #f9f9f9;
-            padding: 20px;
+            background-color: #ffffff; /* White background for form */
+            padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add subtle shadow */
         }
 
         label {
@@ -27,115 +28,108 @@
         }
 
         input[type="text"],
+        input[type="number"],
         textarea,
         input[type="file"] {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
+            padding: 12px;
+            margin-bottom: 20px; /* Increased margin bottom for spacing */
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 16px;
         }
 
         button[type="submit"] {
             background-color: #007bff;
             color: #fff;
-            padding: 12px 20px;
+            padding: 14px 24px; /* Increase padding for larger buttons */
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
+            transition: background-color 0.3s ease; /* Smooth hover effect */
         }
 
         button[type="submit"]:hover {
             background-color: #0056b3;
-
-        }
-        /* Style for file list and delete button */
-        #file-list {
-            text-align: left;
-            margin-bottom: 15px;
         }
 
-        .file-item {
-            margin-bottom: 10px;
+        #upload-field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Vertically center items */
+            gap: 20px; /* Spacing between elements */
         }
 
-        .file-item button {
-            margin-left: 10px;
-            padding: 8px 12px;
-            background-color: #dc3545;
-            color: #fff;
+        #deleteButtonContainer {
+            display: none; /* Initially hide delete button */
+        }
+
+        #removeButton,
+        #deleteButton {
+            height: 48px;
+            background-color: #be8890;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            padding: 0 20px;
         }
-        .delete-button:hover {
-            color: #e10606;
+
+        #deleteButton {
+            margin-left: 10px;
         }
+
     </style>
 </head>
 <body>
 <h2>Upload a New Course</h2>
-<div th:if="${error}" class="error" th:text="${error}"></div>
 <form th:action="@{/courseupload}" th:object="${newcourse}" method="post" enctype="multipart/form-data">
     <div>
         <label>Name:</label>
-        <input type="text" th:field="*{name}" required />
+        <input type="text" th:field="*{name}" placeholder="Enter Name.." required/>
     </div>
     <div>
         <label>Description:</label>
-        <textarea th:field="*{description}"></textarea>
+        <textarea th:field="*{description}" rows="4" placeholder="Enter Description.."></textarea>
     </div>
     <div>
         <label>Category:</label>
-        <input type="text" th:field="*{category}" required />
+        <input type="text" th:field="*{category}" placeholder="Enter Category.." required/>
     </div>
     <div>
         <label>Price:</label>
-        <input type="number" step="0.01" th:field="*{price}" required />
+        <input type="number" th:field="*{price}" placeholder="Enter Price.." required/>
     </div>
-    <div>
-        <label>Files:</label>
-        <input type="file" id="fileInput" name="files" multiple required />
-    </div>
-    <div id="file-list">
-        <!-- Selected file names will be dynamically added here -->
+    <div id="upload-field">
+        <label>File:</label>
+        <input type="file" id="fileInput" name="file" onchange="toggleDeleteButton()" required/>
+        <span id="deleteButtonContainer">
+            <button type="button" id="deleteButton" onclick="removeFile()">Delete</button>
+        </span>
     </div>
     <div>
         <button type="submit">Upload Course</button>
     </div>
 </form>
+
 <script>
-    document.getElementById('fileInput').addEventListener('change', function(e) {
-        const fileListContainer = document.getElementById('file-list');
+    function toggleDeleteButton() {
+        const fileInput = document.getElementById('fileInput');
+        const deleteButtonContainer = document.getElementById('deleteButtonContainer');
 
-        // Loop through each selected file
-        Array.from(e.target.files).forEach(function(file, index) {
-            const fileItem = document.createElement('div');
-            fileItem.className = 'file-item';
+        if (fileInput.files.length > 0) {
+            deleteButtonContainer.style.display = 'inline-block';
+        } else {
+            deleteButtonContainer.style.display = 'none';
+        }
+    }
 
-            const fileName = document.createElement('span');
-            fileName.textContent = file.name;
-            fileItem.appendChild(fileName);
-
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Delete';
-            deleteButton.addEventListener('click', function() {
-                // Remove the file item from the list
-                fileItem.remove();
-
-                // Remove the corresponding file from the input's files list
-                const newFiles = Array.from(e.target.files).filter(function(f) {
-                    return f !== file;
-                });
-                e.target.files = newFiles;
-            });
-
-            fileItem.appendChild(deleteButton);
-            fileListContainer.appendChild(fileItem);
-        });
-    });
+    function removeFile() {
+        const fileInput = document.getElementById('fileInput');
+        fileInput.value = ''; // Clear the selected file
+        toggleDeleteButton(); // Hide the delete button container
+    }
 </script>
 
 </body>
