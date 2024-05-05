@@ -21,7 +21,7 @@ public class CourseController {
 
     @GetMapping("/courseupload")
     public String showCourseForm(Model model) {
-        model.addAttribute("course", new Course());
+        model.addAttribute("newcourse", new Course());
         return "upload";
     }
 
