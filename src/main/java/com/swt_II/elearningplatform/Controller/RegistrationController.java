@@ -1,7 +1,7 @@
-package com.example.elearningplatform.Controller;
+package com.swt_II.elearningplatform.Controller;
 
-import com.example.elearningplatform.Repository.UserRepository;
-import com.example.elearningplatform.model.User;
+import com.swt_II.elearningplatform.Repository.UserRepository;
+import com.swt_II.elearningplatform.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;

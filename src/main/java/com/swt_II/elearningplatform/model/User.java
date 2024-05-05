@@ -1,4 +1,4 @@
-package com.example.elearningplatform.model;
+package com.swt_II.elearningplatform.model;
 
 import jakarta.persistence.*;
 

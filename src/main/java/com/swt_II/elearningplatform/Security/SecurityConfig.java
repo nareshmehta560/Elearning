@@ -1,4 +1,4 @@
-package com.example.elearningplatform.Security;
+package com.swt_II.elearningplatform.Security;
 
 
 import org.springframework.context.annotation.Bean;

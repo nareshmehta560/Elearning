@@ -1,4 +1,4 @@
-package com.example.elearningplatform;
+package com.swt_II.elearningplatform;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

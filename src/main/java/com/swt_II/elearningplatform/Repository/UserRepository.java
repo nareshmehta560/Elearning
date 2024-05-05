@@ -1,8 +1,7 @@
-package com.example.elearningplatform.Repository;
+package com.swt_II.elearningplatform.Repository;
 
-import com.example.elearningplatform.model.User;
+import com.swt_II.elearningplatform.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUsername(String username);
