@@ -163,9 +163,6 @@
         #errorMsg {
             color: red;
         }
-        .input-error {
-            border: 1px solid red;
-        }
 
     </style>
 </head>
@@ -186,27 +183,30 @@
                 <h2>Register</h2>
                 <form id="registerForm" action="register" method="POST">
                     <!-- Display error message -->
-                    <p style="color:red" th:text="${error}"></p>
+                    <p id="MsgError" style="color:red" th:text="${error}"></p>
                     <div id="myModal" class="modal">
                         <div class="modal-content">
                             <span class="close">&times;</span>
                             <p id="errorMsg"></p>
                         </div>
                     </div>
-                    <input type="text" th:value="${user.firstName}" id="firstName" name="firstName" placeholder="First Name" autofocus autocapitalize="words" required>
-                    <input type="text" th:value="${user.lastName}" id="lastName" name="lastName" placeholder="Last Name" autocapitalize="words" required>
-                    <input type="text" th:value="${user.username}" id="username" name="username"  placeholder="Username" required>
+                    <input type="text" th:value="${user.firstName}" id="firstName" name="firstName" placeholder="First Name (letters only)" autofocus autocapitalize="words" required>
+                    <input type="text" th:value="${user.lastName}" id="lastName" name="lastName" placeholder="Last Name (letters only)" autocapitalize="words" required>
+                    <input type="text" th:value="${user.username}" id="username" name="username"  placeholder="Username(min. 4 characters..)" required>
                     <input type="email" th:value="${user.email}" id="email" name="email" placeholder="Email Address" required>
                     <input type="checkbox" onclick="showHidePassword()" id="togglePassword">Show Password
-                    <input type="password" th:value="${user.password}" id="password" name="password" placeholder="Password" required>
+                    <input type="password" th:value="${user.password}" id="password" name="password" placeholder="Password (min.8, max.15, at least 1 Number & Special character.)" required>
                     <input type="password" th:value="${user.confirmPassword}" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
                     <input type="submit" value="Register" onmouseover="validateForm()">
                 </form>
             </div>
         </div>
     </div>
-    <script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 
+    </script>
+    <script>
+        //function to check if the form is filled correctly
         function validateForm() {
             const firstName = document.getElementById("firstName").value;
             const lastName = document.getElementById("lastName").value;
@@ -232,7 +232,7 @@
             if (!firstName || !lastName || !username || !email || !password || !confirmPassword) {
                 //checks if the first name is free of numbers
                 if(firstName) {
-                    var regex = /^[A-Za-z]+$/;
+                    var regex = /^[A-Za-z\s]+$/;
                     if (!regex.test(firstName)) {
                         errorMsg.innerHTML = "First name must consist of alphabets only.";
                         errorMsg.style.color = "red";
@@ -243,7 +243,7 @@
                 }
                 //checks if the last name is free of numbers
                 if(lastName) {
-                    var regex = /^[A-Za-z]+$/;
+                    var regex = /^[A-Za-z\s]+$/;
                     if (!regex.test(lastName)) {
                         errorMsg.innerHTML = "Last name must consist of alphabets only.";
                         errorMsg.style.color = "red";
@@ -254,7 +254,7 @@
                 }
                 //checks if the requirement for username are fulfilled
                 if(username) {
-                    //checks if the length of the username
+                    //checks if the length of the username has min. 4 characters
                     if (username.length < 4 || username.length > 12) {
                         errorMsg.innerHTML = "Username must be between 4 and 12 characters.";
                         errorMsg.style.color = "red";
@@ -265,6 +265,17 @@
                     var regex = /^[A-Za-z][A-Za-z0-9]*$/;
                     if (!regex.test(username)) {
                         errorMsg.innerHTML = "Username must start with an alphabet and consist of only alphabets and numbers.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+                }
+                //Checks if the requirement for email-address is fulfilled
+                if(email){
+                    // Check if the email is in the correct format
+                    const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailFormat.test(email)) {
+                        errorMsg.innerHTML = "Please enter a valid email address.";
                         errorMsg.style.color = "red";
                         modal.style.display = "block";
                         return false;
@@ -307,10 +318,10 @@
                 errorMsg.innerHTML = "Please fill out all fields.";
                 modal.style.display = "block";
                 return false;
-            } else {  //checks the form in complete filled situation
-
+            } else {  //checks the form (all the input fields) in complete filled situation
+                //checks if the first name is free of numbers
                 if(firstName) {
-                    var regex = /^[A-Za-z]+$/;
+                    var regex = /^[A-Za-z\s]+$/;
                     if (!regex.test(firstName)) {
                         errorMsg.innerHTML = "First name must consist of alphabets only.";
                         errorMsg.style.color = "red";
@@ -319,8 +330,9 @@
                         return false;
                     }
                 }
+                //checks if the last name is free of numbers
                 if(lastName) {
-                    var regex = /^[A-Za-z]+$/;
+                    var regex = /^[A-Za-z\s]+$/;
                     if (!regex.test(firstName)) {
                         errorMsg.innerHTML = "Last name must consist of alphabets only.";
                         errorMsg.style.color = "red";
@@ -329,7 +341,9 @@
                         return false;
                     }
                 }
+                //checks if the requirement for username are fulfilled
                 if(username) {
+                    //checks if the length of the username has min. 4 characters
                     if (username.length < 4 || username.length > 12) {
                         errorMsg.innerHTML = "Username must be between 4 and 12 characters.";
                         errorMsg.style.color = "red";
@@ -345,7 +359,19 @@
                         return false;
                     }
                 }
+                //Checks if the requirement for email-address is fulfilled
+                if(email){
+                    // Check if the email is in the correct format
+                    const emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailFormat.test(email)) {
+                        errorMsg.innerHTML = "Please enter a valid email address.";
+                        errorMsg.style.color = "red";
+                        modal.style.display = "block";
+                        return false;
+                    }
+                }
                 if(password){
+                    //checks the length of the password(min.8 max.15)
                     if (password.length < 8 || password.length > 15) {
                         errorMsg.innerHTML = "Password must be between 8 and 15 characters.";
                         errorMsg.style.color = "red";
@@ -369,6 +395,7 @@
                         modal.style.display = "block";
                         return false;
                     }
+                    //Checks if the given passwords match
                     if(confirmPassword) {
                         if (password != confirmPassword) {
                             errorMsg.innerHTML = "Passwords do not match.";
@@ -381,6 +408,18 @@
             }
             return true;
         }
+        $(document).ready(function(){
+            // Clear error message when user starts typing in the username field
+            $("#username").on('input', function(){
+                $("#MsgError").text('');
+            });
+
+            // Clear error message when user starts typing in the email field
+            $("#email").on('input', function(){
+                $("#MsgError").text('');
+            });
+        });
+        //function to hide and show password
         function showHidePassword() {
             var passwordField = document.getElementById("password");
             var confirmPass= document.getElementById("confirmPassword");
@@ -392,8 +431,6 @@
                 confirmPass.type = "password";
             }
         }
-
     </script>
-</div>
 </body>
 </html>

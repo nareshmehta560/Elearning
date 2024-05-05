@@ -39,12 +39,7 @@ public class RegistrationController {
             model.addAttribute("user", user);
             return "register";
         }
-        /* Checking if the password and confirm password fields match
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            model.addAttribute("error","Passwords do not match!");
-            return "register";
-        }
-         */
+
         //Encode the password
         //user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -53,6 +48,6 @@ public class RegistrationController {
         System.out.println("Registration successfull!");
 
         User user_inserted = userRepo.save(user);
-        return "home";
+        return "customLogin";
     }
 }
