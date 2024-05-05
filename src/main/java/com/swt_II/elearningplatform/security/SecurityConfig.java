@@ -1,6 +1,6 @@
-package com.example.elearningplatform.security;
+package com.swt_II.elearningplatform.security;
 
-import com.example.elearningplatform.model.user.UserService;
+import com.swt_II.elearningplatform.model.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

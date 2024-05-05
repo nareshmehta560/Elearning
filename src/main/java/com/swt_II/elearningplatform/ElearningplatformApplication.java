@@ -1,9 +1,9 @@
-package com.example.elearningplatform;
+package com.swt_II.elearningplatform;
 
-import com.example.elearningplatform.model.role.Role;
-import com.example.elearningplatform.model.user.User;
-import com.example.elearningplatform.repositories.RoleRepository;
-import com.example.elearningplatform.repositories.UserRepository;
+import com.swt_II.elearningplatform.model.role.Role;
+import com.swt_II.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.repositories.RoleRepository;
+import com.swt_II.elearningplatform.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
