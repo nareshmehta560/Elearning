@@ -86,7 +86,7 @@
 <h2>Upload a New Course</h2>
 <form th:action="@{/courseupload}" th:object="${newcourse}" method="post" enctype="multipart/form-data">
     <div>
-        <label>Name:</label>
+        <label>Course Name:</label>
         <input type="text" th:field="*{name}" placeholder="Enter Name.." required/>
     </div>
     <div>

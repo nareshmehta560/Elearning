@@ -32,16 +32,14 @@ public class CourseController {
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
                 String originalFileName = file.getOriginalFilename();
-                // Process the file (e.g., save to database, etc.)
-                byte[] fileContent = file.getBytes(); // Read file content
+                byte[] fileContent = file.getBytes();
 
-                course.setName(originalFileName);
                 course.setField(fileContent);
+                course.setFileName(originalFileName);
                 courseService.saveCourse(course, fileContent);
                 System.out.println("Uploaded file: " + originalFileName);
             }
         }
-
         return "redirect:/home";
     }
 
@@ -52,7 +50,7 @@ public class CourseController {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + course.getName() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + course.getFileName() + "\"")
                 .body( new ByteArrayResource(course.getField()));
     }
 
