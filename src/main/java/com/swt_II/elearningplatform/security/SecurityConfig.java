@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web -> web.ignoring().requestMatchers("/h2-console/**"));
+        return (web -> web.ignoring().requestMatchers("/h2-console/**","/webjars/**"));
     }
 
     @Bean
