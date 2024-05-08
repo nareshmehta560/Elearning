@@ -1,6 +1,6 @@
-package com.example.elearningplatform.model.user;
+package com.swt_II.elearningplatform.model.user;
 
-import com.example.elearningplatform.model.role.Role;
+import com.swt_II.elearningplatform.model.role.Role;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

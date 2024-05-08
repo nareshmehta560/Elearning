@@ -1,4 +1,4 @@
-package com.example.elearningplatform.model.course;
+package com.swt_II.elearningplatform.model.course;
 
 import jakarta.persistence.*;
 
@@ -16,8 +16,12 @@ public class Course {
 
     private Double price;
 
+
+
     @Lob
-    private byte[] field;  // renamed from 'photo'
+    private byte[] field;
+
+    private String fileName;
 
     public Long getId() {
         return id;
@@ -65,5 +69,12 @@ public class Course {
 
     public void setField(byte[] field) {
         this.field = field;
+    }
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

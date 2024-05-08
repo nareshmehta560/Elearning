@@ -1,6 +1,6 @@
-package com.example.elearningplatform.repositories;
+package com.swt_II.elearningplatform.repositories;
 
-import com.example.elearningplatform.model.course.Course;
+import com.swt_II.elearningplatform.model.course.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

@@ -1,8 +1,8 @@
-package com.example.elearningplatform.model.user;
+package com.swt_II.elearningplatform.model.user;
 
-import com.example.elearningplatform.model.role.Role;
-import com.example.elearningplatform.model.role.RoleService;
-import com.example.elearningplatform.repositories.UserRepository;
+import com.swt_II.elearningplatform.model.role.Role;
+import com.swt_II.elearningplatform.model.role.RoleService;
+import com.swt_II.elearningplatform.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

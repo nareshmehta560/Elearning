@@ -1,6 +1,6 @@
-package com.example.elearningplatform.model.role;
+package com.swt_II.elearningplatform.model.role;
 
-import com.example.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.model.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;

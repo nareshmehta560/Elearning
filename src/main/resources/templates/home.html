@@ -38,6 +38,7 @@
             <th>Course Name</th>
             <th>Description</th>
             <th>Price</th>
+            <th>File</th>
         </tr>
         </thead>
         <tbody>
@@ -46,8 +47,13 @@
             <td th:text="${course.id}"></td>
             <td th:text="${course.name}"></td>
             <td th:text="${course.description}"></td>
+            <td th:text="${course.price}"></td>
+            <td>
+                <a th:href="@{'/downloadFile/' + ${course.id}}">Download File</a>
+            </td>
         </tr>
         </tbody>
     </table>
+
 </body>
 </html>

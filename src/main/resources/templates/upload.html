@@ -7,7 +7,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding-top: 50px;
-            background-color: #f5f5f5;
+            background-color: lightskyblue;
         }
 
         form {
@@ -98,12 +98,12 @@
         <input type="text" th:field="*{category}" placeholder="Enter Category.." required/>
     </div>
     <div>
-        <label>Price:</label>
+        <label>Price(&#8364;):</label>
         <input type="number" th:field="*{price}" placeholder="Enter Price.." required/>
     </div>
     <div id="upload-field">
         <label>File:</label>
-        <input type="file" id="fileInput" name="file" onchange="toggleDeleteButton()"  required/>
+        <input type="file" id="fileInput" name="file" onchange="toggleDeleteButton()" multiple required/>
         <span id="deleteButtonContainer">
             <button type="button" id="deleteButton" onclick="removeFile()">Delete</button>
         </span>
