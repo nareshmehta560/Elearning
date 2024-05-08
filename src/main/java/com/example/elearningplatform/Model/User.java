@@ -1,5 +1,6 @@
 package com.example.elearningplatform.Model;
 
+import com.example.elearningplatform.Repository.UserRepository;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -19,7 +20,18 @@ public class User {
     private String password;
     @Column(name = "`email`")
     private String email;
-    @OneToMany(mappedBy = "")
+    @OneToMany(mappedBy = "applicant")
     private List<InstructorApplication> instructorApplications;
+
+    public User(){}
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public static User testUser() {
+        return new User("testname", "testpass", "testemail");
+    }
 
 }

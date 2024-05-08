@@ -3,9 +3,12 @@ package com.example.elearningplatform.Controller;
 import com.example.elearningplatform.Model.InstructorApplication;
 import com.example.elearningplatform.Model.User;
 import com.example.elearningplatform.Repository.InstructorApplicationRepository;
+import com.example.elearningplatform.Repository.UserRepository;
 import com.example.elearningplatform.Util.ThymeleafApplicationForm;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
 import java.sql.SQLException;
 
@@ -28,6 +29,9 @@ public class InstructorApplicationController {
     public ThymeleafApplicationForm applicationForm = new ThymeleafApplicationForm();
     @Autowired
     InstructorApplicationRepository instructorApplicationRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     InstructorApplicationController(InstructorApplicationRepository instructorApplicationRepository) {
@@ -48,12 +52,14 @@ public class InstructorApplicationController {
         String filename = pdf.getOriginalFilename() != null ? pdf.getOriginalFilename() : "nullName." + pdf.getName();
 
         //test, if MultipartFile-data comes in correctly:
-        saveBlobAsFile(pdfBlob, filename);
+        boolean bool = saveBlobAsFile(pdfBlob, filename);
 
-        User user = getCurrentUser();
+        long user = getCurrentUser();
         //ToDo: add issue number to Branch and commits
         //ToDo: validation, error check
-        this.instructorApplicationRepository.save(new InstructorApplication(title, text, pdfBlob, filename, user));
+
+        this.instructorApplicationRepository.save(
+                new InstructorApplication(title, text, pdfBlob, filename, userRepository.findById((int) user).orElseThrow()));
         return "redirect:/";
     }
 
@@ -76,8 +82,13 @@ public class InstructorApplicationController {
         return successful;
     }
 
-    private User getCurrentUser() {
+    private long getCurrentUser() {
         //ToDo: get the current User from somewhere, maybe session state/key/whatever -> Login???
-        return new User();
+        //Workaround for now:
+        if(this.userRepository.exists(Example.of(User.testUser())) == false) {
+            this.userRepository.save(User.testUser());
+        }
+
+        return this.userRepository.findAll(Example.of(User.testUser())).get(0).getId();
     }
 }
