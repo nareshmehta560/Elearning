@@ -26,15 +26,19 @@ public class InstructorApplication {
     @Column(name = "`PDF_Blob`", nullable = false)    //BLOB?
     Blob pdf;
 
+    @Column(name = "`File_Name`", nullable = false)
+    String fileName;
+
     @ManyToOne
     @JoinColumn(name = "FK_User", nullable = false)
     User applicant;
 
     public InstructorApplication(){}
-    public InstructorApplication(String title, String text, Blob pdf, User applicant) {
+    public InstructorApplication(String title, String text, Blob pdf, String fileName, User applicant) {
         this.title = title;
         this.text = text;
         this.pdf = pdf;
+        this.fileName = fileName;
         this.applicant = applicant;
     }
 
