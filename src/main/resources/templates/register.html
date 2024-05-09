@@ -15,7 +15,7 @@
             display: flex;
             justify-content: center;
             background-color: lightblue;
-            margin-top: 12%;
+            margin-top: 5%;
             margin-left: 25px;
             margin-right: 25px;
             position: relative; /* Required for positioning pseudo-element */
@@ -163,6 +163,14 @@
         #errorMsg {
             color: red;
         }
+        fieldset{
+            height: 60px;
+            margin-bottom: 5px;
+        }
+        legend{
+            color:blue;
+        }
+
 
     </style>
 </head>
@@ -190,13 +198,31 @@
                             <p id="errorMsg"></p>
                         </div>
                     </div>
-                    <input type="text" th:value="${user.firstName}" id="firstName" name="firstName" placeholder="First Name (letters only)" autofocus autocapitalize="words" required>
-                    <input type="text" th:value="${user.lastName}" id="lastName" name="lastName" placeholder="Last Name (letters only)" autocapitalize="words" required>
-                    <input type="text" th:value="${user.username}" id="username" name="username"  placeholder="Username(min. 4 characters..)" required>
-                    <input type="email" th:value="${user.email}" id="email" name="email" placeholder="Email Address" required>
+                    <fieldset>
+                        <legend>First Name:</legend>
+                        <input type="text" th:value="${user.firstName}" id="firstName" name="firstName" placeholder="First Name (letters only)" autofocus autocapitalize="words" required>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Last Name:</legend>
+                        <input type="text" th:value="${user.lastName}" id="lastName" name="lastName" placeholder="Last Name (letters only)" autocapitalize="words" required>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Username:</legend>
+                        <input type="text" th:value="${user.username}" id="username" name="username"  placeholder="Username(min. 4 characters..)" required>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Email-Address:</legend>
+                        <input type="email" th:value="${user.email}" id="email" name="email" placeholder="Email Address" required>
+                    </fieldset>
                     <input type="checkbox" onclick="showHidePassword()" id="togglePassword">Show Password
-                    <input type="password" th:value="${user.password}" id="password" name="password" placeholder="Password (min.8, max.15, at least 1 Number & Special character.)" required>
-                    <input type="password" th:value="${user.confirmPassword}" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                    <fieldset>
+                        <legend>Password:</legend>
+                        <input type="password" th:value="${user.password}" id="password" name="password" placeholder="Password (min.8, max.15, at least 1 Number & Special character.)" required>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Confirm Password:</legend>
+                        <input type="password" th:value="${user.confirmPassword}" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                    </fieldset>
                     <input type="submit" value="Register" onmouseover="validateForm()">
                 </form>
             </div>

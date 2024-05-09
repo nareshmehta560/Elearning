@@ -45,9 +45,6 @@ public class RegistrationController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         //validate
-        System.out.println(user.toString());
-        System.out.println("Registration successfull!");
-
         User user_inserted = userRepo.save(user);
         return "customLogin";
     }
