@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.File;
@@ -46,21 +47,48 @@ public class InstructorApplicationController {
     @PostMapping("/Application")
     public String saveApplication(@RequestParam String title,
                                   @RequestParam String text,
-                                  @RequestParam MultipartFile pdf) throws IOException, SQLException {
+                                  @RequestParam MultipartFile pdf,
+                                  final RedirectAttributes attributes) {
 
-        Blob pdfBlob = new SerialBlob(pdf.getBytes());
-        String filename = pdf.getOriginalFilename() != null ? pdf.getOriginalFilename() : "nullName." + pdf.getName();
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean success = true;
+        if(!(pdf.getName().equals("pdf"))) {
+            success = false;
+            stringBuilder.append("only PDF allowed!\n");
+        }
+        if(pdf.getSize() > 10000000) {
+            success = false;
+            stringBuilder.append("pdf too big, MAX_Size = 10000000\n");
+        }
+        if(title.length() > 45) {
+            success = false;
+            stringBuilder.append("wrong title-length, MAX = 45\n");
+        }
+        if(text.length() > 16777216) {
+            success = false;
+            stringBuilder.append("wrong text-length, consider using Fileupload, if text is a lot\n");
+        }
+
+        if(success) {
+            try {
+                Blob pdfBlob = new SerialBlob(pdf.getBytes());
+                String filename = pdf.getOriginalFilename() != null ? pdf.getOriginalFilename() : "nullName." + pdf.getName();
+                long user = getCurrentUser();
+                this.instructorApplicationRepository.save(
+                        new InstructorApplication(title, text, pdfBlob, filename, userRepository.findById(user).orElseThrow()));
+                attributes.addFlashAttribute("success","saved successfully");
+                return "redirect:/";
+            } catch (SQLException | IOException e) {
+                stringBuilder.append("Internal server error: failed to parse pdf into SerialBlob");
+            }
+        }
 
         //test, if MultipartFile-data comes in correctly:
-        boolean bool = saveBlobAsFile(pdfBlob, filename);
+        //boolean bool = saveBlobAsFile(pdfBlob, filename);
 
-        long user = getCurrentUser();
-        //ToDo: add issue number to Branch and commits
         //ToDo: validation, error check
-
-        this.instructorApplicationRepository.save(
-                new InstructorApplication(title, text, pdfBlob, filename, userRepository.findById((int) user).orElseThrow()));
-        return "redirect:/";
+        attributes.addFlashAttribute("error", stringBuilder.toString());
+        return "redirect:/Application";
     }
 
     /***

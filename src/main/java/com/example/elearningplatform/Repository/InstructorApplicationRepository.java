@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface InstructorApplicationRepository extends JpaRepository<InstructorApplication, Integer> {
+public interface InstructorApplicationRepository extends JpaRepository<InstructorApplication, Long> {
     //Here could be needed methods for SQL-Requests
 }
