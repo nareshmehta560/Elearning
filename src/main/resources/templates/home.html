@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{basic/layout :: layout(~{::content})}">
-<body>
-<div th:fragment="content">
+            th:replace="~{basic/layout :: layout(~{::content}, #{homePage.pageTitle})}">
 
-    <div class="container-lg py-4 align-items-center bg-danger">
-        <h1 class="text-center bg-light">here will be Dashboard </h1>
-    </div>
+<body th:fragment="content">
+
+<div class="bg-light-subtle">
+    <h1 class="text-center ">Welcome to our Homepage </h1>
+    <p class="align-items-center">Here you can find all the information you need to know about our services.<br>
+    Feel free to browse around and learn more about us.</p>
 
 </div>
+
 </body>
 </html>

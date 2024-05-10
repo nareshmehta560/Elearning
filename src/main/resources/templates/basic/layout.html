@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en"
-      th:fragment="layout (template)">
+      th:fragment="layout (template,title)">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta charset="utf-8">
@@ -15,7 +15,9 @@
     <![endif]-->
 
     <link th:href="@{/webjars/bootstrap/5.3.1/dist/css/bootstrap.min.css}" rel="stylesheet">
- </head>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+
+</head>
 <body>
 <div th:replace="~{basic/navigation::navigation}">
 </div>

@@ -1,156 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to right, #6d6b6a, #f0f2f1, #8b8c81);
-        }
+<html xmlns:th="https://www.thymeleaf.org"
+ th:replace="~{basic/layout:: layout (~{::content},#{loginPage.pageTitle})}">
 
-        .container {
-            display: flex;
-            justify-content: center;
-            background-color: lightblue;
-            margin-top: 12%;
-            margin-left: 25px;
-            margin-right: 25px;
-            position: relative; /* Required for positioning pseudo-element */
-        }
 
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            left: -100px;
-            right: -100px;
-            bottom: -100px;
-            z-index: -1;
-            background: linear-gradient(to right, #cfbfbd, #e9f0e9, #280ad2); /* Change gradient colors as needed */
-            animation: glowingBorder 15s linear infinite; /* Adjust animation duration and timing function */
-        }
-
-        @keyframes glowingBorder {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(215, 221, 222, 0.7);
-            }
-
-            50% {
-                transform: scale(1.1);
-                box-shadow: 0 0 0 10px rgba(0, 238, 255, 0);
-            }
-
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(0, 238, 255, 0);
-            }
-        }
-
-        .intro {
-            text-align: center;
-            margin: 10px 10px;
-        }
-
-        .intro h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .intro p {
-            font-size: 16px;
-            color: #777;
-        }
-
-        img {
-            margin: 50px 25px;
-            border-radius: 50%;
-        }
-
-        .tabs {
-            background-color: #42c6e1;
-            color: #fff;
-            width: 200px;
-            padding: 20px;
-        }
-
-        .tabs ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .tabs li {
-            margin-top: 35px;
-            cursor: pointer;
-        }
-
-        .tabs li:hover {
-            font-size: larger;
-
-        }
-
-        .form-container {
-            flex: 1;
-            padding: 20px;
-            background-color: skyblue;
-        }
-
-        .form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form input[type="text"],
-        .form input[type="email"],
-        .form input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .form input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #15dc54;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
+<body th:fragment="content">
 <form th:action="@{/performLogin}" method="post">
 
-    <div class="container">
-        <div class="intro">
+    <div class="container1">
+        <div class="intro1">
             <h1>Welcome to your E-Learning platform!</h1>
             <p>Let's begin the quest of Knowledge... </p>
 
         </div>
-        <div class="tabs">
+        <div class="tabs1">
             <ul>
                 <li id="loginTab">Login</li>
             </ul>
         </div>
-        <div class="form-container">
-            <div id="loginForm" class="form" style="display: block;">
-                <form action="/login" method="POST">
-                    <p th:if="${param.logout}" style="color: green;">You have been logged out.</p>
-                    <p th:if="${param.error}" style="color: #e77878;">Invalid username and password.</p>
+        <div class="form-container1">
+            <div id="loginForm" class="form1" style="display: block;">
+                     <p th:if="${param.logout}" style="color: green;">You have been logged out.</p>
+                    <p th:if="${param.error}" style="color: #e77878;">Invalid username or password.</p>
                     <input type="text" name="username" placeholder="username"  autofocus required>
                     <input type="password" name="password" placeholder="Password" required>
                     <input type="submit" value="Login">
-                </form>
-            </div>
+             </div>
         </div>
 
     </div>

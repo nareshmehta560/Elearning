@@ -14,7 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web -> web.ignoring().requestMatchers("/h2-console/**","/webjars/**"));
+        return (web -> web.ignoring().requestMatchers("/h2-console/**","/webjars/**",
+                "/resources/static/**","/css/**"));
     }
 
     @Bean
@@ -33,13 +34,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(configurer -> {
             configurer
-                    .requestMatchers("/","/customLogin").permitAll()
-                    .requestMatchers("/home","/admin").hasAnyRole("ADMIN","USER")
+                    .requestMatchers("/","/home","/customLogin","registration").permitAll()
+                    .requestMatchers("/dashboard","/admin").hasAnyRole("ADMIN","USER")
                     .anyRequest().authenticated();
         }).logout(LogoutConfigurer::permitAll)
                 .formLogin(form -> form.loginPage("/customLogin")
                         .loginProcessingUrl("/performLogin")
-                        .defaultSuccessUrl("/home")
+                        .defaultSuccessUrl("/dashboard")
                         .permitAll());
         return http.build();
     }
