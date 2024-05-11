@@ -22,4 +22,4 @@ Build:
 Course-upload:
   stage: test
   script:
-    - mvn -Dtest=com.swt_II.elearningplatform.CourseUplaodTest test
+    - mvn -Dtest=com.swt_II.elearningplatform.CourseUploadTest test
