@@ -1,11 +1,13 @@
 image: maven:latest
+
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-  MAVEN_CLI_OPTS: "--batch-mode"
+
 
 stages:
   - build
   - test
+  - deploy
 
 cache:
   paths:
@@ -17,8 +19,7 @@ Build:
   script:
     - mvn $MAVEN_CLI_OPTS compile
 
-upload-course:
+Course-upload:
   stage: test
   script:
-    - mvn -Dtest=CourseUploadTest.testCourseUpload test
-
+    - mvn -Dtest=com.swt_II.elearningplatform.CourseUplaodTest test
