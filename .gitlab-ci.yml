@@ -1,15 +1,24 @@
-build-job:
+image: maven:latest
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  MAVEN_CLI_OPTS: "--batch-mode"
+
+stages:
+  - build
+  - test
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+Build:
   stage: build
   script:
-    - echo "Hello, $GITLAB_USER_LOGIN!"
+    - mvn $MAVEN_CLI_OPTS compile
 
-upload-test:
+upload-course:
   stage: test
   script:
-    - echo "This job tests something"
+    - mvn -Dtest=CourseUploadTest.testCourseUpload test
 
-deploy-prod:
-  stage: deploy
-  script:
-    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
-  environment: production
