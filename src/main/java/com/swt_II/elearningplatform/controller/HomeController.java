@@ -24,16 +24,6 @@ public class HomeController {
     public String displayLogin() {
         return "customLogin";
     }
-//
-//    @GetMapping(value = "/home")
-//    public  String displayHome(Model model) {
-//        Iterable<User> users = userRepository.findAll();
-//        Iterable<Course> courses = courseRepository.findAll();
-//
-//        model.addAttribute("users", users);
-//        model.addAttribute("courses", courses);
-//        return "home";
-//    }
     @GetMapping(value = "/uploadCourse")
     public String upload(Model model) {
         model.addAttribute("newcourse", new Course());

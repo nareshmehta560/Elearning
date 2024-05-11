@@ -12,15 +12,20 @@ public class CourseService {
     private final CourseRepository courseRepository;
 
     public CourseService(CourseRepository courseRepository) {
+
         this.courseRepository = courseRepository;
     }
+    // Retrieve a course by its ID from the database
     public Course getCourseById(Long courseId) {
+
         return courseRepository.findById(courseId).orElse(null);
     }
+    // Save a course along with its file content to the database
     public void saveCourse(Course course, byte[] fileContent) {
         course.setField(fileContent);
         courseRepository.save(course);
     }
+    // Retrieve all courses from the database
     public List<Course> getAllCourses() {
         return courseRepository.findAll();
     }

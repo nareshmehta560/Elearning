@@ -19,13 +19,13 @@ public class CourseController {
 
     @Autowired
     private CourseService courseService;
-
+    // Show course upload form
     @GetMapping("/courseupload")
     public String showCourseForm(Model model) {
         model.addAttribute("newcourse", new Course());
         return "upload";
     }
-
+    // Handle course form submission and file upload
     @PostMapping("/courseupload")
     public String submitCourseForm(@ModelAttribute("newcourse") Course course,
                                    @RequestParam("file") MultipartFile[] files) throws IOException {
@@ -42,7 +42,7 @@ public class CourseController {
         }
         return "redirect:/home";
     }
-
+    // Download file by course ID
     @GetMapping("/downloadFile/{id}")
     public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable Long id) {
         // Load file from database
@@ -53,7 +53,6 @@ public class CourseController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + course.getFileName() + "\"")
                 .body( new ByteArrayResource(course.getField()));
     }
-
 
 }
 

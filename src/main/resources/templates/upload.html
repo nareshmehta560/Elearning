@@ -114,6 +114,7 @@
 </form>
 
 <script>
+    // Displays delate button after selecting the file
     function toggleDeleteButton() {
         const fileInput = document.getElementById('fileInput');
         const deleteButtonContainer = document.getElementById('deleteButtonContainer');
@@ -124,7 +125,7 @@
             deleteButtonContainer.style.display = 'none';
         }
     }
-
+   // removes selected file after clicking on delate button
     function removeFile() {
         const fileInput = document.getElementById('fileInput');
         fileInput.value = '';

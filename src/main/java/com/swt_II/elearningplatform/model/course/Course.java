@@ -16,8 +16,6 @@ public class Course {
 
     private Double price;
 
-
-
     @Lob
     private byte[] field;
 
