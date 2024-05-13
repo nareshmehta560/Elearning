@@ -262,7 +262,7 @@
                         errorMsg.innerHTML = "First name must consist of alphabets only.";
                         errorMsg.style.color = "red";
                         modal.style.display = "block";
-                        document.getElementById("lastName").classList.add('input-error');
+                        document.getElementById("firstName").classList.add('input-error');
                         return false;
                     }
                 }
@@ -351,14 +351,14 @@
                         errorMsg.innerHTML = "First name must consist of alphabets only.";
                         errorMsg.style.color = "red";
                         modal.style.display = "block";
-                        document.getElementById("lastName").classList.add('input-error');
+                        document.getElementById("firstName").classList.add('input-error');
                         return false;
                     }
                 }
                 //checks if the last name is free of numbers
                 if(lastName) {
                     var regex = /^[A-Za-z\s]+$/;
-                    if (!regex.test(firstName)) {
+                    if (!regex.test(lastName)) {
                         errorMsg.innerHTML = "Last name must consist of alphabets only.";
                         errorMsg.style.color = "red";
                         modal.style.display = "block";
