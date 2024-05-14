@@ -170,8 +170,9 @@
         legend{
             color:blue;
         }
-
-
+        #terms{
+            margin-left: 30%;
+        }
     </style>
 </head>
 <body>
@@ -223,7 +224,8 @@
                         <legend>Confirm Password:</legend>
                         <input type="password" th:value="${user.confirmPassword}" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
                     </fieldset>
-                    <input type="submit" value="Register" onmouseover="validateForm()">
+                    <input type="submit" value="Register" onmouseover="validateForm()" onclick="confirmSubmit(event)">
+                    <p id="terms">By registering, you agree to our Terms of Use and Privacy Policy.</p>
                 </form>
             </div>
         </div>
@@ -455,6 +457,13 @@
             } else {
                 passwordField.type = "password";
                 confirmPass.type = "password";
+            }
+        }
+        //function for confirmation or declination of registration.
+        function confirmSubmit(event) {
+            if (!confirm("Please confirm your registration?")) {
+                event.preventDefault();
+                document.getElementById('registerForm').reset();
             }
         }
     </script>
