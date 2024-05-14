@@ -1,0 +1,21 @@
+stages:
+  - build
+  - test
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+maven_build:
+  stage: build
+  image: maven:latest
+  script:
+    - mvn clean compile -B
+  artifacts:
+    paths:
+      - target/*.jar
+
+maven_test:
+  stage: test
+  image: maven:latest
+  script:
+     - mvn test -Dtest=com.swt_II.elearningplatform.LoginTest

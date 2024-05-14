@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+            th:replace="~{basic/layout :: layout(~{::content}, #{homePage.pageTitle})}">
+
+<body th:fragment="content">
+
+<div class="bg-light-subtle">
+    <h1 class="text-center ">Welcome to our Homepage </h1>
+    <p class="align-items-center">Here you can find all the information you need to know about our services.<br>
+    Feel free to browse around and learn more about us.</p>
+
+</div>
+
+</body>
+</html>
