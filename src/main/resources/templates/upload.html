@@ -87,15 +87,15 @@
 <form th:action="@{/courseupload}" th:object="${newcourse}" method="post" enctype="multipart/form-data">
     <div>
         <label>Course Name:</label>
-        <input type="text" th:field="*{name}" placeholder="Enter Name.." required/>
+        <input type="text" id = 'courseName' th:field="*{name}" placeholder="Enter Name.." required/>
     </div>
     <div>
         <label>Description:</label>
-        <textarea th:field="*{description}" rows="4" placeholder="Enter Description.." required></textarea>
+        <textarea id = 'description'th:field="*{description}" rows="4" placeholder="Enter Description.." required></textarea>
     </div>
     <div>
         <label>Category:</label>
-        <input type="text" th:field="*{category}" placeholder="Enter Category.." required/>
+        <input type="text" id = 'category' th:field="*{category}" placeholder="Enter Category.." required/>
     </div>
     <div>
         <label>Price(&#8364;):</label>
@@ -109,7 +109,7 @@
         </span>
     </div>
     <div>
-        <button type="submit">Upload Course</button>
+        <button type="submit" onclick="checkRequirement()">Upload Course</button>
     </div>
 </form>
 
@@ -130,6 +130,32 @@
         const fileInput = document.getElementById('fileInput');
         fileInput.value = '';
         toggleDeleteButton();
+    }
+    function checkRequirement(){
+        var name = document.getElementById("courseName");
+        var  des = document.getElementById("description");
+        var category = document.getElementById("category");
+
+        // Check if the username starts with an alphabet and consists of only alphabets and numbers
+        var regex = /^[A-Za-z][A-Za-z0-9]*$/;
+        if (!regex.test(name)) {
+            errorMsg.innerHTML = "CourseName must start with an alphabet and consist of only alphabets and numbers.";
+            errorMsg.style.color = "red";
+            modal.style.display = "block";
+            return false;
+        }
+        if (!regex.test(des)) {
+            errorMsg.innerHTML = "Description must start with an alphabet and consist of only alphabets and numbers.";
+            errorMsg.style.color = "red";
+            modal.style.display = "block";
+            return false;
+        }
+        if (!regex.test(category)) {
+            errorMsg.innerHTML = "Category must start with an alphabet and consist of only alphabets and numbers.";
+            errorMsg.style.color = "red";
+            modal.style.display = "block";
+            return false;
+        }
     }
 </script>
 
