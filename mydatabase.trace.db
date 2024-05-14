@@ -4869,3 +4869,9 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/bibek/I
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 136 more
+2024-05-14 16:00:10.234089+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "'jasf asjfjka sa fdlkasdf asfdja dfasjfd assfdjas jfdj adfjal jdflaksjdfajsfdl j... (394)"; SQL statement:
+insert into course (category,description,field,file_name,name,price,id) values (?,?,?,?,?,?,default) [22001-224]
+2024-05-14 16:03:36.578970+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "'jfks skjfks skfjskd fskdfjskdf ks jfjks dfksjkfdjs sk fksjdfkjs fskfdjskfdjskf ... (467)"; SQL statement:
+insert into course (category,description,field,file_name,name,price,id) values (?,?,?,?,?,?,default) [22001-224]
