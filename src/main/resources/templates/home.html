@@ -3,8 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>home</title>
+    <style>
+        /* Styling for alert message */
+        .alert {
+            padding: 15px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none; /* Initially hide the alert */
+        }
+
+        .alert-success {
+            background-color: #449d59;
+            border-color: #44d362;
+            color: #155724;
+        }
+        #msg {
+
+            color:white;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+    <div th:if="${message}" id = 'alertMessage' class="alert alert-success">
+        <p th:text="${message}" id = 'msg'></p>
+    </div>
     <h1>here will be Dashboard </h1>
     <form action="/uploadCourse" method="get">
         <!-- Use a styled submit button to mimic a regular button -->
@@ -54,6 +78,18 @@
         </tr>
         </tbody>
     </table>
+    <!-- JavaScript to show alert for 2 seconds -->
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var alertMessage = document.getElementById('alertMessage');
+            if (alertMessage) {
+                alertMessage.style.display = 'block'; // Display the alert message
+                setTimeout(function() {
+                    alertMessage.style.display = 'none'; // Hide the alert message after 2 seconds
+                }, 2000); // 2000 milliseconds = 2 seconds
+            }
+        });
+    </script>
 
 </body>
 </html>
