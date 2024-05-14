@@ -99,7 +99,7 @@
     </div>
     <div>
         <label>Price(&#8364;):</label>
-        <input type="number" th:field="*{price}" placeholder="Enter Price.." required/>
+        <input type="number" th:field="*{price}" placeholder="Enter Price.." min = 0 required/>
     </div>
     <div id="upload-field">
         <label>File:</label>
@@ -114,7 +114,7 @@
 </form>
 
 <script>
-    // Displays delate button after selecting the file
+    // Displays delete button after selecting the file
     function toggleDeleteButton() {
         const fileInput = document.getElementById('fileInput');
         const deleteButtonContainer = document.getElementById('deleteButtonContainer');
@@ -125,7 +125,7 @@
             deleteButtonContainer.style.display = 'none';
         }
     }
-   // removes selected file after clicking on delate button
+   // removes selected file after clicking on delete button
     function removeFile() {
         const fileInput = document.getElementById('fileInput');
         fileInput.value = '';

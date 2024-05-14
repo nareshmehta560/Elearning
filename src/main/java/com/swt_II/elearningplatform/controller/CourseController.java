@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
@@ -28,7 +29,7 @@ public class CourseController {
     // Handle course form submission and file upload
     @PostMapping("/courseupload")
     public String submitCourseForm(@ModelAttribute("newcourse") Course course,
-                                   @RequestParam("file") MultipartFile[] files) throws IOException {
+                                   @RequestParam("file") MultipartFile[] files, RedirectAttributes redirectAttributes) throws IOException {
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
                 String originalFileName = file.getOriginalFilename();
@@ -40,6 +41,8 @@ public class CourseController {
                 System.out.println("Uploaded file: " + originalFileName);
             }
         }
+        // Add a flash attribute for success message
+        redirectAttributes.addFlashAttribute("message", "File upload successful!");
         return "redirect:/home";
     }
     // Download file by course ID
