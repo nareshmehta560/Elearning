@@ -13,7 +13,11 @@ import java.util.List;
 public class HomeController {
     @GetMapping(value = {"","/"})
     public String displayLogin() {
-        return "customLogin";
+        return "home";
+    }
+    @GetMapping(value = "/home")
+    public  String displayHome() {
+        return "home";
     }
     @GetMapping(value = "/customLogin")
     public String displayCustomLogin() {
@@ -37,7 +41,7 @@ public class HomeController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping("/courselist")
+    @GetMapping(value = "/courselist")
     public String showHomePage(Model model) {
         List<Course> courses = courseService.getAllCourses();
         model.addAttribute("courses", courses);

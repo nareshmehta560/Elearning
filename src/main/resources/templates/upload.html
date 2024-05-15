@@ -233,7 +233,7 @@
             // Remove leading/trailing spaces and count the number of words
             const wordCount = des.trim().split(/\s+/).length;
 
-            if (wordCount < 50) {
+            if (wordCount < 1) {
                 errorMsg.innerHTML = "Description must have at least 50 words.";
                 errorMsg.style.color = "red";
                 modal.style.display = "block";
