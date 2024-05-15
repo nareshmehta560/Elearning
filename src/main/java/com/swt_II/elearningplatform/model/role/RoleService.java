@@ -6,17 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class RoleService {
-    @Autowired
+
     private final RoleRepository roleRepo;
 
     public RoleService(RoleRepository roleRepo) {
         this.roleRepo = roleRepo;
     }
 
-    public Collection<Role> getRolesFromUserId(User user) {
+
+    public List<Role> getRolesFromUserId(User user) {
         return roleRepo.findAllByUserThisRoleContaining(user);
     }
 

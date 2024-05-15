@@ -43,7 +43,7 @@ public class CourseController {
         }
         // Add a flash attribute for success message
         redirectAttributes.addFlashAttribute("message", "File upload successful!");
-        return "redirect:/home";
+        return "redirect:/dashboard";
     }
     // Download file by course ID
     @GetMapping("/downloadFile/{id}")
