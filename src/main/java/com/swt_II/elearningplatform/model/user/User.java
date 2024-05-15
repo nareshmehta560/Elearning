@@ -9,15 +9,19 @@ import java.util.List;
 @Entity
 @lombok.Getter
 @lombok.Setter
-@Table(name = "\"user\"")
+@Table(name = "user_data")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private String userName;
-    private String passWord;
+    private String username;
+    private String password;
     private String email;
+    private String firstName;
+    private String lastName;
+    @Transient
+    private String confirmPassword;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
@@ -25,6 +29,18 @@ public class User {
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
+    public User(String firstName, String lastName, String username, String email, String password, String confirmPassword) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+    }
+
+    public User() {
+
+    }
 
     public void addRole(Role role){
         if (this.roles == null) {

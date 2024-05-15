@@ -1,7 +1,8 @@
 package com.swt_II.elearningplatform.Controller;
 
-import com.swt_II.elearningplatform.Repository.UserRepository;
-import com.swt_II.elearningplatform.model.User;
+import com.swt_II.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.repositories.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ public class RegistrationController {
    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("/")
+    @GetMapping("/register")
     public String index(Model model) {
         model.addAttribute("user", new User());
         return "register";
@@ -46,6 +47,7 @@ public class RegistrationController {
 
         //validate
         User user_inserted = userRepo.save(user);
+        model.addAttribute("success", "User has been registered successfully!");
         return "customLogin";
     }
 }

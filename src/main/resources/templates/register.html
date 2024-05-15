@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
@@ -190,7 +190,7 @@
         <div class="form-container">
             <div id="registerFormm" class="form">
                 <h2>Register</h2>
-                <form id="registerForm" action="register" method="POST">
+                <form id="registerForm" th:action="@{/register}" method="POST">
                     <!-- Display error message -->
                     <p id="MsgError" style="color:red" th:text="${error}"></p>
                     <div id="myModal" class="modal">
