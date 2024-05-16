@@ -35,7 +35,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(configurer -> {
             configurer
                     .requestMatchers("/","/home","/customLogin","registration").permitAll()
-                    .requestMatchers("/dashboard","/admin").hasAnyRole("ADMIN","USER")
+                    .requestMatchers("/newInstructors").hasRole("ADMIN")
+                    .requestMatchers("/dashboard").hasAnyRole("ADMIN","USER")
                     .anyRequest().authenticated();
         }).logout(LogoutConfigurer::permitAll)
                 .formLogin(form -> form.loginPage("/customLogin")

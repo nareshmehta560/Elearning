@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 @lombok.Getter
 @lombok.Setter
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "\"user\"")
 public class User {
     @Id
@@ -24,6 +25,9 @@ public class User {
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
+
+    @OneToOne(mappedBy = "user")
+    private Instructor instructor;
 
 
     public void addRole(Role role){
