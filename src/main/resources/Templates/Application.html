@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="">
 
+
 <head>
     <meta charset="UTF-8">
     <title>Instructor Application</title>
+    <link href="../CSS/Application.css" rel="stylesheet">
 </head>
 <body>
-    <h1>This will display an application form</h1>
+    <h1>Instructor application form</h1>
     <h2 th:text="${error}"></h2>
     <form method="post" th:object="${applicationForm}" th:action="@{/Application}"  enctype="multipart/form-data">
-        <input type="text" name="title" th:value="*{title}">
-        <input type="text" name="text" th:value="*{text}">
-        <input type="file" name="pdf" th:value="*{pdf}">
+        <label for="applicationTitle">Application Title:</label>
+        <input type="text" name="title" id="applicationTitle" class="textinputsmall" th:value="*{title}">
+        <label for="applicationText">Application Text:</label>
+        <input type="text" name="text" id="applicationText" class="textinput" th:value="*{text}">
+        <label for="applicationPDF">Application(as PDF):</label>
+        <input type="file" name="pdf" id="applicationPDF" class="fileupload" th:value="*{pdf}">
         <button type="submit">Save application</button>
     </form>
 
