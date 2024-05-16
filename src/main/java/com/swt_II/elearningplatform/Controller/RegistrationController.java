@@ -1,6 +1,7 @@
-package com.swt_II.elearningplatform.Controller;
+package com.swt_II.elearningplatform.controller;
 
 import com.swt_II.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.repositories.RoleRepository;
 import com.swt_II.elearningplatform.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegistrationController {
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private RoleRepository roleRepo;
 
    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -44,6 +47,7 @@ public class RegistrationController {
 
         //Encode the password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.addRole(roleRepo.findByRoleName("USER"));
 
         //validate
         User user_inserted = userRepo.save(user);
