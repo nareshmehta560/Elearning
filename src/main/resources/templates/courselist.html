@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <h1>These are the list of available courses : </h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Course Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>File</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through courses and display each row -->
+        <tr th:each="course : ${courses}">
+            <td th:text="${course.id}"></td>
+            <td th:text="${course.name}"></td>
+            <td th:text="${course.description}"></td>
+            <td th:text="${course.price}"></td>
+            <td>
+                <a th:href="@{'/downloadFile/' + ${course.id}}">Download File</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>
