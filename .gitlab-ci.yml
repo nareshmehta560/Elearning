@@ -1,25 +1,41 @@
+
 image: maven:latest
-
-variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-
 
 stages:
   - build
   - test
-  - deploy
+
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
 
 cache:
   paths:
     - .m2/repository/
     - target/
 
-Build:
+Registration:
+  stage: test
+  script:
+      - mvn -Dtest=com.swt_II.elearningplatform.RegistrationTest test
+
+maven_build:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS compile
+    - mvn clean compile -B
+  artifacts:
+    paths:
+      - target/*.jar
+
+maven_test:
+  stage: test
+  script:
+     - mvn test -Dtest=com.swt_II.elearningplatform.LoginTest
+
 
 Course-upload:
   stage: test
   script:
     - mvn -Dtest=com.swt_II.elearningplatform.CourseUploadTest test
+

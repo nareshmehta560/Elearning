@@ -28,8 +28,8 @@ public class ElearningplatformApplication {
             adminRole = roleRepo.save(adminRole);
             // create a new user
             User user = new User();
-            user.setUserName("testUser");
-            user.setPassWord("$2a$12$NZ0jhuPxZGGuCIhEkvnJr.gOghvuMbN4M3BZgWSWnOh24BBbrQ.Wy");
+            user.setUsername("testUser");
+            user.setPassword("$2a$12$NZ0jhuPxZGGuCIhEkvnJr.gOghvuMbN4M3BZgWSWnOh24BBbrQ.Wy");
             user.setEmail("test1@gmail.com");
             user.addRole(userRole);
             user.addRole(adminRole);
