@@ -1,4 +1,4 @@
-package com.swt_II.elearningplatform.security;
+package com.swt_II.elearningplatform.Security;
 
 import com.swt_II.elearningplatform.model.user.UserService;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +32,8 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.authorizeHttpRequests(configurer -> {
+        http
+                .authorizeHttpRequests(configurer -> {
             configurer
                     .requestMatchers("/","/home","/customLogin","/register", "/courseupload", "/uploadCourse").permitAll()
                     .requestMatchers("/dashboard","/admin").hasAnyRole("ADMIN","USER")
