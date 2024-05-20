@@ -14,9 +14,23 @@ public class Course{
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id",nullable=false)
     private Long id;
-    private String courseName;
+    
+    private String name;
+
+    private String description;
+
+    private String category;
+
+    private Double price;
+
+    @Lob
+    private byte[] field;
+
+    private String fileName;
+
     @ManyToOne
     @JoinColumn(name="instructor_id")
     private Instructor instructor;
 
+   
 }

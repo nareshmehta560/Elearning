@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
       th:replace="~{basic/layout :: layout(~{::content},#{dashboardPage.pageTitle})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 <body>
-<div th:fragment="content">
+    <div th:fragment="content">
+        <div th:if="${message}" id='alertMessage' class="alert alert-success">
+            <p th:text="${message}" id='msg'></p>
+        </div>
+        <div class="container-lg py-4 align-items-center bg-danger">
+            <h1 class="text-center bg-light">here will be Dashboard </h1>
+        </div>
+        <form th:action="@{/uploadCourse}" method="get">
+            <!-- Use Thymeleaf to set button class and text -->
+            <button type="submit" class="btn btn-primary mt-xxl-2">Upload Course</button>
+        </form>
+        <form th:action="@{/courselist}" method="get">
+            <!-- Use Thymeleaf to set button class and text -->
+            <button type="submit" class="btn btn-outline-dark mt-xxl-5">List of Courses</button>
+        </form>
 
-    <div class="container-lg py-4 align-items-center bg-danger">
-        <h1 class="text-center bg-light">here will be Dashboard </h1>
     </div>
-
-</div>
 </body>
 </html>

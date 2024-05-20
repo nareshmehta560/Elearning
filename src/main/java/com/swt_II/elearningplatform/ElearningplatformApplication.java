@@ -30,7 +30,8 @@ public class ElearningplatformApplication {
             userRole = roleRepo.save(userRole);
             adminRole = roleRepo.save(adminRole);
             instructorRole = roleRepo.save(instructorRole);
-            // create a new user
+
+            // create a new user with admin and user right
             User admin = new User();
             admin.setUserName("testUser");
             admin.setPassWord("$2a$12$NZ0jhuPxZGGuCIhEkvnJr.gOghvuMbN4M3BZgWSWnOh24BBbrQ.Wy");
@@ -38,13 +39,15 @@ public class ElearningplatformApplication {
             admin.addRole(userRole);
             admin.addRole(adminRole);
             userRepository.save(admin);
-            // create a new instructor
+            // create a new instructor who is admin 
             Instructor instructor = new Instructor("MSc","5 years");
             instructor.setPaypalEmail("test@gmail.com");
             User user1 = userRepository.findByUserName("testUser");
             instructor.setUser(user1);
             instructorRepository.save(instructor);
 
+
+            //create a another with only user Right
             User user = new User();
             user.setUserName("testUser2");
             user.setPassWord("$2a$12$yI8wA5Kd0pcFknDHqyZgN.9/wAHmVzLRCpsBNuUiCSLazDJ4tYM8u");

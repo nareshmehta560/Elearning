@@ -1,13 +1,13 @@
-package com.swt_II.elearningplatform.security;
+package com.swt_II.elearningplatform.Security;
 
 import com.swt_II.elearningplatform.model.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
- import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
- import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -34,9 +34,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(configurer -> {
             configurer
-                    .requestMatchers("/","/home","/customLogin","registration").permitAll()
+                    .requestMatchers("/","/home","/customLogin","/register", "/courseupload", "/uploadCourse").permitAll()
                     .requestMatchers("/newInstructors").hasRole("ADMIN")
-                    .requestMatchers("/dashboard").hasAnyRole("ADMIN","USER")
+                    .requestMatchers("/dashboard","/admin").hasAnyRole("ADMIN","USER")
                     .anyRequest().authenticated();
         }).logout(LogoutConfigurer::permitAll)
                 .formLogin(form -> form.loginPage("/customLogin")
