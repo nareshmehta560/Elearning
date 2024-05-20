@@ -4,6 +4,7 @@
     <nav class="navbar navbar-expand-md bg-light fixed-top border border-1 py-0">
         <div class="container-fluid ">
                <a class="navbar-brand " href="/home">Home</a>
+               <a class="navbar-brand "  sec:authorize="isAuthenticated()" href="/dashboard">Dashboard</a>
             <div id="navbarCollapse" class="collapse navbar-collapse d-flex justify-content-end">
 
                 <ul class="navbar-nav mb-2 mb-md-0 d-flex flex-row justify-content-end">
@@ -16,9 +17,14 @@
                         <a class="btn btn-outline-secondary"
                            href="/register" th:text="#{navbar.register}"></a>
                     </li>
+
                     <li class="m-2 navbar-item " sec:authorize="isAuthenticated() and hasRole('ADMIN')">
                         <a class="btn btn-outline-secondary"
                            href="/newInstructors" th:text="#{navbar.approve}"></a>
+                    </li>
+                    <li class="m-2 navbar-item " sec:authorize="isAuthenticated()">
+                        <a class="btn btn-outline-secondary"
+                           href="/uploadCourse" th:text="#{navbar.uploadCourse}"></a>
                     </li>
                     <li class="m-2 navbar-item " sec:authorize="isAuthenticated()">
                         <form th:action="@{/logout}" method="post">

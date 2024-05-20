@@ -35,7 +35,7 @@ public class User {
     public User(String firstName, String lastName, String username, String email, String password, String confirmPassword) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
+        this.userName = username;
         this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;

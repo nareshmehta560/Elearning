@@ -44,7 +44,7 @@ public class InstructorTest {
     public void testApproveInstructor() {
         User user = new User();
         user.setUserName("testUser2");
-        user.setPassWord("$2a$12$yI8wA5Kd0pcFknDHqyZgN.9/wAHmVzLRCpsBNuUiCSLazDJ4tYM8u");
+        user.setPassword("$2a$12$yI8wA5Kd0pcFknDHqyZgN.9/wAHmVzLRCpsBNuUiCSLazDJ4tYM8u");
         user.setEmail("test@gmail.com");
         user.addRole(roleService.getRoleFromRoleName("USER"));
         when(userRepository.findByUserName("testUser2")).thenReturn(user);

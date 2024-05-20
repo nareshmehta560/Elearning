@@ -34,7 +34,7 @@ public class ElearningplatformApplication {
             // create a new user with admin and user right
             User admin = new User();
             admin.setUserName("testUser");
-            admin.setPassWord("$2a$12$NZ0jhuPxZGGuCIhEkvnJr.gOghvuMbN4M3BZgWSWnOh24BBbrQ.Wy");
+            admin.setPassword("$2a$12$NZ0jhuPxZGGuCIhEkvnJr.gOghvuMbN4M3BZgWSWnOh24BBbrQ.Wy");
             admin.setEmail("test1@gmail.com");
             admin.addRole(userRole);
             admin.addRole(adminRole);
@@ -50,7 +50,7 @@ public class ElearningplatformApplication {
             //create a another with only user Right
             User user = new User();
             user.setUserName("testUser2");
-            user.setPassWord("$2a$12$yI8wA5Kd0pcFknDHqyZgN.9/wAHmVzLRCpsBNuUiCSLazDJ4tYM8u");
+            user.setPassword("$2a$12$yI8wA5Kd0pcFknDHqyZgN.9/wAHmVzLRCpsBNuUiCSLazDJ4tYM8u");
             user.setEmail("test@gmail.com");
             user.addRole(userRole);
             userRepository.save(user);
