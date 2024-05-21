@@ -1,6 +1,7 @@
 package com.swt_II.elearningplatform;
 import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.course.CourseService;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,7 @@ public class CourseUploadTest {
     private CourseService courseService;
 
     @Test
+    @Transactional
     public void testCourseUpload() throws Exception {
         Course course = new Course();
         course.setName("Test Course");

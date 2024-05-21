@@ -18,13 +18,14 @@ public class InstructorService {
     private final InstructorRepository instructorRepository;
     private final RoleService roleService;
     private final UserRepository userRepository;
-    @Autowired
-    private UserDetailsService userDetailsService;
 
-    public InstructorService(InstructorRepository instructorRepository, RoleService roleService, UserRepository userRepository) {
+    private final UserDetailsService userDetailsService;
+
+    public InstructorService(InstructorRepository instructorRepository, RoleService roleService, UserRepository userRepository,UserDetailsService userDetailsService) {
         this.instructorRepository = instructorRepository;
         this.roleService = roleService;
         this.userRepository = userRepository;
+        this.userDetailsService = userDetailsService;
     }
     public List<Instructor> getUnapprovedInstructors() {
         return instructorRepository.findAllByIsApprovedFalse();
