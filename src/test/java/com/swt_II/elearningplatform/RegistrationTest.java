@@ -2,6 +2,7 @@ package com.swt_II.elearningplatform;
 
 import com.swt_II.elearningplatform.repositories.RoleRepository;
 import com.swt_II.elearningplatform.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,16 +34,9 @@ public class RegistrationTest {
     private RoleRepository roleRepo;
 
 
-
-    @BeforeEach
-    public void setup() {
-        userRepo.deleteAll();
-        roleRepo.deleteAll();
-        // Setup initial roles or other necessary preconditions if needed
-    }
-
     @ParameterizedTest
     @MethodSource("provideRegistrationData")
+    @Transactional
     public void testRegistration(String firstName, String lastName, String username, String email, String password, String confirmPassword, int expectedStatus, String expectedView) throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/register")
                         .param("firstName", firstName)

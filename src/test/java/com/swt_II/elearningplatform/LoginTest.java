@@ -17,8 +17,8 @@ import java.util.stream.Stream;
  import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 
 @SpringBootTest
-    @AutoConfigureMockMvc
-    public class LoginTest {
+@AutoConfigureMockMvc
+public class LoginTest {
 
         @Autowired
         private MockMvc mockMvc;

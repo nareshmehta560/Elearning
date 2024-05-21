@@ -32,10 +32,10 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http
-                .authorizeHttpRequests(configurer -> {
+        http.authorizeHttpRequests(configurer -> {
             configurer
-                    .requestMatchers("/","/home","/customLogin","/register", "/courseupload", "/uploadCourse").permitAll()
+                    .requestMatchers("/","/home","/customLogin","/register", "/uploadCourse").permitAll()
+                    .requestMatchers("/newInstructors").hasRole("ADMIN")
                     .requestMatchers("/dashboard","/admin").hasAnyRole("ADMIN","USER")
                     .anyRequest().authenticated();
         }).logout(LogoutConfigurer::permitAll)

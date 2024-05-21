@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{basic/layout:: layout (~{::content},#{instructor.pageTitle})}">
+
+<body th:fragment="content">
+<table class="table table-striped align-items-center table-bordered">
+    <thead class="table-header ">
+    <tr>
+        <th>Username</th>
+        <th>Qualification</th>
+        <th>Experience</th>
+        <th>Paypal_Email</th>
+        <th>Approve</th>
+        <th>Reject</th>
+     </tr>
+    </thead>
+    <tbody>
+    <tr th:each="instructor : ${instructors}" class="table-row">
+        <td th:text="${instructor.user.getUserName()}" class="table-cell"></td>
+        <td th:text="${instructor.getQualification()}" class="table-cell"></td>
+        <td th:text="${instructor.getExperience()}" class="table-cell"></td>
+        <td th:text="${instructor.getPaypalEmail()}" class="table-cell"></td>
+
+        <td>
+            <form th:action="@{/approveInstructor}" method="post">
+                <input type="hidden" th:value="${instructor.id}" name="id" />
+                <button type="submit" class="btn btn-success">Approve</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/deleteInstructor}" method="post">
+                <input type="hidden" th:value="${instructor.id}" name="id" />
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

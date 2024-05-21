@@ -9,17 +9,6 @@ stages:
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
-
-cache:
-  paths:
-    - .m2/repository/
-    - target/
-
-Registration:
-  stage: test
-  script:
-      - mvn -Dtest=com.swt_II.elearningplatform.RegistrationTest test
-
 maven_build:
   stage: build
   script:
@@ -31,11 +20,4 @@ maven_build:
 maven_test:
   stage: test
   script:
-     - mvn test -Dtest=com.swt_II.elearningplatform.LoginTest
-
-
-Course-upload:
-  stage: test
-  script:
-    - mvn -Dtest=com.swt_II.elearningplatform.CourseUploadTest test
-
+    - mvn test

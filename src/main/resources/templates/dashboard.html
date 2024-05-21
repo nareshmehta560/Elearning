@@ -10,13 +10,11 @@
         <div th:if="${message}" id='alertMessage' class="alert alert-success">
             <p th:text="${message}" id='msg'></p>
         </div>
+        <p th:if="${errorInstructor}" style="color: red">You have no Right for Instructor apply for it</p>
         <div class="container-lg py-4 align-items-center bg-danger">
             <h1 class="text-center bg-light">here will be Dashboard </h1>
         </div>
-        <form th:action="@{/uploadCourse}" method="get">
-            <!-- Use Thymeleaf to set button class and text -->
-            <button type="submit" class="btn btn-primary mt-xxl-2">Upload Course</button>
-        </form>
+
         <form th:action="@{/courselist}" method="get">
             <!-- Use Thymeleaf to set button class and text -->
             <button type="submit" class="btn btn-outline-dark mt-xxl-5">List of Courses</button>

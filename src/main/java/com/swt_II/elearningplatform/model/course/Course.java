@@ -1,13 +1,20 @@
 package com.swt_II.elearningplatform.model.course;
 
+import com.swt_II.elearningplatform.model.user.Instructor;
 import jakarta.persistence.*;
 
-@Entity
-public class Course {
+import lombok.Getter;
+import lombok.Setter;
 
+@Entity
+@Getter
+@Setter
+public class Course{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="id",nullable=false)
     private Long id;
+    
     private String name;
 
     private String description;
@@ -21,58 +28,9 @@ public class Course {
 
     private String fileName;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name="instructor_id")
+    private Instructor instructor;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public byte[] getField() {
-        return field;
-    }
-
-    public void setField(byte[] field) {
-        this.field = field;
-    }
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+   
 }

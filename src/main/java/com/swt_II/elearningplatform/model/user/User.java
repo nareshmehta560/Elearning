@@ -15,7 +15,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private String username;
+    private String userName;
     private String password;
     private String email;
     private String firstName;
@@ -29,10 +29,13 @@ public class User {
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
+    @OneToOne(mappedBy = "user")
+    private Instructor instructor;
+
     public User(String firstName, String lastName, String username, String email, String password, String confirmPassword) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
+        this.userName = username;
         this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;
