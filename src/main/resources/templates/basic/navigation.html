@@ -3,7 +3,7 @@
 <th:block th:fragment="navigation">
     <nav class="navbar navbar-expand-md bg-light fixed-top border border-1 py-0">
         <div class="container-fluid ">
-               <a class="navbar-brand " href="/home">Home</a>
+               <a class="navbar-brand " sec:authorize="!isAuthenticated()" href="/home">Home</a>
                <a class="navbar-brand "  sec:authorize="isAuthenticated()" href="/dashboard">Dashboard</a>
             <div id="navbarCollapse" class="collapse navbar-collapse d-flex justify-content-end">
 
