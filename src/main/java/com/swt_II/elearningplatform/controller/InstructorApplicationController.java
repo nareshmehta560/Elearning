@@ -1,14 +1,13 @@
-package com.example.elearningplatform.Controller;
+package com.swt_II.elearningplatform.controller;
 
-import com.example.elearningplatform.Model.InstructorApplication;
-import com.example.elearningplatform.Model.User;
-import com.example.elearningplatform.Repository.InstructorApplicationRepository;
-import com.example.elearningplatform.Repository.UserRepository;
-import com.example.elearningplatform.Util.ThymeleafApplicationForm;
+import com.swt_II.elearningplatform.model.InstructorApplication;
+import com.swt_II.elearningplatform.model.User;
+import com.swt_II.elearningplatform.repositories.InstructorApplicationRepository;
+import com.swt_II.elearningplatform.repositories.UserRepository;
+import com.swt_II.elearningplatform.util.ThymeleafApplicationForm;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +37,10 @@ public class InstructorApplicationController {
     InstructorApplicationController(InstructorApplicationRepository instructorApplicationRepository) {
         this.instructorApplicationRepository = instructorApplicationRepository;
     }
+    @GetMapping("/CSS/application.css")
+    public String getCss() {
+        return "CSS/Application.css";
+    }
     @GetMapping("/Application")
     public String getApplicationForm(Model model) {
         model.addAttribute("applicationForm", applicationForm);
@@ -54,19 +57,27 @@ public class InstructorApplicationController {
         boolean success = true;
         if(!(pdf.getName().equals("pdf"))) {
             success = false;
-            stringBuilder.append("only PDF allowed!\n");
+            stringBuilder.append("only PDF allowed!. ");
         }
-        if(pdf.getSize() > 10000000) {
+        if(pdf.getSize() > 100000000) {
             success = false;
-            stringBuilder.append("pdf too big, MAX_Size = 10000000\n");
+            stringBuilder.append("pdf too big, MAX_Size = 100MB. ");
         }
         if(title.length() > 45) {
             success = false;
-            stringBuilder.append("wrong title-length, MAX = 45\n");
+            stringBuilder.append("wrong title-length, MAX = 45. ");
+        }
+        if(title.isEmpty()) {
+            success = false;
+            stringBuilder.append("title is required, is not allowed to be empty. ");
         }
         if(text.length() > 16777216) {
             success = false;
-            stringBuilder.append("wrong text-length, consider using Fileupload, if text is a lot\n");
+            stringBuilder.append("wrong text-length, consider using Fileupload, if text is a lot. ");
+        }
+        if(pdf.getSize() == 0 && text.isEmpty()) {
+            success = false;
+            stringBuilder.append("Application has no content, content is required. ");
         }
 
         if(success) {
@@ -76,17 +87,16 @@ public class InstructorApplicationController {
                 long user = getCurrentUser();
                 this.instructorApplicationRepository.save(
                         new InstructorApplication(title, text, pdfBlob, filename, userRepository.findById(user).orElseThrow()));
-                attributes.addFlashAttribute("success","saved successfully");
+                attributes.addFlashAttribute("success","saved successfully.");
                 return "redirect:/";
             } catch (SQLException | IOException e) {
-                stringBuilder.append("Internal server error: failed to parse pdf into SerialBlob");
+                stringBuilder.append("Internal server error: failed to parse pdf into SerialBlob.");
             }
         }
 
         //test, if MultipartFile-data comes in correctly:
         //boolean bool = saveBlobAsFile(pdfBlob, filename);
 
-        //ToDo: validation, error check
         attributes.addFlashAttribute("error", stringBuilder.toString());
         return "redirect:/Application";
     }

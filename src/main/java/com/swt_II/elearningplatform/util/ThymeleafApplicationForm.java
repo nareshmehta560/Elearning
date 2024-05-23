@@ -1,4 +1,4 @@
-package com.example.elearningplatform.Util;
+package com.swt_II.elearningplatform.util;
 
 import org.springframework.web.multipart.MultipartFile;
 

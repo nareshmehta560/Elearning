@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="">
 
-
 <head>
     <meta charset="UTF-8">
     <title>Instructor Application</title>
-    <link href="../CSS/Application.css" rel="stylesheet">
+    <link href="CSS/application.css" rel="stylesheet">
+    <!-- made a @GetMapping-Method to supply the CSS, works now  -->
 </head>
 <body>
     <h1>Instructor application form</h1>
-    <h2 th:text="${error}"></h2>
+    <h2 th:text="${error}" class="errorMessage"></h2>
     <form method="post" th:object="${applicationForm}" th:action="@{/Application}"  enctype="multipart/form-data">
-        <label for="applicationTitle">Application Title:</label>
-        <input type="text" name="title" id="applicationTitle" class="textinputsmall" th:value="*{title}">
-        <label for="applicationText">Application Text:</label>
-        <input type="text" name="text" id="applicationText" class="textinput" th:value="*{text}">
-        <label for="applicationPDF">Application(as PDF):</label>
+        <label for="applicationTitle" class="formLabel">Application Title(required):</label>
+        <br>
+        <input type="text" name="title" id="applicationTitle" class="textinputsmall" th:value="*{title}" required maxlength="45">
+        <br>
+        <label for="applicationText" class="formLabel">Application Text:</label>
+        <br>
+        <textarea type="text" name="text" id="applicationText" class="textinput" th:value="*{text}"></textarea>
+        <br>
+        <label for="applicationPDF" class="formLabel">Application(as PDF):</label>
+        <br>
         <input type="file" name="pdf" id="applicationPDF" class="fileupload" th:value="*{pdf}">
-        <button type="submit">Save application</button>
+        <br>
+        <button type="submit" class="submitButton">Save application</button>
     </form>
 
 </body>

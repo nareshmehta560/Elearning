@@ -1,6 +1,6 @@
-package com.example.elearningplatform.Repository;
+package com.swt_II.elearningplatform.repositories;
 
-import com.example.elearningplatform.Model.InstructorApplication;
+import com.swt_II.elearningplatform.model.InstructorApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

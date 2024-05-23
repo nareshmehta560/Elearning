@@ -1,6 +1,6 @@
-package com.example.elearningplatform.Repository;
+package com.swt_II.elearningplatform.repositories;
 
-import com.example.elearningplatform.Model.User;
+import com.swt_II.elearningplatform.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

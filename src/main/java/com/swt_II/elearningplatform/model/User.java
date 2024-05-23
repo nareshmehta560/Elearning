@@ -1,6 +1,5 @@
-package com.example.elearningplatform.Model;
+package com.swt_II.elearningplatform.model;
 
-import com.example.elearningplatform.Repository.UserRepository;
 import jakarta.persistence.*;
 
 import java.util.List;
