@@ -30,7 +30,7 @@
             <a class="nav-link" ><i class="ri-heart-3-fill"></i></a>
             <a class="nav-link" ><i class="ri-shopping-cart-2-line"></i></a>
             <!-- Profile Link -->
-            <ul class="navbar-nav">
+            <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                 <li class="nav-item">
                     <a class="nav-link" href="/profile"><i class="ri-user-2-fill"></i>Profile</a>
                 </li>
