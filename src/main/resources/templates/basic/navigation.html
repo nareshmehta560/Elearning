@@ -3,7 +3,7 @@
 <th:block th:fragment="navigation">
     <nav class="navbar navbar-expand-md bg-white fixed-top border border-1 py-0">
         <div class="container-fluid d-flex justify-content-center align-items-center" >
-            <a class="navbar-brand " sec:authorize="!isAuthenticated()" href="/home">Home</a>
+            <a class="navbar-brand " sec:authorize="isAuthenticated()" href="/home">Home</a>
             <a class="navbar-brand "  sec:authorize="isAuthenticated()" href="/dashboard" style="margin-right: 40px">Dashboard</a>
 
             <!-- Categories Dropdown -->
@@ -28,7 +28,7 @@
 
             <!-- Wishlist and Cart Icons -->
             <a class="nav-link" ><i class="ri-heart-3-fill" style="margin-left: 40px;margin-right: 40px"></i></a>
-            <a class="nav-link" ><i class="ri-shopping-cart-2-line"></i></a>
+            <a class="nav-link" ><i class="ri-shopping-cart-2-line" style="margin-right: 40px"></i></a>
             <!-- Profile Link -->
 
 
@@ -61,12 +61,10 @@
                 </ul>
             </div>
 
-            <a class="nav-link" sec:authorize="isAuthenticated()" href="/profile">
-                <i class="ri-user-2-fill" style="margin-left: 20px"></i>
-                <span th:if="${#authentication.isAuthenticated()}">
-                    <span th:text="${#authentication.name}"></span>
-                </span>
-                <span th:unless="${#authentication.isAuthenticated()}">Profile</span>
+          <!--  <a class="nav-link" sec:authorize="isAuthenticated()" href="/profile"><i class="ri-user-2-fill" style="margin-left: 20px"></i>Profile</a> -->
+            <!-- Offcanvas Profile Panel -->
+            <a class="nav-link" sec:authorize="isAuthenticated()" id="profileLink" href="#" role="button">
+                <i class="ri-user-2-fill" style="margin-left: 20px"></i>Profile
             </a>
         </div>
     </nav>

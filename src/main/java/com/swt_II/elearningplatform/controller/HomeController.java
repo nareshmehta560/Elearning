@@ -23,10 +23,8 @@ public class HomeController {
     @Autowired
     private DaoAuthenticationProvider authenticationProvider;
 
-    @GetMapping(value = {"","/","/home"})
-    public String displayHome() {
-        return "home";
-    }
+
+
 
     @GetMapping(value = "/customLogin")
     public String displayCustomLogin() {

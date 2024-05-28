@@ -32,10 +32,10 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Instructor instructor;
 
-    public User(String firstName, String lastName, String username, String email, String password, String confirmPassword) {
+    public User(String firstName, String lastName, String userName, String email, String password, String confirmPassword) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userName = username;
+        this.userName = userName;
         this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;
