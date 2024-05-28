@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+ th:replace="~{basic/layout:: layout (~{::content},#{loginPage.pageTitle})}">
+
+
+<body th:fragment="content">
+<form th:action="@{/performLogin}" method="post">
+
+    <div class="container1">
+        <div class="intro1">
+            <h1>Welcome to your E-Learning platform!</h1>
+            <p>Let's begin the quest of Knowledge... </p>
+
+
+        </div>
+        <div class="tabs1">
+            <ul>
+                <p th:if="${success}" style="color: green">register successful.</p>
+                <li id="loginTab">Login</li>
+            </ul>
+        </div>
+        <div class="form-container1">
+            <div id="loginForm" class="form1" style="display: block;">
+                     <p th:if="${param.logout}" style="color: green;">You have been logged out.</p>
+                    <p th:if="${param.error}" style="color: #e77878;">Invalid username or password.</p>
+                    <input type="text" name="username" placeholder="username"  autofocus required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="submit" value="Login">
+             </div>
+        </div>
+
+    </div>
+</form>
+</body>
+</html>

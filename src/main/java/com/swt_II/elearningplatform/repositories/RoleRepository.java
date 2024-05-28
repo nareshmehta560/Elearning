@@ -6,12 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 @Repository
-public interface UserRepository extends CrudRepository<User,Long> {
-
-    User findByUserName(String username);
-    User findByEmail(String email);
-    boolean existsUserByUserName(String username);
-
+public interface RoleRepository extends CrudRepository<Role,Integer> {
+    Role findByRoleName(String roleName);
+    List<Role> findAllByUserThisRoleContaining(User user);
 }
