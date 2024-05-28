@@ -1,5 +1,6 @@
 package com.swt_II.elearningplatform.model.user;
 
+import com.swt_II.elearningplatform.model.InstructorApplication;
 import com.swt_II.elearningplatform.model.role.Role;
 import jakarta.persistence.*;
 
@@ -31,6 +32,9 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Instructor instructor;
+
+    @OneToMany(mappedBy = "applicant")
+    private List<InstructorApplication> instructorApplications;
 
     public User(String firstName, String lastName, String username, String email, String password, String confirmPassword) {
         this.firstName = firstName;

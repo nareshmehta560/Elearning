@@ -1,13 +1,16 @@
 package com.swt_II.elearningplatform.controller;
 
 import com.swt_II.elearningplatform.model.InstructorApplication;
-import com.swt_II.elearningplatform.model.User;
+import com.swt_II.elearningplatform.model.user.User;
 import com.swt_II.elearningplatform.repositories.InstructorApplicationRepository;
 import com.swt_II.elearningplatform.repositories.UserRepository;
+import com.swt_II.elearningplatform.security.SecurityConfig;
 import com.swt_II.elearningplatform.util.ThymeleafApplicationForm;
+
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,7 +54,8 @@ public class InstructorApplicationController {
     public String saveApplication(@RequestParam String title,
                                   @RequestParam String text,
                                   @RequestParam MultipartFile pdf,
-                                  final RedirectAttributes attributes) {
+                                  final RedirectAttributes attributes,
+                                  Authentication authentication) {
 
         StringBuilder stringBuilder = new StringBuilder();
         boolean success = true;
@@ -84,9 +88,9 @@ public class InstructorApplicationController {
             try {
                 Blob pdfBlob = new SerialBlob(pdf.getBytes());
                 String filename = pdf.getOriginalFilename() != null ? pdf.getOriginalFilename() : "nullName." + pdf.getName();
-                long user = getCurrentUser();
+
                 this.instructorApplicationRepository.save(
-                        new InstructorApplication(title, text, pdfBlob, filename, userRepository.findById(user).orElseThrow()));
+                        new InstructorApplication(title, text, pdfBlob, filename, getCurrentUser(authentication)));
                 attributes.addFlashAttribute("success","saved successfully.");
                 return "redirect:/";
             } catch (SQLException | IOException e) {
@@ -120,13 +124,8 @@ public class InstructorApplicationController {
         return successful;
     }
 
-    private long getCurrentUser() {
-        //ToDo: get the current User from somewhere, maybe session state/key/whatever -> Login???
-        //Workaround for now:
-        if(this.userRepository.exists(Example.of(User.testUser())) == false) {
-            this.userRepository.save(User.testUser());
-        }
-
-        return this.userRepository.findAll(Example.of(User.testUser())).get(0).getId();
+    private User getCurrentUser(Authentication authentication) {
+        String username = authentication.getName();
+        return userRepository.findByUserName(username);
     }
 }

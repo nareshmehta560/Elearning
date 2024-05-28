@@ -1,5 +1,7 @@
 package com.swt_II.elearningplatform.model;
 
+import com.swt_II.elearningplatform.model.user.User;
+
 import jakarta.persistence.*;
 
 import java.sql.Blob;

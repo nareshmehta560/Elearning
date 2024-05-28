@@ -1,4 +1,4 @@
-package com.swt_II.elearningplatform.Security;
+package com.swt_II.elearningplatform.security;
 
 import com.swt_II.elearningplatform.model.user.UserService;
 import org.springframework.context.annotation.Bean;
