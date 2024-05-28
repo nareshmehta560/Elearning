@@ -6,15 +6,33 @@
     <link th:href="@{/webjars/bootstrap/5.3.1/dist/css/bootstrap.min.css}" rel="stylesheet">
     <style>
         .course-card {
-            margin: 15px;
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.2s;
+            margin-bottom: 20px; /* Add margin-bottom to each card for spacing */
         }
-        .course-thumbnail {
-            height: 200px;
-            object-fit: cover;
+
+        .course-card:hover {
+            transform: translateY(-10px);
         }
-        .course-price {
-            font-size: 1.25rem;
+
+        .card-body {
+            text-align: center;
+        }
+
+        .course-card {
+            background-color: #f8f9fa; /* Default background color */
+        }
+
+        .card-title {
             font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .course-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
         }
     </style>
 </head>
@@ -32,7 +50,7 @@
         </div>
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-4" th:each="course : ${courses}">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" th:each="course : ${courses}">
                     <div class="card course-card">
                       <!--  <img th:src="@{'/images/' + ${course.thumbnailUrl}}" class="card-img-top course-thumbnail" alt="Course Image"> -->
                         <div class="card-body">
@@ -50,5 +68,38 @@
 
 <!-- Bootstrap JS and necessary JavaScript -->
 <script th:src="@{/webjars/bootstrap/5.3.1/dist/js/bootstrap.bundle.min.js}"></script>
+<script>
+    function getCategoryColor(category) {
+        switch (category) {
+            case 'Web-Development':
+                return '#AEC6CF'; // Pastel blue
+            case 'Business':
+                return '#77DD77'; // Pastel green
+            case 'Marketing':
+                return '#FDFD96'; // Pastel yellow
+            case 'Lifestyle':
+                return '#FFB7C5'; // Pastel pink
+            case 'Photography & Video':
+                return '#CFCFC4'; // Pastel purple
+            case 'Science':
+                return '#FFDAC1'; // Pastel orange
+            case 'Language':
+                return '#FF6961'; // Pastel red
+            case 'Sports':
+                return '#B2DFEE'; // Pastel teal
+            default:
+                return '#87CEEB'; // Default background color
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const cards = document.querySelectorAll('.course-card');
+        cards.forEach(card => {
+            const category = card.querySelector('.card-text').textContent.trim();
+            const bgColor = getCategoryColor(category);
+            card.style.backgroundColor = bgColor;
+        });
+    });
+</script>
 </body>
 </html>
