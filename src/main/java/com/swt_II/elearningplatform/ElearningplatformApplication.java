@@ -44,7 +44,7 @@ public class ElearningplatformApplication {
                 userRepository.save(admin);
             }
 
-            // create a new instructor who is admin
+            /* create a new instructor who is admin
 
 
              Instructor instructor = new Instructor("MSc", "5 years");
@@ -52,6 +52,8 @@ public class ElearningplatformApplication {
             User user1 = userRepository.findByUserName("testUser");
             instructor.setUser(user1);
             instructorRepository.save(instructor);
+
+             */
 
 
 
