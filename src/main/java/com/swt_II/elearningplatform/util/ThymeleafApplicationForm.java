@@ -4,6 +4,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ThymeleafApplicationForm {
     public String title;
+    public String paypal;
+
     public String text;
     public MultipartFile pdf;
 }

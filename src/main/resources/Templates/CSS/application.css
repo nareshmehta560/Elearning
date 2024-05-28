@@ -48,7 +48,14 @@ body {
 }
 .submitButton {
     background-color: green;
-    height: 30px;
+    height: 40px;
     width: 200px;
     font-size: 24px;
+}
+.headerSpace {
+    height: 100px;
+}
+
+.footerSpace {
+    height: 150px;
 }

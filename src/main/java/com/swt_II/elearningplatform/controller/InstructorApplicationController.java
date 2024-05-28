@@ -52,6 +52,7 @@ public class InstructorApplicationController {
 
     @PostMapping("/Application")
     public String saveApplication(@RequestParam String title,
+                                  @RequestParam String paypal,
                                   @RequestParam String text,
                                   @RequestParam MultipartFile pdf,
                                   final RedirectAttributes attributes,
@@ -75,13 +76,21 @@ public class InstructorApplicationController {
             success = false;
             stringBuilder.append("title is required, is not allowed to be empty. ");
         }
+        if(paypal.length() > 45) {
+            success = false;
+            stringBuilder.append("wrong  E-Mail-length, MAX = 45. ");
+        }
+        if(paypal.isEmpty()) {
+            success = false;
+            stringBuilder.append(" E-Mail is required, is not allowed to be empty. ");
+        }
         if(text.length() > 16777216) {
             success = false;
             stringBuilder.append("wrong text-length, consider using Fileupload, if text is a lot. ");
         }
         if(pdf.getSize() == 0 && text.isEmpty()) {
             success = false;
-            stringBuilder.append("Application has no content, content is required. ");
+            stringBuilder.append("Application has no text nor pdf, only having title and paypal-email dont pass as application. ");
         }
 
         if(success) {
@@ -90,9 +99,9 @@ public class InstructorApplicationController {
                 String filename = pdf.getOriginalFilename() != null ? pdf.getOriginalFilename() : "nullName." + pdf.getName();
 
                 this.instructorApplicationRepository.save(
-                        new InstructorApplication(title, text, pdfBlob, filename, getCurrentUser(authentication)));
-                attributes.addFlashAttribute("success","saved successfully.");
-                return "redirect:/";
+                        new InstructorApplication(title, paypal, text, pdfBlob, filename, getCurrentUser(authentication)));
+                attributes.addFlashAttribute("success","Instructor Application saved successfully.");
+                return "redirect:/home";
             } catch (SQLException | IOException e) {
                 stringBuilder.append("Internal server error: failed to parse pdf into SerialBlob.");
             }

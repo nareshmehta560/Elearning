@@ -20,6 +20,9 @@ public class InstructorApplication {
     @Column(name = "`Title`", nullable = false)
     String title;
 
+    @Column(name = "`applicationPaypal`", nullable = false)
+    String applicationPaypal;
+
     @Column(name = "`Text`", length = 16777216, nullable = false) // = LONGTEXT
     String text;
 
@@ -36,8 +39,9 @@ public class InstructorApplication {
     User applicant;
 
     public InstructorApplication(){}
-    public InstructorApplication(String title, String text, Blob pdf, String fileName, User applicant) {
+    public InstructorApplication(String title, String applicationPaypal,String text, Blob pdf, String fileName, User applicant) {
         this.title = title;
+        this.applicationPaypal = applicationPaypal;
         this.text = text;
         this.pdf = pdf;
         this.fileName = fileName;
