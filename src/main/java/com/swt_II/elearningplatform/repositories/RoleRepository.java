@@ -10,4 +10,5 @@ import java.util.List;
 public interface RoleRepository extends CrudRepository<Role,Integer> {
     Role findByRoleName(String roleName);
     List<Role> findAllByUserThisRoleContaining(User user);
+    boolean existsRoleByRoleName(String roleName);
 }
