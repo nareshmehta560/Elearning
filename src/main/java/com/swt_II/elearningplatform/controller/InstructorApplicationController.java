@@ -1,18 +1,14 @@
 package com.swt_II.elearningplatform.controller;
 
-import com.swt_II.elearningplatform.model.InstructorApplication;
 import com.swt_II.elearningplatform.model.user.Instructor;
 import com.swt_II.elearningplatform.model.user.InstructorService;
 import com.swt_II.elearningplatform.model.user.User;
-import com.swt_II.elearningplatform.repositories.InstructorApplicationRepository;
 import com.swt_II.elearningplatform.repositories.InstructorRepository;
 import com.swt_II.elearningplatform.repositories.UserRepository;
-import com.swt_II.elearningplatform.security.SecurityConfig;
 import com.swt_II.elearningplatform.util.ThymeleafApplicationForm;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,6 +52,16 @@ public class InstructorApplicationController {
         return "Application";
     }
 
+    /**
+     * handle the Post Request
+     * @param title small text
+     * @param paypal small text
+     * @param text large text
+     * @param pdf large MultiPartFile
+     * @param attributes needed for success message
+     * @param authentication needed for User/Application saving
+     * @return when an error happened, remains on the site, else redirects to /home
+     */
     @PostMapping("/Application")
     public String saveApplication(@RequestParam String title,
                                   @RequestParam String paypal,
@@ -68,16 +74,7 @@ public class InstructorApplicationController {
         StringBuilder validationErrors = validateInputs(title, paypal, text, pdf);
         if(validationErrors.isEmpty()) {
             try {
-                Blob pdfBlob = new SerialBlob(pdf.getBytes());
-                String filename = pdf.getOriginalFilename() != null ? pdf.getOriginalFilename() : "nullName." + pdf.getName();
-                User currentUser = getCurrentUser(authentication);
-                String successText = "Instructor Application saved successfully.";
-                if(currentUser.getInstructor() != null && this.instructorRepository.existsById(currentUser.getInstructor().getId())) {
-                    this.instructorService.deleteInstructor(currentUser.getInstructor().getId());
-                    successText = "Instructor Application updated successfully.";
-                }
-                this.instructorRepository.save(
-                        new Instructor(title, pdfBlob, filename,  text, paypal, currentUser));
+                String successText = instructorService.saveInstructorApplication(title, paypal, text, pdf, getCurrentUser(authentication));
                 attributes.addFlashAttribute("success", successText);
                 return "redirect:/home";
 
@@ -93,10 +90,12 @@ public class InstructorApplicationController {
         return "redirect:/Application";
     }
 
+
+
     /***
-     *
-     * @param pdfBlob
-     * @param filename
+     *  try to write the file to disk, so it can be checked for integrity
+     * @param pdfBlob the content of the file
+     * @param filename the name of the file
      * @return true, if successful
      */
     private boolean saveBlobAsFile(Blob pdfBlob, String filename) {
@@ -113,7 +112,7 @@ public class InstructorApplicationController {
     }
 
     /***
-     *
+     *  checks, if the Inputs made are valid
      * @param title
      * @param paypal
      * @param text
@@ -150,9 +149,9 @@ public class InstructorApplicationController {
     }
 
     /***
-     *
-     * @param authentication
-     * @return
+     *  finds the User currently authenticated in the Authentication object in the Database
+     * @param authentication the Authentication to get the currently logged in User
+     * @return returns the User
      */
     private User getCurrentUser(Authentication authentication) {
         String username = authentication.getName();

@@ -1,6 +1,5 @@
 package com.swt_II.elearningplatform.model.user;
 
-import com.swt_II.elearningplatform.model.InstructorApplication;
 import com.swt_II.elearningplatform.model.role.Role;
 import jakarta.persistence.*;
 
@@ -30,11 +29,8 @@ public class User {
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade=CascadeType.ALL)
     private Instructor instructor;
-
-    @OneToMany(mappedBy = "applicant")
-    private List<InstructorApplication> instructorApplications;
 
     public User(String firstName, String lastName, String username, String email, String password, String confirmPassword) {
         this.firstName = firstName;
@@ -47,6 +43,19 @@ public class User {
 
     public User() {
 
+    }
+
+    public static User testUser(Role role) {
+        User user = testUser();
+        user.addRole(role);
+        return user;
+    }
+    public static User testUser() {
+        User user = new User();
+        user.setUserName("testUser2");
+        user.setPassword("$2a$12$yI8wA5Kd0pcFknDHqyZgN.9/wAHmVzLRCpsBNuUiCSLazDJ4tYM8u");
+        user.setEmail("test@gmail.com");
+        return user;
     }
 
     public void addRole(Role role){

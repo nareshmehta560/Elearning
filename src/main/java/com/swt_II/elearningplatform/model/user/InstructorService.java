@@ -10,7 +10,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -46,5 +51,33 @@ public class InstructorService {
     public void deleteInstructor(Long id) {
         Instructor instructor = instructorRepository.findById(id).get();
         instructorRepository.delete(instructor);
+    }
+
+    /**
+     * save the incoming Form-data into the DB
+     * @param title small text
+     * @param paypal small text
+     * @param text large text
+     * @param pdf large MultiPartFile
+     * @param currentUser needed for User/Application saving
+     * @return if unsuccessful throws error, else returns success message
+     * @throws SQLException
+     * @throws IOException
+     */
+    public String saveInstructorApplication(String title, String paypal, String text, MultipartFile pdf, User currentUser) throws SQLException, IOException {
+        Blob pdfBlob = new SerialBlob(pdf.getBytes());
+        String filename = pdf.getOriginalFilename() != null ? pdf.getOriginalFilename() : "nullName." + pdf.getName();
+        String successText = "Instructor Application saved successfully.";
+        if(currentUser.getInstructor() != null && this.instructorRepository.existsById(currentUser.getInstructor().getId())) {
+            deleteInstructor(currentUser.getInstructor().getId());
+            successText = "Instructor Application updated successfully.";
+        }
+        User user = this.userRepository.findByUserName(currentUser.getUserName());
+        //this.userRepository.deleteById(user.getId());
+        user.setInstructor(new Instructor(title, pdfBlob, filename, text, paypal, user));
+        this.userRepository.save(user);
+        //this.instructorRepository.save(new Instructor(title, pdfBlob, filename, text, paypal, currentUser));
+
+        return successText;
     }
 }

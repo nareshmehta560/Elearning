@@ -34,9 +34,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(configurer -> {
             configurer
-                    .requestMatchers("/","/home","/customLogin","/register", "/uploadCourse", "/Application", "/CSS/application.css").permitAll()
+                    .requestMatchers("/","/home","/customLogin","/register").permitAll()
                     .requestMatchers("/newInstructors").hasRole("ADMIN")
-                    .requestMatchers("/dashboard","/admin").hasAnyRole("ADMIN","USER")
+                    //.requestMatchers("/uploadCourse").hasRole("INSTRUCTOR")
+                    .requestMatchers("/dashboard","/admin", "/uploadCourse", "/Application", "/CSS/application.css").hasAnyRole("ADMIN","USER")
                     .anyRequest().authenticated();
         }).logout(LogoutConfigurer::permitAll)
                 .formLogin(form -> form.loginPage("/customLogin")
