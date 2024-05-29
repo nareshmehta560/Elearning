@@ -68,10 +68,8 @@ public class InstructorTest {
 
 
         Long id = 1L;
-        Instructor instructor = new Instructor("MSc","5 years");
-        instructor.setPaypalEmail("test@gmail.com");
         User user1 = userRepository.findByUserName("testUser2");
-        instructor.setUser(user1);
+        Instructor instructor = Instructor.testInstructor(user1);
 
         when(instructorRepository.findById(id)).thenReturn(Optional.of(instructor));
         // Mock RoleService and UserDetailsServic

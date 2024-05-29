@@ -34,11 +34,11 @@
         <br>
         <input type="text" name="paypal" id="applicationPaypal" class="textinputsmall" th:value="*{paypal}" required maxlength="45">
         <br>
-        <label for="applicationText" class="formLabel">Application Text:</label>
+        <label for="applicationText" class="formLabel">Application Text(Motivations and qualifications):</label>
         <br>
-        <textarea type="text" name="text" id="applicationText" class="textinput" th:value="*{text}"></textarea>
+        <textarea type="text" name="text" id="applicationText" class="textinput" th:value="*{text}"  placeholder="Hi, im John Doe and have the following qualifications/experience/motivation to be an instructor..."></textarea>
         <br>
-        <label for="applicationPDF" class="formLabel">Application(as PDF):</label>
+        <label for="applicationPDF" class="formLabel">Documents(as PDF) proving your qualifications, if necessary:</label>
         <br>
         <input type="file" name="pdf" id="applicationPDF" class="fileupload" th:value="*{pdf}">
         <br>

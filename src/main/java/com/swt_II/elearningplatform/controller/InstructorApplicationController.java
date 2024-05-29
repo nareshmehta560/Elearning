@@ -1,8 +1,11 @@
 package com.swt_II.elearningplatform.controller;
 
 import com.swt_II.elearningplatform.model.InstructorApplication;
+import com.swt_II.elearningplatform.model.user.Instructor;
+import com.swt_II.elearningplatform.model.user.InstructorService;
 import com.swt_II.elearningplatform.model.user.User;
 import com.swt_II.elearningplatform.repositories.InstructorApplicationRepository;
+import com.swt_II.elearningplatform.repositories.InstructorRepository;
 import com.swt_II.elearningplatform.repositories.UserRepository;
 import com.swt_II.elearningplatform.security.SecurityConfig;
 import com.swt_II.elearningplatform.util.ThymeleafApplicationForm;
@@ -31,14 +34,17 @@ public class InstructorApplicationController {
 
     public ThymeleafApplicationForm applicationForm = new ThymeleafApplicationForm();
     @Autowired
-    InstructorApplicationRepository instructorApplicationRepository;
+    InstructorRepository instructorRepository;
+
+    @Autowired
+    InstructorService instructorService;
 
     @Autowired
     UserRepository userRepository;
 
     @Autowired
-    InstructorApplicationController(InstructorApplicationRepository instructorApplicationRepository) {
-        this.instructorApplicationRepository = instructorApplicationRepository;
+    InstructorApplicationController(InstructorRepository instructorRepository) {
+        this.instructorRepository = instructorRepository;
     }
     @GetMapping("/CSS/application.css")
     public String getCss() {
@@ -58,59 +64,32 @@ public class InstructorApplicationController {
                                   final RedirectAttributes attributes,
                                   Authentication authentication) {
 
-        StringBuilder stringBuilder = new StringBuilder();
-        boolean success = true;
-        if(!(pdf.getName().equals("pdf"))) {
-            success = false;
-            stringBuilder.append("only PDF allowed!. ");
-        }
-        if(pdf.getSize() > 100000000) {
-            success = false;
-            stringBuilder.append("pdf too big, MAX_Size = 100MB. ");
-        }
-        if(title.length() > 45) {
-            success = false;
-            stringBuilder.append("wrong title-length, MAX = 45. ");
-        }
-        if(title.isEmpty()) {
-            success = false;
-            stringBuilder.append("title is required, is not allowed to be empty. ");
-        }
-        if(paypal.length() > 45) {
-            success = false;
-            stringBuilder.append("wrong  E-Mail-length, MAX = 45. ");
-        }
-        if(paypal.isEmpty()) {
-            success = false;
-            stringBuilder.append(" E-Mail is required, is not allowed to be empty. ");
-        }
-        if(text.length() > 16777216) {
-            success = false;
-            stringBuilder.append("wrong text-length, consider using Fileupload, if text is a lot. ");
-        }
-        if(pdf.getSize() == 0 && text.isEmpty()) {
-            success = false;
-            stringBuilder.append("Application has no text nor pdf, only having title and paypal-email dont pass as application. ");
-        }
 
-        if(success) {
+        StringBuilder validationErrors = validateInputs(title, paypal, text, pdf);
+        if(validationErrors.isEmpty()) {
             try {
                 Blob pdfBlob = new SerialBlob(pdf.getBytes());
                 String filename = pdf.getOriginalFilename() != null ? pdf.getOriginalFilename() : "nullName." + pdf.getName();
-
-                this.instructorApplicationRepository.save(
-                        new InstructorApplication(title, paypal, text, pdfBlob, filename, getCurrentUser(authentication)));
-                attributes.addFlashAttribute("success","Instructor Application saved successfully.");
+                User currentUser = getCurrentUser(authentication);
+                String successText = "Instructor Application saved successfully.";
+                if(currentUser.getInstructor() != null && this.instructorRepository.existsById(currentUser.getInstructor().getId())) {
+                    this.instructorService.deleteInstructor(currentUser.getInstructor().getId());
+                    successText = "Instructor Application updated successfully.";
+                }
+                this.instructorRepository.save(
+                        new Instructor(title, pdfBlob, filename,  text, paypal, currentUser));
+                attributes.addFlashAttribute("success", successText);
                 return "redirect:/home";
+
             } catch (SQLException | IOException e) {
-                stringBuilder.append("Internal server error: failed to parse pdf into SerialBlob.");
+                validationErrors.append("Internal server error: failed to parse pdf into SerialBlob.");
             }
         }
 
         //test, if MultipartFile-data comes in correctly:
         //boolean bool = saveBlobAsFile(pdfBlob, filename);
 
-        attributes.addFlashAttribute("error", stringBuilder.toString());
+        attributes.addFlashAttribute("error", validationErrors.toString());
         return "redirect:/Application";
     }
 
@@ -133,6 +112,48 @@ public class InstructorApplicationController {
         return successful;
     }
 
+    /***
+     *
+     * @param title
+     * @param paypal
+     * @param text
+     * @param pdf
+     * @return empty StringBuilder, if no validation errors
+     */
+    private StringBuilder validateInputs(String title, String paypal, String text, MultipartFile pdf) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if(!(pdf.getName().equals("pdf"))) {
+            stringBuilder.append("only PDF allowed!. ");
+        }
+        if(pdf.getSize() > 100000000) {
+            stringBuilder.append("pdf too big, MAX_Size = 100MB. ");
+        }
+        if(title.length() > 45) {
+            stringBuilder.append("wrong title-length, MAX = 45. ");
+        }
+        if(title.isEmpty()) {
+            stringBuilder.append("title is required, is not allowed to be empty. ");
+        }
+        if(paypal.length() > 45) {
+            stringBuilder.append("wrong  E-Mail-length, MAX = 45. ");
+        }
+        if(paypal.isEmpty()) {
+            stringBuilder.append(" E-Mail is required, is not allowed to be empty. ");
+        }
+        if(text.length() > 16777216) {
+            stringBuilder.append("wrong text-length, consider using Fileupload, if text is a lot. ");
+        }
+        if(pdf.getSize() == 0 && text.isEmpty()) {
+            stringBuilder.append("Application has no text nor pdf, only having title and paypal-email dont pass as application. ");
+        }
+        return stringBuilder;
+    }
+
+    /***
+     *
+     * @param authentication
+     * @return
+     */
     private User getCurrentUser(Authentication authentication) {
         String username = authentication.getName();
         return userRepository.findByUserName(username);

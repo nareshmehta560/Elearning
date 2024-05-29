@@ -20,10 +20,10 @@ public class InstructorApplication {
     @Column(name = "`Title`", nullable = false)
     String title;
 
-    @Column(name = "`applicationPaypal`", nullable = false)
+    @Column(name = "`paypalEmail`", nullable = false)
     String applicationPaypal;
 
-    @Column(name = "`Text`", length = 16777216, nullable = false) // = LONGTEXT
+    @Column(name = "`qualificationAndExperience`", length = 16777216, nullable = false) // = LONGTEXT
     String text;
 
     @Lob
