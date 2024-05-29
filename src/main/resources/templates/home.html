@@ -43,12 +43,10 @@
 
 <div class="container">
     <h1 class="text-center my-4">Welcome to our Homepage</h1>
-    <p class="text-center">Here you can find all the information you need to know about our services.<br>
-        Feel free to browse around and learn more about us.</p>
 
     <div class="row">
         <div class="col-md-12">
-            <h2 class="mb-4">Featured Courses</h2>
+            <h2 class="mb-4" id="featured-courses-heading">Featured Courses</h2>
         </div>
         <div class="col-md-12">
             <div class="row">
@@ -110,6 +108,34 @@
             card.style.backgroundColor = bgColor;
         });
     });
+
+    function filterCourses(category) {
+        const courses = document.querySelectorAll('.course-card');
+        const heading = document.getElementById('featured-courses-heading');
+        let visibleCourses = 0;
+
+        courses.forEach(course => {
+            if (category === 'All' || course.getAttribute('data-category') === category) {
+                course.style.display = 'block';
+                visibleCourses++;
+            } else {
+                course.style.display = 'none';
+            }
+        });
+
+        if (visibleCourses === 0) {
+            heading.innerHTML = `No ${category} courses available yet, we will get it soon!`;
+            heading.style.color = 'red';
+        } else {
+            if (category === 'All') {
+                heading.innerHTML = 'Featured Courses';
+                heading.style.color = 'blue';
+            } else {
+                heading.innerHTML = `${category} Courses`;
+                heading.style.color = 'green';
+            }
+        }
+    }
 </script>
 </body>
 </html>
