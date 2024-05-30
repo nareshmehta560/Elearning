@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class CourseController {
@@ -56,6 +57,12 @@ public class CourseController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + course.getFileName() + "\"")
                 .body( new ByteArrayResource(course.getField()));
     }
-
+    //Handles fetching and displaying courses on the homepage.
+    @GetMapping(value = {"","/","/home"})
+    public String home(Model model) {
+        List<Course> courses = courseService.getAllCourses();
+        model.addAttribute("courses", courses);
+        return "home";
+    }
 }
 

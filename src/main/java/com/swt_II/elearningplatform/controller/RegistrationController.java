@@ -1,6 +1,7 @@
 package com.swt_II.elearningplatform.controller;
 
 import com.swt_II.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.model.user.UserService;
 import com.swt_II.elearningplatform.repositories.RoleRepository;
 import com.swt_II.elearningplatform.repositories.UserRepository;
 
@@ -54,4 +55,5 @@ public class RegistrationController {
         model.addAttribute("success", "User has been registered successfully!");
         return "customLogin";
     }
+
 }
