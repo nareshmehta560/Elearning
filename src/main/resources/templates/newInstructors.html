@@ -7,8 +7,8 @@
     <thead class="table-header ">
     <tr>
         <th>Username</th>
-        <th>Qualification</th>
-        <th>Experience</th>
+        <th>Application Title</th>
+        <th>Qualification and Experience</th>
         <th>Paypal_Email</th>
         <th>Approve</th>
         <th>Reject</th>
@@ -17,8 +17,8 @@
     <tbody>
     <tr th:each="instructor : ${instructors}" class="table-row">
         <td th:text="${instructor.user.getUserName()}" class="table-cell"></td>
-        <td th:text="${instructor.getQualification()}" class="table-cell"></td>
-        <td th:text="${instructor.getExperience()}" class="table-cell"></td>
+        <td th:text="${instructor.getTitle()}" class="table-cell"></td>
+        <td th:text="${instructor.getQualificationAndExperience()}" class="table-cell"></td>
         <td th:text="${instructor.getPaypalEmail()}" class="table-cell"></td>
 
         <td>
