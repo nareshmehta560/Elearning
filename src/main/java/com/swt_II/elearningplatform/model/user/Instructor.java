@@ -29,10 +29,14 @@ public class Instructor {
 
     @Column(name = "`Title`", nullable = false)
     String title;
+
+    @Lob
+    @Column(name = "data", columnDefinition = "BLOB")
+    private byte[] data;
     @Lob
     @Basic
-    @Column(name = "`PDF_Blob`", nullable = true)    //BLOB?
-    Blob pdf;
+    @Column(name = "`PDF_Blob`", nullable = true, columnDefinition = "BLOB")    //BLOB?
+    byte[] pdf;
     @Column(name = "`File_Name`", nullable = true)
     String fileName;
     @Column(name = "`qualificationAndExperience`", length = 16777216, nullable = false) // = LONGTEXT
@@ -55,7 +59,7 @@ public class Instructor {
      }
     */
 
-    public Instructor(String title, Blob pdf, String fileName, String qualificationAndExperience, String paypalEmail, User currentUser) {
+    public Instructor(String title, byte[] pdf, String fileName, String qualificationAndExperience, String paypalEmail, User currentUser) {
         this.title = title;
         this.pdf = pdf;
         this.fileName = fileName;

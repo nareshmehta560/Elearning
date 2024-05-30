@@ -65,7 +65,7 @@ public class InstructorService {
      * @throws IOException
      */
     public String saveInstructorApplication(String title, String paypal, String text, MultipartFile pdf, User currentUser) throws SQLException, IOException {
-        Blob pdfBlob = new SerialBlob(pdf.getBytes());
+        byte[] pdfBlob = pdf.getBytes();
         String filename = pdf.getOriginalFilename() != null ? pdf.getOriginalFilename() : "nullName." + pdf.getName();
         String successText = "Instructor Application saved successfully.";
         if(currentUser.getInstructor() != null && this.instructorRepository.existsById(currentUser.getInstructor().getId())) {

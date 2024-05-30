@@ -46,8 +46,8 @@ public class ElearningplatformApplication {
 
             // create a new instructor who is admin
 
-            User user1 = userRepository.findByUserName("testUser");
-            instructorRepository.save(Instructor.testInstructor(user1));
+//            User user1 = userRepository.findByUserName("testUser");
+//            instructorRepository.save(Instructor.testInstructor(user1));
 
             //create a another with only user Right
             if (!userRepository.existsUserByUserName("testUser2")) {
