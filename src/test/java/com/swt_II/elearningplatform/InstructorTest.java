@@ -55,11 +55,7 @@ public class InstructorTest {
     @Test
     @Transactional
     public void testApproveInstructor() {
-        User user = new User();
-        user.setUserName("testUser2");
-        user.setPassword("$2a$12$yI8wA5Kd0pcFknDHqyZgN.9/wAHmVzLRCpsBNuUiCSLazDJ4tYM8u");
-        user.setEmail("test@gmail.com");
-        user.addRole(roleService.getRoleFromRoleName("USER"));
+        User user = User.testUser(roleService.getRoleFromRoleName("USER"));
         when(userRepository.findByUserName("testUser2")).thenReturn(user);
         List<Role> roles = new ArrayList<>();
         roles.add(new Role("USER"));
@@ -68,10 +64,8 @@ public class InstructorTest {
 
 
         Long id = 1L;
-        Instructor instructor = new Instructor("MSc","5 years");
-        instructor.setPaypalEmail("test@gmail.com");
         User user1 = userRepository.findByUserName("testUser2");
-        instructor.setUser(user1);
+        Instructor instructor = Instructor.testInstructor(user1);
 
         when(instructorRepository.findById(id)).thenReturn(Optional.of(instructor));
         // Mock RoleService and UserDetailsServic

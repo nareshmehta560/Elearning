@@ -46,20 +46,14 @@ public class ElearningplatformApplication {
 
             // create a new instructor who is admin
 
-
-             Instructor instructor = new Instructor("MSc", "5 years");
-            instructor.setPaypalEmail("test@gmail.com");
-            User user1 = userRepository.findByUserName("testUser");
-            instructor.setUser(user1);
-            instructorRepository.save(instructor);
-
-
+//            User user1 = userRepository.findByUserName("testUser");
+//            instructorRepository.save(Instructor.testInstructor(user1));
 
             //create a another with only user Right
             if (!userRepository.existsUserByUserName("testUser2")) {
                 User user = new User();
                 user.setUserName("testUser2");
-                user.setPassword("$2a$12$yI8wA5Kd0pcFknDHqyZgN.9/wAHmVzLRCpsBNuUiCSLazDJ4tYM8u");
+                user.setPassword("$2a$12$yI8wA5Kd0pcFknDHqyZgN.9/wAHmVzLRCpsBNuUiCSLazDJ4tYM8u"); //test
                 user.setEmail("test@gmail.com");
                 user.addRole(userRole);
                 userRepository.save(user);
