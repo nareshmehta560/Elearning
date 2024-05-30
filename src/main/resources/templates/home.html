@@ -78,6 +78,7 @@
     </div>
 </div>
 <script>
+    //apply color to the course card
     function getCategoryColor(category) {
         switch (category) {
             case 'Web-Development':
@@ -109,12 +110,12 @@
             card.style.backgroundColor = bgColor;
         });
     });
-
+    //filters course by category
     function filterCourses(category) {
         const courses = document.querySelectorAll('.course-card');
         const heading = document.getElementById('featured-courses-heading');
         let visibleCourses = 0;
-
+        //shows the filtered courses
         courses.forEach(course => {
             if (category === 'All' || course.getAttribute('data-category') === category) {
                 course.style.display = 'block';
@@ -123,7 +124,7 @@
                 course.style.display = 'none';
             }
         });
-
+        //gives feedback when no course is found
         if (visibleCourses === 0) {
             heading.innerHTML = `No ${category} courses available yet, we will get it soon!`;
             heading.style.color = 'red';
