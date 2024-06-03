@@ -7,6 +7,12 @@
     <!-- Bootstrap CSS -->
     <link th:href="@{/webjars/bootstrap/5.3.1/dist/css/bootstrap.min.css}" rel="stylesheet">
     <style>
+        .row{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
         .course-card {
             border-radius: 10px;
             padding: 20px;
@@ -36,6 +42,30 @@
             font-weight: bold;
             color: #333;
         }
+        #course-description {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 255, 0, 0.8);
+            padding: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .course-card:hover.card-footer {
+            display: inline-block;
+        }
+
+        .card-footer {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+        }
     </style>
 </head>
 
@@ -49,15 +79,14 @@
             <h2 class="mb-4" id="featured-courses-heading">Featured Courses</h2>
         </div>
         <div class="col-md-12">
-            <div class="row">
+            <div class="row" >
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4" th:each="course : ${courses}">
                     <div class="card course-card" th:attr="data-category=${course.category}">
                       <!--  <img th:src="@{'/images/' + ${course.thumbnailUrl}}" class="card-img-top course-thumbnail" alt="Course Image"> -->
                         <div class="card-body">
                             <h5 class="card-title" th:text="${course.name}">Course Title</h5>
-                            <p class="card-text" th:text="${course.category}">Course description...</p>
-                            <p class="card-text" >Author: testUser</p>
-                            <p class="card-text" th:text="${course.description}">Course description...</p>
+                            <h6 class="card-text" th:text="${course.category}">Course description...</h6>
+                            <p class="card-text" th:text="${#strings.concat('Author: ', course.author)}">Author:</p>
                             <!-- Rating (you can use stars or any other representation) -->
                             <div class="rating">
                                 <span class="star">&#9733;</span>
@@ -67,8 +96,13 @@
                                 <span class="star">&#9734;</span> <!-- Example: 4 out of 5 stars -->
                             </div>
                             <p class="course-price" th:text="'€' + ${course.price}">Price</p>
-                            <div class="like-cart">
-                                <span class="like-symbol">&#10084;</span> <span class="cart-symbol">&#128722;</span>
+                            <!-- Course description and action buttons -->
+                            <div class="card-footer" style="background-color: whitesmoke" >
+                                <p id="course-description" th:text="${course.description}" style="display: none;">Course description...</p>
+                                <div style="display: flex;justify-content: space-around; background-color: white;">
+                                    <button class="btn btn-primary btn-sm" th:attr="data-course-id=${course.id}" style="background-color: whitesmoke" ><span class="like-symbol">&#10084;</span></button>
+                                    <button class="btn btn-success btn-sm" th:attr="data-course-id=${course.id}">Add to Cart<span class="cart-symbol">&#128722;</span> </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -108,8 +142,24 @@
             const category = card.querySelector('.card-text').textContent.trim();
             const bgColor = getCategoryColor(category);
             card.style.backgroundColor = bgColor;
+
+            // Attach event listener for "Add to Wishlist" buttons
+            const addToWishlistButton = card.querySelector('.btn-primary');
+            addToWishlistButton.addEventListener('click', function() {
+                addToWishlist(card.querySelector('.card-title').textContent);
+                showTemporaryPlusOne('like-symbol');
+            });
+
+            // Attach event listener for "Add to Cart" buttons
+            const addToCartButton = card.querySelector('.btn-success');
+            addToCartButton.addEventListener('click', function() {
+                addToCart(card.querySelector('.card-title').textContent);
+                showTemporaryPlusOne('cart-symbol');
+            });
         });
+
     });
+
     //filters course by category
     function filterCourses(category) {
         const courses = document.querySelectorAll('.course-card');
@@ -118,7 +168,8 @@
         //shows the filtered courses
         courses.forEach(course => {
             if (category === 'All' || course.getAttribute('data-category') === category) {
-                course.style.display = 'block';
+                course.style.display = 'flex';
+                course.style.displayDirectin = 'column';
                 visibleCourses++;
             } else {
                 course.style.display = 'none';
@@ -138,6 +189,73 @@
             }
         }
     }
+    //function to add courses to wishlist
+    function addToWishlist(courseName) {
+        const wishlistDropdownMenu = document.querySelector('#wishlistDropdown + .dropdown-menu');
+        let wishlistItems = wishlistDropdownMenu.querySelectorAll('.dropdown-item');
+
+        if (wishlistItems.length === 1 && wishlistItems[0].textContent === 'Wishlist is empty') {
+            wishlistDropdownMenu.innerHTML = ''; // Clear the "Wishlist is empty" message
+        }
+
+        const newWishlistItem = document.createElement('li');
+        const wishlistItemLink = document.createElement('a');
+        wishlistItemLink.className = 'dropdown-item';
+        wishlistItemLink.href = '#';
+        wishlistItemLink.textContent = courseName;
+
+        newWishlistItem.appendChild(wishlistItemLink);
+        wishlistDropdownMenu.appendChild(newWishlistItem);
+    }
+
+    //function to add course to cart
+    function addToCart(courseName) {
+        const cartDropdownMenu = document.querySelector('#cartDropdown + .dropdown-menu');
+        let cartItems = cartDropdownMenu.querySelectorAll('.dropdown-item');
+
+        if (cartItems.length === 1 && cartItems[0].textContent === 'Cart is empty') {
+            cartDropdownMenu.innerHTML = ''; // Clear the "Cart is empty" message
+        }
+
+        const newCartItem = document.createElement('li');
+        const cartItemLink = document.createElement('a');
+        cartItemLink.className = 'dropdown-item';
+        cartItemLink.href = '#';
+        cartItemLink.textContent = courseName;
+
+        newCartItem.appendChild(cartItemLink);
+        cartDropdownMenu.appendChild(newCartItem);
+    }
+
+    //function to display +1 when adding item to cart or wishlist temporarily.
+    function showTemporaryPlusOne(symbolClass) {
+        const symbolElement = document.querySelector(`.${symbolClass}`);
+        const plusOneElement = document.createElement('span');
+        plusOneElement.textContent = '+1';
+        plusOneElement.style.position = 'absolute';
+        plusOneElement.style.color = 'green';
+        plusOneElement.style.fontSize = '1.5em';
+        plusOneElement.style.top = '-10px';
+        plusOneElement.style.right = '0';
+        plusOneElement.style.animation = 'fadeOut 1s forwards';
+
+        symbolElement.parentElement.appendChild(plusOneElement);
+
+        // Remove the element after the animation is done
+        setTimeout(() => {
+            plusOneElement.remove();
+        }, 1000);
+    }
+
+    // CSS Animation
+    const style = document.createElement('style');
+    style.textContent = `
+    @keyframes fadeOut {
+        0% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-20px); }
+    }
+    `;
+    document.head.append(style);
 </script>
 </body>
 </html>

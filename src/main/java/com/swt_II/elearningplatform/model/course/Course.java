@@ -17,6 +17,10 @@ public class Course{
     
     private String name;
 
+    private String author;
+
+    @Lob
+    @Column(columnDefinition = "CLOB")
     private String description;
 
     private String category;
