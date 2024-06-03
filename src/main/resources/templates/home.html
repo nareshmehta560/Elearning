@@ -189,6 +189,7 @@
             }
         }
     }
+
     //function to add courses to wishlist
     function addToWishlist(courseName) {
         const wishlistDropdownMenu = document.querySelector('#wishlistDropdown + .dropdown-menu');
@@ -200,13 +201,29 @@
 
         const newWishlistItem = document.createElement('li');
         const wishlistItemLink = document.createElement('a');
-        wishlistItemLink.className = 'dropdown-item';
+        wishlistItemLink.className = 'dropdown-item d-flex justify-content-between align-items-center';
         wishlistItemLink.href = '#';
         wishlistItemLink.textContent = courseName;
 
+        const removeButton = document.createElement('span');
+        removeButton.textContent = 'x';
+        removeButton.style.cursor = 'pointer';
+        removeButton.style.marginLeft = '10px';
+        removeButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            newWishlistItem.remove();
+            if (wishlistDropdownMenu.children.length === 0) {
+                const emptyMessage = document.createElement('li');
+                emptyMessage.innerHTML = '<a class="dropdown-item" href="#">Wishlist is empty</a>';
+                wishlistDropdownMenu.appendChild(emptyMessage);
+            }
+        });
+
+        wishlistItemLink.appendChild(removeButton);
         newWishlistItem.appendChild(wishlistItemLink);
         wishlistDropdownMenu.appendChild(newWishlistItem);
     }
+
 
     //function to add course to cart
     function addToCart(courseName) {
@@ -219,10 +236,25 @@
 
         const newCartItem = document.createElement('li');
         const cartItemLink = document.createElement('a');
-        cartItemLink.className = 'dropdown-item';
+        cartItemLink.className = 'dropdown-item d-flex justify-content-between align-items-center';
         cartItemLink.href = '#';
         cartItemLink.textContent = courseName;
 
+        const removeButton = document.createElement('span');
+        removeButton.textContent = 'x';
+        removeButton.style.cursor = 'pointer';
+        removeButton.style.marginLeft = '10px';
+        removeButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            newCartItem.remove();
+            if (cartDropdownMenu.children.length === 0) {
+                const emptyMessage = document.createElement('li');
+                emptyMessage.innerHTML = '<a class="dropdown-item" href="#">Cart is empty</a>';
+                cartDropdownMenu.appendChild(emptyMessage);
+            }
+        });
+
+        cartItemLink.appendChild(removeButton);
         newCartItem.appendChild(cartItemLink);
         cartDropdownMenu.appendChild(newCartItem);
     }
@@ -256,6 +288,7 @@
     }
     `;
     document.head.append(style);
+
 </script>
 </body>
 </html>
