@@ -31,7 +31,7 @@ public class CourseService {
     }
 
     public List<Course> searchCoursesByKeyword(String keyword) {
-        return courseRepository.findByNameContaining(keyword);
+        return courseRepository.findByNameContainingIgnoreCase(keyword);
     }
 
 }
