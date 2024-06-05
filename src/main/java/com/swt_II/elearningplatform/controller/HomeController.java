@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -62,4 +63,35 @@ public class HomeController {
         model.addAttribute("courses", courses);
         return "courselist";
     }
+
+    //request for searchCourse
+    @GetMapping(value = "/search")
+    public String searchCourses(@RequestParam(required = false) String keyword, Model model) {
+        List<Course> courses;
+        if (keyword == null || keyword.isEmpty()) {
+            // Handle case where keyword is empty or null
+            courses = courseService.getAllCourses();
+        } else {
+            courses = courseService.searchCoursesByKeyword(keyword);
+        }
+
+        if (courses.isEmpty()) {
+            // No courses found, set a message to display in the template
+            model.addAttribute("noCoursesMessage", "No courses found for the keyword: " + keyword);
+        } else {
+            // Courses found, add them to the model
+            model.addAttribute("courses", courses);
+        }
+        return "home";
+    }
+
+    //request for all courses in Home
+
+    @GetMapping(value = "/homePage")
+    public String displayHomePage(Model model) {
+        List<Course> courses = courseService.getAllCourses();
+        model.addAttribute("courses", courses);
+        return "home";
+    }
+
 }

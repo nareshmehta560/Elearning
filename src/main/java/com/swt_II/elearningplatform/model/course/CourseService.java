@@ -29,6 +29,11 @@ public class CourseService {
     public List<Course> getAllCourses() {
         return (List<Course>) courseRepository.findAll();
     }
+
+    public List<Course> searchCoursesByKeyword(String keyword) {
+        return courseRepository.findByNameContaining(keyword);
+    }
+
 }
 
 

@@ -27,14 +27,16 @@
                 </ul>
             </div>
             <!-- Search Bar -->
-            <form class="d-flex mx-auto" style="position: relative">
-                <input class="form-control me-2" type="search" placeholder="Search..."
+            <form class="d-flex mx-auto" style="position: relative" th:action="@{/search}" method="get">
+                <input class="form-control me-2" type="search" name="keyword" placeholder="Search..."
                        aria-label="Search" style="width: 300px; padding-right: 3rem; border-radius: 20px; border-color: #090000">
                 <button class="btn btn-primary" type="submit"
                         style="background-color:#090000; position: absolute; right: 0; top: 0; height: 100%; padding: 0.5rem 1rem; border-radius:48%; border-color: #090000">
                     <i class="ri-search-line"></i>
                 </button>
             </form>
+
+
 
             <!-- Wishlist and Cart Icons -->
             <a class="nav-link" ><i class="ri-heart-3-fill" style="margin-left: 40px;margin-right: 40px"></i></a>
@@ -81,5 +83,22 @@
         </div>
     </nav>
 </th:block>
+<script type="text/javascript">
+    // JavaScript function for searching courses
+    function searchCourses() {
+        console.log("Search button clicked");
+        var searchInput = document.getElementById('searchInput').value;
+        window.location.href = '/search?keyword=' + searchInput;
+    }
+
+
+    // Event listener for search button click
+    document.getElementById('searchButton').addEventListener('click', function(event) {
+        event.preventDefault();
+        searchCourses();
+    });
+</script>
+
+
 </body>
 </html>
