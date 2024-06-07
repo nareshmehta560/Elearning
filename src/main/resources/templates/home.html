@@ -48,7 +48,13 @@
         <div class="col-md-12">
             <h2 class="mb-4" id="featured-courses-heading">Featured Courses</h2>
         </div>
-        <div class="col-md-12">
+    </div>
+    <!-- this code is  for displaying the message no courses available -->
+    <div th:if="${noCoursesMessage}" class="alert alert-warning" role="alert">
+        <span th:text="${noCoursesMessage}"></span>
+    </div>
+
+    <div class="col-md-12">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4" th:each="course : ${courses}">
                     <div class="card course-card" th:attr="data-category=${course.category}">
