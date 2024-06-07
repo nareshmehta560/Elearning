@@ -84,13 +84,13 @@
     </nav>
 </th:block>
 <script type="text/javascript">
+
     // JavaScript function for searching courses
     function searchCourses() {
         console.log("Search button clicked");
         var searchInput = document.getElementById('searchInput').value;
         window.location.href = '/search?keyword=' + searchInput;
     }
-
 
     // Event listener for search button click
     document.getElementById('searchButton').addEventListener('click', function(event) {
