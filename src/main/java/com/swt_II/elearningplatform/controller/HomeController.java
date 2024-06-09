@@ -2,6 +2,7 @@ package com.swt_II.elearningplatform.controller;
 
 import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.course.CourseService;
+import com.swt_II.elearningplatform.repositories.CourseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -62,4 +64,24 @@ public class HomeController {
         model.addAttribute("courses", courses);
         return "courselist";
     }
+
+    @Autowired
+    private CourseRepository courseRepository;
+    @GetMapping(value = "/coursesByCategory")
+    public String getCoursesByCategory(@RequestParam(required = false) String category, Model model) {
+        logger.info("Requested category: {}", category); // Check if the category is correct
+        List<Course> courses;
+        if (category != null) {
+            courses = courseRepository.findByCategory(category);
+            model.addAttribute("selectedCategory", category);
+        } else {
+            courses = courseService.getAllCourses();
+            model.addAttribute("selectedCategory", "All");
+        }
+        model.addAttribute("courses", courses);
+        model.addAttribute("categories", courseRepository.findDistinctCategories());
+        return "home";
+    }
+
+
 }

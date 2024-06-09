@@ -2,6 +2,7 @@ package com.swt_II.elearningplatform.controller;
 
 import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.course.CourseService;
+import com.swt_II.elearningplatform.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -57,11 +58,14 @@ public class CourseController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + course.getFileName() + "\"")
                 .body( new ByteArrayResource(course.getField()));
     }
+    @Autowired
+    private CourseRepository courseRepository;
     //Handles fetching and displaying courses on the homepage.
     @GetMapping(value = {"","/","/home"})
     public String home(Model model) {
         List<Course> courses = courseService.getAllCourses();
         model.addAttribute("courses", courses);
+        model.addAttribute("categories", courseRepository.findDistinctCategories());
         return "home";
     }
 }

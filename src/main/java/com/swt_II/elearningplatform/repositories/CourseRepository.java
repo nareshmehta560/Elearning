@@ -1,7 +1,21 @@
 package com.swt_II.elearningplatform.repositories;
 
 import com.swt_II.elearningplatform.model.course.Course;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
-public interface CourseRepository extends CrudRepository<Course, Long> {
+import java.util.List;
+
+public interface CourseRepository extends JpaRepository<Course, Long> {
+    // Existierende Methoden
+
+    @Query("SELECT DISTINCT c.category FROM Course c")
+    List<String> findDistinctCategories();
+
+    @Query("SELECT c FROM Course c WHERE c.category = :category")
+    List<Course> findByCategory(@Param("category") String category);
+
 }
+

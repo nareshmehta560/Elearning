@@ -6,11 +6,11 @@
             <a class="navbar-brand " href="/home">Home</a>
             <a class="navbar-brand "  sec:authorize="isAuthenticated()" href="/dashboard" style="margin-right: 40px">Dashboard</a>
 
-            <!-- Categories Dropdown -->
+            <!-- Categories Dropdown
             <div class="dropdown" style="margin-right: 80px">
                 <a class="nav-link" role="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                 <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                    <!-- Add your category links here -->
+                    <!- Add your category links here ->
                     <li><a class="dropdown-item" href="#" onclick="filterCourses('All')">All</a></li>
                     <li><a class="dropdown-item" href="#" onclick="filterCourses('Web-Development')">Web-Development</a></li>
                     <li><a class="dropdown-item" href="#" onclick="filterCourses('Business')">Business</a></li>
@@ -25,7 +25,19 @@
                     <li><a class="dropdown-item" href="#" onclick="filterCourses('Cooking')">Cooking</a></li>
 
                 </ul>
+            </div> -->
+            <!-- Categories Dropdown -->
+            <div class="dropdown" style="margin-right: 80px">
+                <a class="nav-link dropdown-toggle" href="#" role="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false" onclick="fetchAndRenderCategories()">Categories</a>
+                <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                    <li><a class="dropdown-item" href="/coursesByCategory">All Categories</a></li>
+                    <!-- Dynamically generated categories -->
+                    <li th:each="categoryItem : ${categories}">
+                        <a class="dropdown-item" th:href="@{/coursesByCategory(category=${categoryItem})}" th:text="${categoryItem}"></a>
+                    </li>
+                </ul>
             </div>
+
             <!-- Search Bar -->
             <form class="d-flex mx-auto" style="position: relative">
                 <input class="form-control me-2" type="search" placeholder="Search..."
@@ -37,7 +49,7 @@
             </form>
 
             <!-- Wishlist and Cart Icons -->
-            <div class="nav-item dropdown">
+            <div class="nav-item dropdown" >
                 <a class="nav-link" id="wishlistDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 60px;">
                     <span class="like-symbol">&#10084;</span>
                 </a>
