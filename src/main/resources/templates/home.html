@@ -147,49 +147,37 @@
             // Attach event listener for "Add to Wishlist" buttons
             const addToWishlistButton = card.querySelector('.btn-primary');
             addToWishlistButton.addEventListener('click', function() {
-                addToWishlist(card.querySelector('.card-title').textContent);
-                showTemporaryPlusOne('like-symbol');
+                if(addToWishlist(card.querySelector('.card-title').textContent)) {
+                    showTemporaryPlusOne('like-symbol');
+                }
             });
 
             // Attach event listener for "Add to Cart" buttons
             const addToCartButton = card.querySelector('.btn-success');
             addToCartButton.addEventListener('click', function() {
-                addToCart(card.querySelector('.card-title').textContent);
-                showTemporaryPlusOne('cart-symbol');
+                if(addToCart(card.querySelector('.card-title').textContent)) {
+                    showTemporaryPlusOne('cart-symbol');
+                }
             });
         });
-
+        updateCount('wishlist');
+        updateCount('cart');
     });
 
-    /*filters course by category
-    function filterCourses(category) {
-        const courses = document.querySelectorAll('.course-card');
-        const heading = document.getElementById('featured-courses-heading');
-        let visibleCourses = 0;
-        //shows the filtered courses
-        courses.forEach(course => {
-            if (category === 'All' || course.getAttribute('data-category') === category) {
-                course.style.display = 'flex';
-                course.style.displayDirectin = 'column';
-                visibleCourses++;
-            } else {
-                course.style.display = 'none';
-            }
-        });
-        //gives feedback when no course is found
-        if (visibleCourses === 0) {
-            heading.innerHTML = `No ${category} courses available yet, we will get it soon!`;
-            heading.style.color = 'red';
+    // Function to update the counter for wishlist and cart
+    function updateCount(type) {
+        const dropdownMenu = document.querySelector(`#${type}Dropdown + .dropdown-menu`);
+        const countElement = document.getElementById(`${type}Count`);
+        const items = dropdownMenu.querySelectorAll('.dropdown-item');
+        const count = items.length && items[0].textContent.includes('empty') ? 0 : items.length;
+
+        if (count === 0) {
+            countElement.style.display = 'none'; // Hide the badge if count is zero
         } else {
-            if (category === 'All') {
-                heading.innerHTML = 'Featured Courses';
-                heading.style.color = 'blue';
-            } else {
-                heading.innerHTML = `${category} Courses`;
-                heading.style.color = 'green';
-            }
+            countElement.style.display = 'block'; // Show the badge if count is greater than zero
+            countElement.textContent = count;
         }
-    } */
+    }
 
     //function to add courses to wishlist
     function addToWishlist(courseName) {
@@ -200,8 +188,7 @@
         // Check if the course is already in the wishlist
         for (let item of wishlistItems) {
             if (item.textContent.includes(courseName)) {
-                return; // Exit if the course is already in the wishlist
-
+                return false; // Exit with false if the course is already in the wishlist
             }
         }
 
@@ -227,11 +214,15 @@
                 emptyMessage.innerHTML = '<a class="dropdown-item" href="#">Wishlist is empty</a>';
                 wishlistDropdownMenu.appendChild(emptyMessage);
             }
+            updateCount('wishlist'); // Update the wishlist count
         });
 
         wishlistItemLink.appendChild(removeButton);
         newWishlistItem.appendChild(wishlistItemLink);
         wishlistDropdownMenu.appendChild(newWishlistItem);
+        updateCount('wishlist'); // Update the wishlist count
+
+        return true; // Return true if the item was added
     }
 
 
@@ -244,7 +235,7 @@
         // Check if the course is already in the cart
         for (let item of cartItems) {
             if (item.textContent.includes(courseName)) {
-                return; // Exit if the course is already in the cart
+                return false; // Exit with false if the course is already in the cart
             }
         }
 
@@ -270,11 +261,15 @@
                 emptyMessage.innerHTML = '<a class="dropdown-item" href="#">Cart is empty</a>';
                 cartDropdownMenu.appendChild(emptyMessage);
             }
+            updateCount('cart'); // Update the cart count
         });
 
         cartItemLink.appendChild(removeButton);
         newCartItem.appendChild(cartItemLink);
         cartDropdownMenu.appendChild(newCartItem);
+        updateCount('cart'); // Update the cart count
+
+        return true; // Return true if the item was added
     }
 
     //function to display +1 when adding item to cart or wishlist temporarily.
