@@ -6,26 +6,6 @@
             <a class="navbar-brand " href="/home">Home</a>
             <a class="navbar-brand "  sec:authorize="isAuthenticated()" href="/dashboard" style="margin-right: 40px">Dashboard</a>
 
-            <!-- Categories Dropdown
-            <div class="dropdown" style="margin-right: 80px">
-                <a class="nav-link" role="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-                <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                    <!- Add your category links here ->
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('All')">All</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('Web-Development')">Web-Development</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('Business')">Business</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('Marketing')">Marketing</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('Lifestyle')">Lifestyle</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('Photography & Video')">Photography &  Video</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('Science')">Science</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('Mathematics')">Mathematics</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('Language')">Language</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('Sports')">Sports</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('History')">History</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="filterCourses('Cooking')">Cooking</a></li>
-
-                </ul>
-            </div> -->
             <!-- Categories Dropdown -->
             <div class="dropdown" style="margin-right: 80px">
                 <a class="nav-link dropdown-toggle" href="#" role="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false" onclick="fetchAndRenderCategories()">Categories</a>
@@ -52,6 +32,7 @@
             <div class="nav-item dropdown" >
                 <a class="nav-link" id="wishlistDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 60px;">
                     <span class="like-symbol">&#10084;</span>
+                    <span class="badge bg-danger position-absolute top-0 start-100 translate-middle p-2 rounded-pill" id="wishlistCount">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="wishlistDropdown">
                     <li><a class="dropdown-item" href="#">Wishlist is empty</a></li>
@@ -62,9 +43,16 @@
             <div class="nav-item dropdown">
                 <a class="nav-link" id="cartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-left: 40px;">
                     <span class="cart-symbol">&#128722;</span>
+                    <span class="badge bg-danger position-absolute top-0 start-100 translate-middle p-2 rounded-pill" id="cartCount">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="cartDropdown">
                     <li><a class="dropdown-item" href="#">Cart is empty</a></li>
+                    <li class="dropdown-divider"></li>
+                    <li class="total-amount d-flex justify-content-around align-items-center">
+                        <span>Total:</span>
+                        <span class="totalAmount">€0.00</span>
+                    </li>
+                    <li><button class="dropdown-item btn btn-primary" id="checkoutButton" style="display: flex; justify-content: center; background-color: #3d865d; color: white;">Checkout</button></li>
                 </ul>
             </div>
 

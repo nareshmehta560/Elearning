@@ -155,7 +155,9 @@
             // Attach event listener for "Add to Cart" buttons
             const addToCartButton = card.querySelector('.btn-success');
             addToCartButton.addEventListener('click', function() {
-                if(addToCart(card.querySelector('.card-title').textContent)) {
+                const courseName = card.querySelector('.card-title').textContent;
+                const coursePrice = parseFloat(card.querySelector('.course-price').textContent.replace('€', '')); // Assuming there's a .course-price element
+                if(addToCart(courseName, coursePrice)) {
                     showTemporaryPlusOne('cart-symbol');
                 }
             });
@@ -168,8 +170,11 @@
     function updateCount(type) {
         const dropdownMenu = document.querySelector(`#${type}Dropdown + .dropdown-menu`);
         const countElement = document.getElementById(`${type}Count`);
-        const items = dropdownMenu.querySelectorAll('.dropdown-item');
-        const count = items.length && items[0].textContent.includes('empty') ? 0 : items.length;
+        const items = dropdownMenu.querySelectorAll('.dropdown-item:not(.total-amount):not(#checkoutButton)');
+
+        // Filter out the empty message item
+        const actualItems = Array.from(items).filter(item => !item.textContent.includes(`${type.charAt(0).toUpperCase() + type.slice(1)} is empty`));
+        const count = actualItems.length;
 
         if (count === 0) {
             countElement.style.display = 'none'; // Hide the badge if count is zero
@@ -177,7 +182,11 @@
             countElement.style.display = 'block'; // Show the badge if count is greater than zero
             countElement.textContent = count;
         }
+        if (type === 'cart') {
+            updateTotalAmount(); // Ensure the total amount is updated
+        }
     }
+
 
     //function to add courses to wishlist
     function addToWishlist(courseName) {
@@ -227,10 +236,9 @@
 
 
     //function to add course to cart
-    function addToCart(courseName) {
+    function addToCart(courseName, coursePrice) {
         const cartDropdownMenu = document.querySelector('#cartDropdown + .dropdown-menu');
-        let cartItems = cartDropdownMenu.querySelectorAll('.dropdown-item');
-        const addToCartButton = document.querySelector('.btn-success');
+        let cartItems = cartDropdownMenu.querySelectorAll('.dropdown-item:not(.total-amount):not(#checkoutButton)');
 
         // Check if the course is already in the cart
         for (let item of cartItems) {
@@ -239,15 +247,16 @@
             }
         }
 
-        if (cartItems.length === 1 && cartItems[0].textContent === 'Cart is empty') {
-            cartDropdownMenu.innerHTML = ''; // Clear the "Cart is empty" message
+        if (cartItems.length === 0 || (cartItems.length === 1 && cartItems[0].textContent === 'Cart is empty')) {
+            cartDropdownMenu.querySelector('.dropdown-item').remove(); // Remove the "Cart is empty" message
         }
 
         const newCartItem = document.createElement('li');
         const cartItemLink = document.createElement('a');
         cartItemLink.className = 'dropdown-item d-flex justify-content-between align-items-center';
         cartItemLink.href = '#';
-        cartItemLink.textContent = courseName;
+        cartItemLink.textContent = `${courseName} - €${coursePrice.toFixed(2)}`;
+        cartItemLink.dataset.price = coursePrice;
 
         const removeButton = document.createElement('span');
         removeButton.className = 'fas fa-trash-alt'; // Font Awesome trash icon
@@ -256,19 +265,20 @@
         removeButton.addEventListener('click', function (event) {
             event.stopPropagation();
             newCartItem.remove();
-            if (cartDropdownMenu.children.length === 0) {
+            updateTotalAmount(); // Update the total amount when an item is removed
+            if (cartDropdownMenu.children.length === 2) { // Only "Total" and "Checkout" are left
                 const emptyMessage = document.createElement('li');
                 emptyMessage.innerHTML = '<a class="dropdown-item" href="#">Cart is empty</a>';
-                cartDropdownMenu.appendChild(emptyMessage);
+                cartDropdownMenu.insertBefore(emptyMessage, cartDropdownMenu.firstChild);
             }
             updateCount('cart'); // Update the cart count
         });
 
         cartItemLink.appendChild(removeButton);
         newCartItem.appendChild(cartItemLink);
-        cartDropdownMenu.appendChild(newCartItem);
+        cartDropdownMenu.insertBefore(newCartItem, cartDropdownMenu.querySelector('.dropdown-divider'));
+        updateTotalAmount(); // Update the total amount when a new item is added
         updateCount('cart'); // Update the cart count
-
         return true; // Return true if the item was added
     }
 
@@ -301,6 +311,25 @@
     }
     `;
     document.head.append(style);
+
+    // Function to update the total amount in the cart
+    function updateTotalAmount() {
+        const cartDropdownMenu = document.querySelector('#cartDropdown + .dropdown-menu');
+        const cartItems = cartDropdownMenu.querySelectorAll('.dropdown-item:not(.total-amount):not(#checkoutButton):not(:empty)');
+        let totalAmount = 0;
+
+        cartItems.forEach(item => {
+            const coursePrice = parseFloat(item.dataset.price);
+            if (!isNaN(coursePrice)) {
+                totalAmount += coursePrice;
+            }
+        });
+
+        let totalAmountElement = document.querySelector('.total-amount .totalAmount');
+        if (totalAmountElement) {
+            totalAmountElement.textContent = `€${totalAmount.toFixed(2)}`;
+        }
+    }
 
     //function to display all the categories in the dropdown dynamically
     function fetchAndRenderCategories() {
