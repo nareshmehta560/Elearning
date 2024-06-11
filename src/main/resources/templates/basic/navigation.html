@@ -73,13 +73,22 @@
                     <i class="ri-user-2-fill" style="margin-left: 80px;"></i> Profile
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="position: absolute; right: 0; left: auto; margin-top:0;">
-                    <li><a class="dropdown-item" href="/editProfile" >Edit Profile</a></li>
-                    <li><a class="dropdown-item" href="/myCourses" >My Courses</a></li>
+                    <!-- Displaying user's name and email -->
+                    <li class="dropdown-item-text" th:text="${user.userName}"></li>
+                    <li class="dropdown-item-text" th:text="${user.email}"></li>
+                    <li><a class="dropdown-item" href="/editProfile">Edit Profile</a></li>
+                    <li><a class="dropdown-item" href="/myCourses">My Courses</a></li>
                     <li><a class="dropdown-item" href="/uploadCourse" th:text="#{navbar.uploadCourse}">Upload Course</a></li>
-                    <li><form th:action="@{/logout}" method="post"><button class="dropdown-item" type="submit" th:text="#{navbar.logout}">Logout</button></form></li>
-                    <li><a class="dropdown-item" href="/deleteAccount" >Delete Account</a></li>
+                    <li><a class="dropdown-item" href="/delete">Delete Account</a></li>
+                        <form th:action="@{/logout}" method="post">
+                            <button class="dropdown-item" type="submit" th:text="#{navbar.logout}">Logout</button>
+                        </form>
+                    </li>
+                    <li><a class="dropdown-item" href="/deleteAccount">Delete Account</a></li>
                 </ul>
             </div>
+
+
         </div>
     </nav>
 </th:block>

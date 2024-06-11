@@ -2,6 +2,8 @@ package com.swt_II.elearningplatform.controller;
 
 import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.course.CourseService;
+import com.swt_II.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.model.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+    @Autowired
+    private UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 
@@ -25,16 +29,27 @@ public class HomeController {
     private DaoAuthenticationProvider authenticationProvider;
 
 
-
+    //Handles fetching and displaying courses on the homepage.
+    @GetMapping(value = {"","/","/home"})
+    public String home(Model model) {
+        List<Course> courses = courseService.getAllCourses();
+        model.addAttribute("courses", courses);
+        User user = userService.getCurrentUser();
+        model.addAttribute("user",user);
+        return "home";
+    }
 
     @GetMapping(value = "/customLogin")
     public String displayCustomLogin() {
         return "customLogin";
     }
     @GetMapping(value = "/dashboard")
-    public String displayDashboard() {
+    public String displayDashboard(Model model) {
+        User user = userService.getCurrentUser();
+        model.addAttribute("user",user);
         return "dashboard";
     }
+
 
 
     // Bibek
@@ -91,6 +106,7 @@ public class HomeController {
     public String displayHomePage(Model model) {
         List<Course> courses = courseService.getAllCourses();
         model.addAttribute("courses", courses);
+        model.addAttribute("user",userService.getCurrentUser());
         return "home";
     }
 
