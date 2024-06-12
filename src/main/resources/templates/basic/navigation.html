@@ -74,8 +74,11 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="position: absolute; right: 0; left: auto; margin-top:0;">
                     <!-- Displaying user's name and email -->
-                    <li class="dropdown-item-text" th:text="${user.userName}"></li>
-                    <li class="dropdown-item-text" th:text="${user.email}"></li>
+                    <div>
+                        <li class="dropdown-item-text" th:text="${user.userName}" style="font-weight: bold; font-size: 1.5em;"></li>
+                        <li class="dropdown-item-text" th:text="${user.email}" style="font-size: 1.2em;"></li>
+                    </div>
+
                     <li><a class="dropdown-item" href="/editProfile">Edit Profile</a></li>
                     <li><a class="dropdown-item" href="/myCourses">My Courses</a></li>
                     <li><a class="dropdown-item" href="/uploadCourse" th:text="#{navbar.uploadCourse}">Upload Course</a></li>
