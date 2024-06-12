@@ -31,10 +31,6 @@ public class HomeController {
     public String displayCustomLogin() {
         return "customLogin";
     }
-    @GetMapping(value = "/dashboard")
-    public String displayDashboard() {
-        return "dashboard";
-    }
 
 
     // Bibek
@@ -51,7 +47,7 @@ public class HomeController {
             return "upload";
         } else {
             model.addAttribute("errorInstructor", "You dont have Instructor Right Apply for instructor");
-            return "dashboard";
+            return "home";
         }
     }
     @Autowired
