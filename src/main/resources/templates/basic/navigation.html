@@ -76,13 +76,25 @@
                     <i class="ri-user-2-fill" style="margin-left: 80px;"></i> Profile
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="position: absolute; right: 0; left: auto; margin-top:0;">
-                    <li><a class="dropdown-item" href="/editProfile" >Edit Profile</a></li>
-                    <li><a class="dropdown-item" href="/myCourses" >My Courses</a></li>
+                    <!-- Displaying user's name and email -->
+                    <div>
+                        <li class="dropdown-item-text" th:text="${user.userName}" style="font-weight: bold; font-size: 1.5em;"></li>
+                        <li class="dropdown-item-text" th:text="${user.email}" style="font-size: 1.2em;"></li>
+                    </div>
+
+                    <li><a class="dropdown-item" href="/editProfile">Edit Profile</a></li>
+                    <li><a class="dropdown-item" href="/myCourses">My Courses</a></li>
                     <li><a class="dropdown-item" href="/uploadCourse" th:text="#{navbar.uploadCourse}">Upload Course</a></li>
-                    <li><form th:action="@{/logout}" method="post"><button class="dropdown-item" type="submit" th:text="#{navbar.logout}">Logout</button></form></li>
-                    <li><a class="dropdown-item" href="/deleteAccount" >Delete Account</a></li>
+                    <li><a class="dropdown-item" href="/delete">Delete Account</a></li>
+                        <form th:action="@{/logout}" method="post">
+                            <button class="dropdown-item" type="submit" th:text="#{navbar.logout}">Logout</button>
+                        </form>
+                    </li>
+                    <li><a class="dropdown-item" href="/deleteAccount">Delete Account</a></li>
                 </ul>
             </div>
+
+
         </div>
     </nav>
 </th:block>
@@ -95,7 +107,7 @@
         window.location.href = '/search?keyword=' + searchInput;
     }
 
-    // Event listener for search button click
+    // Event listener for search button click test
     document.getElementById('searchButton').addEventListener('click', function(event) {
         event.preventDefault();
         searchCourses();
