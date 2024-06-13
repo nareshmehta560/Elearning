@@ -4,6 +4,7 @@ import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.course.CourseService;
 import com.swt_II.elearningplatform.model.user.User;
 import com.swt_II.elearningplatform.model.user.UserService;
+import com.swt_II.elearningplatform.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,7 @@ public class HomeController {
             model.addAttribute("newcourse", new Course());
             return "upload";
         } else {
+            model.addAttribute("user",userService.getCurrentUser());
             model.addAttribute("errorInstructor", "You dont have Instructor Right Apply for instructor");
             return "dashboard";
         }
@@ -97,6 +99,7 @@ public class HomeController {
             // Courses found, add them to the model
             model.addAttribute("courses", courses);
         }
+       model.addAttribute("user",userService.getCurrentUser());
         return "home";
     }
 

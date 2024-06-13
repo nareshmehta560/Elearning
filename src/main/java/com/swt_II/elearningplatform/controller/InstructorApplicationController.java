@@ -3,6 +3,7 @@ package com.swt_II.elearningplatform.controller;
 import com.swt_II.elearningplatform.model.user.Instructor;
 import com.swt_II.elearningplatform.model.user.InstructorService;
 import com.swt_II.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.model.user.UserService;
 import com.swt_II.elearningplatform.repositories.InstructorRepository;
 import com.swt_II.elearningplatform.repositories.UserRepository;
 import com.swt_II.elearningplatform.util.ThymeleafApplicationForm;
@@ -37,6 +38,8 @@ public class InstructorApplicationController {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     InstructorApplicationController(InstructorRepository instructorRepository) {
@@ -49,6 +52,7 @@ public class InstructorApplicationController {
     @GetMapping("/Application")
     public String getApplicationForm(Model model) {
         model.addAttribute("applicationForm", applicationForm);
+        model.addAttribute("user",userService.getCurrentUser());
         return "Application";
     }
 
