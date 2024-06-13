@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{basic/layout:: layout (~{::content},#{loginPage.pageTitle})}">
+
+
+<body th:fragment="content">
+
+<div class="container">
+    <h1 class="text-center mt-5 bg-danger">Payment error</h1>
+
+    <div class="d-flex justify-content-center mt-5">
+        <a href="/home" class="btn btn-primary">Back to home</a>
+    </div>
+</div>
+
+</body>
+</html>

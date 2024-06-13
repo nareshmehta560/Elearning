@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "`Instructor`")
 public class Instructor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +23,9 @@ public class Instructor {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
-    @OneToMany(mappedBy="instructor")
-    private List<Course>courses;//Listofcourses
 
-    @Column(name = "`Title`", nullable = false)
+
+    @Column(name = "Title", nullable = false)
     String title;
 
     @Lob
@@ -35,16 +33,16 @@ public class Instructor {
     private byte[] data;
     @Lob
     @Basic
-    @Column(name = "`PDF_Blob`", nullable = true, columnDefinition = "BLOB")    //BLOB?
+    @Column(name = "PDF_Blob", nullable = true, columnDefinition = "BLOB")    //BLOB?
     byte[] pdf;
-    @Column(name = "`File_Name`", nullable = true)
+    @Column(name = "File_Name", nullable = true)
     String fileName;
-    @Column(name = "`qualificationAndExperience`", length = 16777216, nullable = false) // = LONGTEXT
+    @Column(name = "qualificationAndExperience", length = 16777216, nullable = false) // = LONGTEXT
     private String qualificationAndExperience;
-    @Column(name = "`paypalEmail`", nullable = true)
+    @Column(name = "paypalEmail", nullable = true)
     private String paypalEmail;
 
-    @Column(name = "`isApproved`", nullable = false)
+    @Column(name = "isApproved", nullable = false)
     private boolean isApproved = false;
 
     public Instructor(){
