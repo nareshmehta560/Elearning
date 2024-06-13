@@ -23,8 +23,7 @@ public class Instructor {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
-    @OneToMany(mappedBy="instructor")
-    private List<Course>courses;//Listofcourses
+
 
     @Column(name = "Title", nullable = false)
     String title;
