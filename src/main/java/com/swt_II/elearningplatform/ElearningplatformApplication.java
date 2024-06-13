@@ -21,6 +21,7 @@ public class ElearningplatformApplication {
 		SpringApplication.run(ElearningplatformApplication.class, args);
 
 	}
+
     @Bean
     @Profile("dev")
     public CommandLineRunner demo(RoleRepository roleRepo, InstructorRepository instructorRepository, UserRepository userRepository) {
@@ -44,8 +45,10 @@ public class ElearningplatformApplication {
                     admin.addRole(adminRole);
                     userRepository.save(admin);
                 }
+
+                userRepository.save(User.testUser());
+ 
             }
         };
     }
-
 }

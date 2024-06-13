@@ -4,7 +4,6 @@
     <nav class="navbar navbar-expand-md bg-white fixed-top border border-1 py-0">
         <div class="container-fluid d-flex justify-content-center align-items-center" >
             <a class="navbar-brand " href="/home">Home</a>
-            <a class="navbar-brand "  sec:authorize="isAuthenticated()" href="/dashboard" style="margin-right: 40px">Dashboard</a>
 
             <!-- Categories Dropdown -->
             <div class="dropdown" style="margin-right: 80px">
@@ -59,6 +58,10 @@
                     <li class="m-2 navbar-item " sec:authorize="isAuthenticated()">
                         <a class="btn btn-outline-secondary"
                            href="/Application" th:text="#{navbar.application}"></a>
+                    </li>
+                    <li class="m-2 navbar-item " sec:authorize="isAuthenticated()">
+                        <a class="btn btn-outline-secondary"
+                           href="/pay" th:text="#{navbar.pay}"></a>
                     </li>
 
                     <li class="m-2 navbar-item " sec:authorize="isAuthenticated() and hasRole('ADMIN')">

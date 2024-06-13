@@ -44,12 +44,6 @@ public class HomeController {
     public String displayCustomLogin() {
         return "customLogin";
     }
-    @GetMapping(value = "/dashboard")
-    public String displayDashboard(Model model) {
-        User user = userService.getCurrentUser();
-        model.addAttribute("user",user);
-        return "dashboard";
-    }
 
 
 
@@ -68,7 +62,7 @@ public class HomeController {
         } else {
             model.addAttribute("user",userService.getCurrentUser());
             model.addAttribute("errorInstructor", "You dont have Instructor Right Apply for instructor");
-            return "dashboard";
+            return "home";
         }
     }
     @Autowired
