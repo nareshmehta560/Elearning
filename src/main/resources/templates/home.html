@@ -138,7 +138,9 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
+
         const cards = document.querySelectorAll('.course-card');
+
         cards.forEach(card => {
             const category = card.querySelector('.card-text').textContent.trim();
             const bgColor = getCategoryColor(category);
