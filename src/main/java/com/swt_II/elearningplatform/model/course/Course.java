@@ -28,9 +28,7 @@ public class Course{
 
     private String fileName;
 
-    @ManyToOne
-    @JoinColumn(name="instructor_id")
-    private Instructor instructor;
+
 
    
 }

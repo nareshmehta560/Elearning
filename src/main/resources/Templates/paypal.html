@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{basic/layout:: layout (~{::content},#{loginPage.pageTitle})}">
+
+
+<body th:fragment="content">
+
+<div class="container">
+ <h1 class="text-center mt-5">paypal payment integration</h1>
+
+    <form th:action="@{/payment/create}" method="post" class="mt-5 card  p-3">
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">
+                pay with paypal
+            </button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

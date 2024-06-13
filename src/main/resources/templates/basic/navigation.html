@@ -59,6 +59,10 @@
                         <a class="btn btn-outline-secondary"
                            href="/Application" th:text="#{navbar.application}"></a>
                     </li>
+                    <li class="m-2 navbar-item " sec:authorize="isAuthenticated()">
+                        <a class="btn btn-outline-secondary"
+                           href="/pay" th:text="#{navbar.pay}"></a>
+                    </li>
 
                     <li class="m-2 navbar-item " sec:authorize="isAuthenticated() and hasRole('ADMIN')">
                         <a class="btn btn-outline-secondary"
