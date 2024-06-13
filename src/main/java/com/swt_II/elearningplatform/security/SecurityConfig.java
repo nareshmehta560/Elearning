@@ -39,12 +39,12 @@ public class SecurityConfig {
 
                     .requestMatchers("/newInstructors").hasRole("ADMIN")
                     //.requestMatchers("/uploadCourse").hasRole("INSTRUCTOR")
-                    .requestMatchers("/dashboard","/admin", "/uploadCourse", "/Application", "/CSS/application.css").hasAnyRole("ADMIN","USER")
+                    .requestMatchers("/admin", "/uploadCourse", "/Application", "/CSS/application.css").hasAnyRole("ADMIN","USER")
                     .anyRequest().authenticated();
         }).logout(LogoutConfigurer::permitAll)
                 .formLogin(form -> form.loginPage("/customLogin")
                         .loginProcessingUrl("/performLogin")
-                        .defaultSuccessUrl("/dashboard")
+                        .defaultSuccessUrl("/home")
                         .permitAll());
         return http.build();
     }

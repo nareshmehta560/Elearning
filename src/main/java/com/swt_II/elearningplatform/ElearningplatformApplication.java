@@ -46,7 +46,8 @@ public class ElearningplatformApplication {
                     userRepository.save(admin);
                 }
 
-
+                userRepository.save(User.testUser());
+ 
             }
         };
     }
