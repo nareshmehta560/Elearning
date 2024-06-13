@@ -1,8 +1,16 @@
 package com.swt_II.elearningplatform.controller;
 
+import com.swt_II.elearningplatform.model.cart.Cart;
+import com.swt_II.elearningplatform.model.cart.CartService;
 import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.course.CourseService;
+import com.swt_II.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.model.user.UserService;
+import com.swt_II.elearningplatform.model.wishlist.Wishlist;
+import com.swt_II.elearningplatform.model.wishlist.WishlistService;
+import com.swt_II.elearningplatform.repositories.CartRepository;
 import com.swt_II.elearningplatform.repositories.CourseRepository;
+import com.swt_II.elearningplatform.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +21,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -24,9 +33,14 @@ public class HomeController {
 
     @Autowired
     private DaoAuthenticationProvider authenticationProvider;
-
-
-
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private CourseService courseService;
+    @Autowired
+    private CartRepository cartRepository;
+    @Autowired
+    private CartService cartService;
 
     @GetMapping(value = "/customLogin")
     public String displayCustomLogin() {
@@ -55,8 +69,7 @@ public class HomeController {
             return "dashboard";
         }
     }
-    @Autowired
-    private CourseService courseService;
+
 
     @GetMapping(value = "/courselist")
     public String showHomePage(Model model) {
@@ -82,6 +95,34 @@ public class HomeController {
         model.addAttribute("categories", courseRepository.findDistinctCategories());
         return "home";
     }
+    @PostMapping("/addToCart")
+    public String addToCart(@RequestParam String courseName, Authentication authentication) {
+        String username = authentication.getName();  // Get the username from Authentication object
+        User user  = userRepository.findByUserName(username);// Assuming you have a method to find User by username
+        Course course = courseService.findByName(courseName);
 
+        if (course != null) {
+            cartService.addCourseToCart(user, course);
+        }
+
+        return "redirect:/home"; // Redirect to the appropriate page after adding to cart
+    }
+    @GetMapping("/cart")
+    public String showCart(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            String username = authentication.getName();
+            User user  = userRepository.findByUserName(username);
+            Cart cart = cartRepository.findByUser(user);
+            model.addAttribute("cart", cart);
+        }
+        return "home";
+    }
+    @GetMapping(value = {"","/","/home"})
+    public String home(Model model) {
+        List<Course> courses = courseService.getAllCourses();
+        model.addAttribute("courses", courses);
+        model.addAttribute("categories", courseRepository.findDistinctCategories());
+        return "home";
+    }
 
 }

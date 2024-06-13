@@ -1,5 +1,7 @@
 package com.swt_II.elearningplatform.model.user;
 
+import com.swt_II.elearningplatform.model.cart.Cart;
+import com.swt_II.elearningplatform.model.wishlist.Wishlist;
 import com.swt_II.elearningplatform.model.role.Role;
 import jakarta.persistence.*;
 
@@ -65,6 +67,10 @@ public class User {
         this.roles.add(role);
     }
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Wishlist wishlist;
 
 }

@@ -61,12 +61,6 @@ public class CourseController {
     @Autowired
     private CourseRepository courseRepository;
     //Handles fetching and displaying courses on the homepage.
-    @GetMapping(value = {"","/","/home"})
-    public String home(Model model) {
-        List<Course> courses = courseService.getAllCourses();
-        model.addAttribute("courses", courses);
-        model.addAttribute("categories", courseRepository.findDistinctCategories());
-        return "home";
-    }
+
 }
 

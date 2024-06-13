@@ -102,7 +102,7 @@
                                 <p id="course-description" th:text="${course.description}" style="display: none;">Course description...</p>
                                 <div style="display: flex;justify-content: space-around; background-color: white;">
                                     <button class="btn btn-primary btn-sm" th:attr="data-course-id=${course.id}" style="background-color: whitesmoke" ><span class="like-symbol">&#10084;</span></button>
-                                    <button class="btn btn-success btn-sm" th:attr="data-course-id=${course.id}">Add to Cart<span class="cart-symbol">&#128722;</span> </button>
+                                    <button class="btn btn-success btn-sm" th:attr="data-course-id=${course.id} ">Add to Cart<span class="cart-symbol">&#128722;</span> </button>
                                 </div>
                             </div>
                         </div>
@@ -278,6 +278,25 @@
         cartDropdownMenu.insertBefore(newCartItem, cartDropdownMenu.querySelector('.dropdown-divider'));
         updateTotalAmount(); // Update the total amount when a new item is added
         updateCount('cart'); // Update the cart count
+
+        // Send POST request to save the cart item to the database
+        fetch('/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                courseName: courseName,
+                coursePrice: coursePrice
+            })
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Handle the response from the server if needed
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         return true; // Return true if the item was added
     }
     // Function to display "Cart is empty" message
