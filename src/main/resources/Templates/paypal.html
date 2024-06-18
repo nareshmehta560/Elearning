@@ -1,21 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{basic/layout:: layout (~{::content},#{loginPage.pageTitle})}">
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Paypal Payment Integration</title>
 
+    <link th:href="@{/webjars/bootstrap/5.3.1/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:src="@{/webjars/bootstrap/5.3.1/dist/js/bootstrap.min.js}">
+</head>
 
 <body th:fragment="content">
 
-<div class="container">
- <h1 class="text-center mt-5">paypal payment integration</h1>
+    <div class="container">
+        <h1 class="text-center mt-5">Paypal Payment Integration</h1>
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-body d-flex justify-content-center">
+                    <form th:action="@{/payment/create}" method="post">
+                        <div class="form-group ">
+                            <input type="radio" id="paypal" name="paymentMethod" >
+                            <label for="paypal">Paypal</label>
 
-    <form th:action="@{/payment/create}" method="post" class="mt-5 card  p-3">
-        <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary">
-                pay with paypal
-            </button>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="other" name="paymentMethod" class="custom-control-input" disabled>
+                                <label for="other" class="custom-control-label disabled-label">Other Payment Methods</label>
+                            </div>
+                            <small class="form-text text-center hint text-info">This option is currently unavailable</small>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                               <button type="submit" class="btn btn-primary">Pay</button>
+                        </div >
+                    </form>
+                </div>
+            </div>
         </div>
-    </form>
-</div>
+    </div>
 
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+        var radios = document.getElementsByName('paymentMethod');
+        var formValid = false;
+
+        var i = 0;
+        while (!formValid && i < radios.length) {
+        if (radios[i].checked) formValid = true;
+        i++;
+        }
+
+        if (!formValid) {
+        alert('Error: Please select a payment method.');
+        event.preventDefault();
+        }
+        });
+    </script>
 </body>
 </html>
