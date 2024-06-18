@@ -5,37 +5,56 @@
 
     <link th:href="@{/webjars/bootstrap/5.3.1/dist/css/bootstrap.min.css}" rel="stylesheet">
     <link th:src="@{/webjars/bootstrap/5.3.1/dist/js/bootstrap.min.js}">
+    <style>
+    .custom-control-label, .custom-control-input {
+    font-size: 1.5rem; /* Increase label font size */
+    }
+    .custom-control-input {
+    transform: scale(1.5); /* Increase radio button size */
+    margin-right: 10px; /* Space between radio and label */
+    }
+    .form-text {
+    font-size: 1.25rem; /* Adjust size for hint text */
+    }
+    .btn-primary {
+    font-size: 1.25rem; /* Adjust size for button text */
+    width: 100%; /* Make button fill the width of the div */
+    }
+    .btn-container {
+    width: 100%; /* Make div fill the width of its container */
+    }
+    </style>
+
+
 </head>
 
 <body th:fragment="content">
 
-    <div class="container">
-        <h1 class="text-center mt-5">Paypal Payment Integration</h1>
-        <div class="container mt-5">
-            <div class="card">
-                <div class="card-body d-flex justify-content-center">
-                    <form th:action="@{/payment/create}" method="post">
-                        <div class="form-group ">
-                            <input type="radio" id="paypal" name="paymentMethod" >
-                            <label for="paypal">Paypal</label>
-
+  <div class="container">
+    <h1 class="text-center mt-5 display-4">Paypal Payment Integration</h1> <!-- Bootstrap class for larger text -->
+    <div class="container mt-4 " >
+        <div class="card align-items-center" >
+            <div class="card-body">
+                <form th:action="@{/payment/create}" method="post">
+                    <div class="form-group">
+                        <input type="radio" id="paypal" name="paymentMethod" class="mt-2 custom-control-input">
+                        <label class="custom-control-label" for="paypal">Paypal</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="other" name="paymentMethod" class="custom-control-input mt-2" disabled>
+                            <label for="other" class="custom-control-label disabled-label">Other Payment Methods</label>
                         </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="other" name="paymentMethod" class="custom-control-input" disabled>
-                                <label for="other" class="custom-control-label disabled-label">Other Payment Methods</label>
-                            </div>
-                            <small class="form-text text-center hint text-info">This option is currently unavailable</small>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                               <button type="submit" class="btn btn-primary">Pay</button>
-                        </div >
-                    </form>
-                </div>
+                        <small class="form-text text-center text-info hint">This option is currently unavailable</small>
+                    </div>
+                    <div class="d-flex justify-content-center btn-container">
+                        <button type="submit" class="btn btn-primary">Pay</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
+</div>
     <script>
         document.querySelector('form').addEventListener('submit', function(event) {
         var radios = document.getElementsByName('paymentMethod');
