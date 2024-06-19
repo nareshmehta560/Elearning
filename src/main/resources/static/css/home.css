@@ -3,3 +3,53 @@
     justify-content: space-between;
     align-items: center;
 }
+.row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.course-card {
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.2s;
+    margin-bottom: 20px; /* Add margin-bottom to each card for spacing */
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+}
+
+.card-body {
+    text-align: center;
+}
+
+.course-card {
+    background-color: #f8f9fa; /* Default background color */
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.course-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.course-card:hover.card-footer {
+    display: inline-block;
+}
+
+.card-footer {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+}

@@ -1,6 +1,6 @@
 package com.swt_II.elearningplatform.model.cart;
 
-import com.swt_II.elearningplatform.model.cart.CartItem;
+ import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,7 +20,10 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> cartItems = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Cart_Course",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<Course> courses = new ArrayList<>();
 
 }

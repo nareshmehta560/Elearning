@@ -1,10 +1,14 @@
 package com.swt_II.elearningplatform.model.course;
 
+import com.swt_II.elearningplatform.model.cart.Cart;
 import com.swt_II.elearningplatform.model.user.Instructor;
 import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +39,12 @@ public class Course{
     @ManyToOne
     @JoinColumn(name="instructor_id")
     private Instructor instructor;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Cart_Course",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "cart_id"))
+    private List<Cart> carts= new ArrayList<>();
 
    
 }
