@@ -95,18 +95,7 @@ public class HomeController {
         model.addAttribute("categories", courseRepository.findDistinctCategories());
         return "home";
     }
-    @PostMapping("/addToCart")
-    public String addToCart(@RequestParam String courseName, Authentication authentication) {
-        String username = authentication.getName();  // Get the username from Authentication object
-        User user  = userRepository.findByUserName(username);// Assuming you have a method to find User by username
-        Course course = courseService.findByName(courseName);
 
-        if (course != null) {
-            cartService.addCourseToCart(user, course);
-        }
-
-        return "redirect:/home"; // Redirect to the appropriate page after adding to cart
-    }
     @GetMapping("/cart")
     public String showCart(Model model, Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {

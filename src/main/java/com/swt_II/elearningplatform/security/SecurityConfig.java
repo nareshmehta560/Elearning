@@ -32,8 +32,9 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.authorizeHttpRequests(configurer -> {
-            configurer
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/addToCart") )// Disable CSRF protection for
+            .authorizeHttpRequests(configurer -> {
+                configurer
                     .requestMatchers("/","/home","/customLogin","/register", "/coursesByCategory").permitAll()
                     .requestMatchers("/newInstructors").hasRole("ADMIN")
                     //.requestMatchers("/uploadCourse").hasRole("INSTRUCTOR")

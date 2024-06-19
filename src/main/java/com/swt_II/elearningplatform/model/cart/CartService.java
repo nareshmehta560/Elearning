@@ -24,24 +24,28 @@ public class CartService {
         if (cart == null) {
             cart = new Cart();
             cart.setUser(user);
-            cartRepository.save(cart);
         }
 
-        // Check if the course is already in the cart
-        boolean courseAlreadyInCart = cart.getCartItems().stream()
-                .anyMatch(cartItem -> cartItem.getCourse().getId().equals(course.getId()));
-
-        if (!courseAlreadyInCart) {
-            CartItem cartItem = new CartItem();
-            cartItem.setCourse(course);
-            cartItem.setCart(cart);
-            cart.getCartItems().add(cartItem);
-            logger.info("Added course {} to cart", course.getName());
-        } else {
-            logger.info("Course {} is already in the cart", course.getName());
+        if (!cart.getCourses().contains(course)) {
+            cart.getCourses().add(course);
         }
-
         cartRepository.save(cart);
-        logger.info("Saved cart for user {}", user.getUserName());
     }
+//
+//        // Check if the course is already in the cart
+//        boolean courseAlreadyInCart = cart.getCartItems().stream()
+//                .anyMatch(cartItem -> cartItem.getCourse().getId().equals(course.getId()));
+//
+//        if (!courseAlreadyInCart) {
+//            CartItem cartItem = new CartItem();
+//            cartItem.setCourse(course);
+//            cartItem.setCart(cart);
+//            cart.getCartItems().add(cartItem);
+//            logger.info("Added course {} to cart", course.getName());
+//        } else {
+//            logger.info("Course {} is already in the cart", course.getName());
+//        }
+//
+//        cartRepository.save(cart);
+//        logger.info("Saved cart for user {}", user.getUserName());
 }
