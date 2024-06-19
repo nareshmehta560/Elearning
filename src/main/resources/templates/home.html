@@ -1,74 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
             th:replace="~{basic/layout :: layout(~{::content}, #{homePage.pageTitle})}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap CSS -->
-    <link th:href="@{/webjars/bootstrap/5.3.1/dist/css/bootstrap.min.css}" rel="stylesheet">
-    <style>
-        .row{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .course-card {
-            border-radius: 10px;
-            padding: 20px;
-            transition: transform 0.2s;
-            margin-bottom: 20px; /* Add margin-bottom to each card for spacing */
-        }
-
-        .course-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .card-body {
-            text-align: center;
-        }
-
-        .course-card {
-            background-color: #f8f9fa; /* Default background color */
-        }
-
-        .card-title {
-            font-weight: bold;
-            font-size: 1.25rem;
-        }
-
-        .course-price {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #333;
-        }
-        #course-description {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(255, 255, 0, 0.8);
-            padding: 10px;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .course-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .course-card:hover.card-footer {
-            display: inline-block;
-        }
-
-        .card-footer {
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-top: 1px solid #ddd;
-        }
-
-    </style>
-</head>
 
 <body th:fragment="content">
 
@@ -162,11 +94,26 @@
                 if(addToCart(courseName, coursePrice)) {
                     showTemporaryPlusOne('cart-symbol');
                 }
+                addToCartInDatabase(addToCartButton.getAttribute('data-course-id'));
             });
         });
         updateCount('wishlist');
         updateCount('cart');
     });
+
+    function addToCartInDatabase(courseId) {
+        fetch('/addToCart', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ courseId: courseId })
+        })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch((error) => console.error('Error:', error));
+    }
 
     // Function to update the counter for wishlist and cart
     function updateCount(type) {
@@ -281,24 +228,6 @@
         updateTotalAmount(); // Update the total amount when a new item is added
         updateCount('cart'); // Update the cart count
 
-        // Send POST request to save the cart item to the database
-        fetch('/cart/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({
-                courseName: courseName,
-                coursePrice: coursePrice
-            })
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data); // Handle the response from the server if needed
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
         return true; // Return true if the item was added
     }
     // Function to display "Cart is empty" message
