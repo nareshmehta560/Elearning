@@ -11,6 +11,7 @@ import com.swt_II.elearningplatform.model.wishlist.WishlistService;
 import com.swt_II.elearningplatform.repositories.CartRepository;
 import com.swt_II.elearningplatform.repositories.CourseRepository;
 import com.swt_II.elearningplatform.repositories.UserRepository;
+import com.swt_II.elearningplatform.repositories.WishlistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,10 @@ public class HomeController {
     private CourseService courseService;
     @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
+    private WishlistRepository wishlistRepository;
+
     @Autowired
     private CartService cartService;
 
@@ -97,6 +102,16 @@ public class HomeController {
             User user  = userRepository.findByUserName(username);
             Cart cart = cartRepository.findByUser(user);
             model.addAttribute("cart", cart);
+        }
+        return "home";
+    }
+    @GetMapping("/wishlist")
+    public String showWishlist(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            String username = authentication.getName();
+            User user  = userRepository.findByUserName(username);
+            Wishlist wishlist = wishlistRepository.findByUser(user);
+            model.addAttribute("wishlist", wishlist);
         }
         return "home";
     }

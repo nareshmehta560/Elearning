@@ -74,6 +74,7 @@
 
     document.addEventListener("DOMContentLoaded", function() {
         fetchCartItems();
+        fetchWishlistItems();
         const alertMessage = document.getElementById('alertMessage');
         if (alertMessage) {
             setTimeout(() => {
@@ -91,9 +92,11 @@
             // Attach event listener for "Add to Wishlist" buttons
             const addToWishlistButton = card.querySelector('.btn-primary');
             addToWishlistButton.addEventListener('click', function() {
-                if(addToWishlist(card.querySelector('.card-title').textContent)) {
+                const courseName = card.querySelector('.card-title').textContent;
+                if(addToWishlist(courseName)) {
                     showTemporaryPlusOne('like-symbol');
                 }
+                addToWishlistInDatabase(addToWishlistButton.getAttribute('data-course-id'));
             });
 
             // Attach event listener for "Add to Cart" buttons
@@ -111,6 +114,7 @@
         updateCount('cart');
     });
 
+    //Function to add course to Cart in database
     function addToCartInDatabase(courseId) {
         fetch('/addToCart', {
             method: 'POST',
@@ -122,6 +126,47 @@
         })
             .then(response => response.text())
             .then(data => console.log(data))
+            .catch((error) => console.error('Error:', error));
+    }
+
+    //Function to add course to Wishlist in database
+    function addToWishlistInDatabase(courseId) {
+        fetch('/addToWishlist', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ courseId: courseId })
+        })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch((error) => console.error('Error:', error));
+    }
+
+    // Function to fetch and display cart items
+    function fetchWishlistItems() {
+        fetch('/getWishlistItems', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                data.forEach(item => {
+                    const courseName = item.name;
+                    const courseId = item.id; // Assuming the ID is provided in the data
+                    addToWishlist(courseName, courseId);
+                });
+            })
             .catch((error) => console.error('Error:', error));
     }
 
@@ -175,7 +220,7 @@
 
 
     //function to add courses to wishlist
-    function addToWishlist(courseName) {
+    function addToWishlist(courseName, courseId) {
         const wishlistDropdownMenu = document.querySelector('#wishlistDropdown + .dropdown-menu');
         let wishlistItems = wishlistDropdownMenu.querySelectorAll('.dropdown-item');
 
@@ -204,6 +249,7 @@
         removeButton.addEventListener('click', function(event) {
             event.stopPropagation();
             newWishlistItem.remove();
+            removeFromWishlist(courseId);
             if (wishlistDropdownMenu.children.length === 0) {
                 const emptyMessage = document.createElement('li');
                 emptyMessage.innerHTML = '<a class="dropdown-item" href="#">Wishlist is empty</a>';
@@ -220,6 +266,22 @@
         return true; // Return true if the item was added
     }
 
+    // Function to remove item from cart in the database
+    function removeFromWishlist(courseId) {
+        fetch('/removeFromWishlist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ courseId: courseId })
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Log response message
+                fetchCartItems(); // Refresh the cart items
+            })
+            .catch((error) => console.error('Error:', error));
+    }
 
     //function to add course to cart
     function addToCart(courseName, coursePrice, courseId) {
@@ -268,6 +330,8 @@
 
         return true; // Return true if the item was added
     }
+
+
     // Function to remove item from cart in the database
     function removeFromCart(courseId) {
         fetch('/removeFromCart', {
@@ -284,6 +348,7 @@
             })
             .catch((error) => console.error('Error:', error));
     }
+
     // Function to display "Cart is empty" message
     function displayEmptyCartMessage() {
         const cartDropdownMenu = document.querySelector('#cartDropdown + .dropdown-menu');

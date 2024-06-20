@@ -21,11 +21,10 @@ public class Wishlist {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Wishlist_Course",
             joinColumns = @JoinColumn(name = "wishlist_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> courses = new ArrayList<>();
-
-
 }
 
