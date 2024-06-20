@@ -1,9 +1,13 @@
 package com.swt_II.elearningplatform.controller;
 
+import com.swt_II.elearningplatform.model.cart.Cart;
+import com.swt_II.elearningplatform.model.cart.CartService;
 import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.course.CourseService;
 import com.swt_II.elearningplatform.model.user.User;
 import com.swt_II.elearningplatform.model.user.UserService;
+import com.swt_II.elearningplatform.repositories.CartRepository;
+import com.swt_II.elearningplatform.repositories.CourseRepository;
 import com.swt_II.elearningplatform.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,12 +149,6 @@ public class HomeController {
         }
         return "home";
     }
-    @GetMapping(value = {"","/","/home"})
-    public String home(Model model) {
-        List<Course> courses = courseService.getAllCourses();
-        model.addAttribute("courses", courses);
-        model.addAttribute("categories", courseRepository.findDistinctCategories());
-        return "home";
-    }
+
 
 }

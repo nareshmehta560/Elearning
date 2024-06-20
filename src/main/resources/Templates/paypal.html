@@ -35,7 +35,8 @@
     <div class="container mt-4 " >
         <div class="card align-items-center" >
             <div class="card-body">
-                <form th:action="@{/payment/create}" method="post">
+                <form th:action="@{/payment/create(amount=${amount})}" method="post">
+
                     <div class="form-group">
                         <input type="radio" id="paypal" name="paymentMethod" class="mt-2 custom-control-input">
                         <label class="custom-control-label" for="paypal">Paypal</label>

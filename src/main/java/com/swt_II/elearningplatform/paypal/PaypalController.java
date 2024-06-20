@@ -5,6 +5,7 @@ import com.paypal.api.payments.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,16 +19,18 @@ public class PaypalController {
     private  final PaypalService paypalService;
 
     @GetMapping("/pay")
-    public String home(){
+    public String home(@RequestParam("amount") String amount, Model model){
+        model.addAttribute("amount", amount);
         return "paypal";
     }
 
     @PostMapping("/payment/create")
-    public RedirectView createPayment(){
+    public RedirectView createPayment(@RequestParam("amount") String amount){
         try {
             String cancelUrl = "http://localhost:8080/payment/cancel";
             String successUrl = "http://localhost:8080/payment/success";
-           Payment payment = paypalService.createPayment(1.00, "EUR", "paypal", "sale", "payment description", cancelUrl, successUrl);
+            Double amountInt = Double.valueOf(amount);
+           Payment payment = paypalService.createPayment(amountInt, "EUR", "paypal", "sale", "payment description", cancelUrl, successUrl);
             for(Links links : payment.getLinks()) {
                 if(links.getRel().equals("approval_url")) {
                     return new RedirectView(links.getHref());

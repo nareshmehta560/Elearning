@@ -421,6 +421,18 @@
             })
             .catch(error => console.error('Error fetching categories:', error));
     }
+    document.getElementById('checkoutButton').addEventListener('click', function() {
+        // Get the total amount value
+        const totalAmountElement = document.querySelector('.totalAmount');
+        let totalAmount = totalAmountElement.textContent.trim();
+
+        // Remove the currency symbol if present
+        totalAmount = totalAmount.replace('€', '').trim();
+
+        // Redirect to the payment URL with the total amount as a query parameter
+        const paymentUrl = `/pay?amount=${encodeURIComponent(totalAmount)}`;
+        window.location.href = paymentUrl;
+    });
 </script>
 </body>
 </html>

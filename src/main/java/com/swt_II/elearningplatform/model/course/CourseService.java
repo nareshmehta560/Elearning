@@ -29,6 +29,7 @@ public class CourseService {
     public List<Course> getAllCourses() {
         return (List<Course>) courseRepository.findAll();
     }
+
     public List<Course> getCoursesByCategory(String category) {
         return courseRepository.findByCategory(category);
     }
