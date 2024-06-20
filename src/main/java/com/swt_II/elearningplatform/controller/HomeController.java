@@ -55,6 +55,7 @@ public class HomeController {
     private CartService cartService;
 
     @GetMapping(value = "/customLogin")
+
     public String displayCustomLogin() {
         return "customLogin";
     }
@@ -135,6 +136,7 @@ public class HomeController {
             model.addAttribute("selectedCategory", "All");
         }
         model.addAttribute("courses", courses);
+        model.addAttribute("user",userService.getCurrentUser());
         model.addAttribute("categories", courseRepository.findDistinctCategories());
         return "home";
     }
@@ -146,6 +148,8 @@ public class HomeController {
             User user  = userRepository.findByUserName(username);
             Cart cart = cartRepository.findByUser(user);
             model.addAttribute("cart", cart);
+            model.addAttribute("user",userService.getCurrentUser());
+
         }
         return "home";
     }
