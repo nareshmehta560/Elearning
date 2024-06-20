@@ -70,7 +70,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-
+        fetchCartItems();
         const cards = document.querySelectorAll('.course-card');
 
         cards.forEach(card => {
@@ -112,6 +112,33 @@
         })
             .then(response => response.text())
             .then(data => console.log(data))
+            .catch((error) => console.error('Error:', error));
+    }
+
+    // Function to fetch and display cart items
+    function fetchCartItems() {
+        fetch('/getCartItems', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                data.forEach(item => {
+                    const courseName = item.name;
+                    const coursePrice = item.price;
+                    const courseId = item.id; // Assuming the ID is provided in the data
+                    addToCart(courseName, coursePrice, courseId);
+                });
+            })
             .catch((error) => console.error('Error:', error));
     }
 
@@ -185,7 +212,7 @@
 
 
     //function to add course to cart
-    function addToCart(courseName, coursePrice) {
+    function addToCart(courseName, coursePrice, courseId) {
         const cartDropdownMenu = document.querySelector('#cartDropdown + .dropdown-menu');
         let cartItems = cartDropdownMenu.querySelectorAll('.dropdown-item:not(.total-amount):not(#checkoutButton)');
 
@@ -216,6 +243,7 @@
             newCartItem.remove();
             updateTotalAmount(); // Update the total amount when an item is removed
             updateCount('cart'); // Update the cart count
+            removeFromCart(courseId);
             // Check if the cart is empty and display the "Cart is empty" message
             if (cartDropdownMenu.querySelectorAll('.dropdown-item:not(.total-amount):not(#checkoutButton)').length === 0) {
                 displayEmptyCartMessage();
@@ -229,6 +257,22 @@
         updateCount('cart'); // Update the cart count
 
         return true; // Return true if the item was added
+    }
+    // Function to remove item from cart in the database
+    function removeFromCart(courseId) {
+        fetch('/removeFromCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ courseId: courseId })
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Log response message
+                fetchCartItems(); // Refresh the cart items
+            })
+            .catch((error) => console.error('Error:', error));
     }
     // Function to display "Cart is empty" message
     function displayEmptyCartMessage() {
