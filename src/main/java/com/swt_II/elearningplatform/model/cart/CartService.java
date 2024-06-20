@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartService {
 
@@ -30,6 +32,22 @@ public class CartService {
             cart.getCourses().add(course);
         }
         cartRepository.save(cart);
+    }
+    @Transactional
+    public void removeCourseFromCart(User user, Course course) {
+        Cart cart = cartRepository.findByUser(user);
+        if (cart != null && cart.getCourses().contains(course)) {
+            cart.getCourses().remove(course);
+            cartRepository.save(cart);
+        }
+    }
+    public List<Course> getCartItemsForUser(User user) {
+        Cart cart = cartRepository.findByUser(user);
+        if (cart != null) {
+            return cart.getCourses();
+        } else {
+            return List.of(); // Return an empty list if the cart is null
+        }
     }
 //
 //        // Check if the course is already in the cart
