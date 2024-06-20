@@ -46,5 +46,4 @@ public class Course{
             inverseJoinColumns = @JoinColumn(name = "cart_id"))
     private List<Cart> carts= new ArrayList<>();
 
-   
 }

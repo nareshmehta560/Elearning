@@ -1,5 +1,6 @@
 package com.swt_II.elearningplatform.model.wishlist;
 
+import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,9 +21,11 @@ public class Wishlist {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WishlistItem> wishlistItems = new ArrayList<>();
+    @JoinTable(name = "Wishlist_Course",
+            joinColumns = @JoinColumn(name = "wishlist_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<Course> courses = new ArrayList<>();
 
-    // Constructors, methods, etc.
+
 }
 

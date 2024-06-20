@@ -3,7 +3,10 @@
             th:replace="~{basic/layout :: layout(~{::content}, #{homePage.pageTitle})}">
 
 <body th:fragment="content">
-
+<div th:if="${message}" id='alertMessage' class="alert alert-success" style="transition: opacity 0.5s ease-out;">
+    <p th:text="${message}" id='msg'></p>
+</div>
+<p th:if="${errorInstructor}" style="color: red">You have no Right for Instructor apply for it</p>
 <div class="container">
     <h1 class="text-center my-4">Welcome to our Homepage</h1>
 
@@ -71,6 +74,13 @@
 
     document.addEventListener("DOMContentLoaded", function() {
         fetchCartItems();
+        const alertMessage = document.getElementById('alertMessage');
+        if (alertMessage) {
+            setTimeout(() => {
+                alertMessage.style.opacity = '0';
+                setTimeout(() => alertMessage.style.display = 'none', 500); // Additional delay for smooth transition
+            }, 1000);
+        }
         const cards = document.querySelectorAll('.course-card');
 
         cards.forEach(card => {
