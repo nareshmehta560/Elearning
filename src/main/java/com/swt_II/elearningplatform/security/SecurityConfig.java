@@ -32,19 +32,18 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.authorizeHttpRequests(configurer -> {
-            configurer
-                    .requestMatchers("/","/home","/customLogin","/register").permitAll()
-                    .requestMatchers(request -> "/search".equals(request.getServletPath())).permitAll() // Allow unauthenticated access to the search endpoint
-
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/addToCart","/getCartItems", "/removeFromCart") )// Disable CSRF protection for
+            .authorizeHttpRequests(configurer -> {
+                configurer
+                    .requestMatchers("/","/home","/customLogin","/register", "/coursesByCategory", "/getCartItems", "/removeFromCart").permitAll()
                     .requestMatchers("/newInstructors").hasRole("ADMIN")
                     //.requestMatchers("/uploadCourse").hasRole("INSTRUCTOR")
-                    .requestMatchers("/admin", "/uploadCourse", "/Application", "/CSS/application.css").hasAnyRole("ADMIN","USER")
+                    .requestMatchers("/dashboard","/admin", "/uploadCourse", "/Application", "/CSS/application.css").hasAnyRole("ADMIN","USER")
                     .anyRequest().authenticated();
         }).logout(LogoutConfigurer::permitAll)
                 .formLogin(form -> form.loginPage("/customLogin")
                         .loginProcessingUrl("/performLogin")
-                        .defaultSuccessUrl("/home")
+                        .defaultSuccessUrl("/dashboard")
                         .permitAll());
         return http.build();
     }

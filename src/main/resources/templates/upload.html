@@ -145,25 +145,28 @@
 </div>
 <form th:action="@{/courseupload}" th:object="${newcourse}" method="post" enctype="multipart/form-data">
     <div>
-        <label>Course Name:</label>
+        <label for="courseName">Course Name:</label>
         <input type="text" id = 'courseName' th:field="*{name}" placeholder="Enter Name..." required/>
     </div>
     <div>
-        <label>Description:</label>
+        <label for="author">Author:</label>
+        <input type="text" id = 'author' th:field="*{author}" placeholder="Enter Author's Name..." required/>
+    </div>
+    <div>
+        <label for="description">Description:</label>
         <textarea id = 'description'th:field="*{description}" rows="4" placeholder="Enter Description (min. 250 words)..." required></textarea>
     </div>
     <div>
-        <label>Category:</label>
+        <label for="category">Category:</label>
         <input type="text" id = 'category' th:field="*{category}" placeholder="Enter Category..." required/>
     </div>
     <div>
-        <label>Price(&#8364;):</label>
-        <input type="number" th:field="*{price}" placeholder="Enter Price..." min = 0 required/>
+        <label for="price">Price(&#8364;):</label>
+        <input type="number" id="price" th:field="*{price}" placeholder="Enter Price..." min = 0 required/>
     </div>
     <div id="upload-field">
         <label>File:</label>
         <input type="file" id="fileInput" name="file" onchange="toggleDeleteButton()" multiple required/>
-
         <button type="button" id="deleteButton" onclick="removeFile()" >Delete</button>
     </div>
     <div>
@@ -196,6 +199,7 @@
     // to check logical inputs
     function checkRequirement(){
         var name = document.getElementById("courseName").value;
+        var author = document.getElementById("author").value;
         var  des = document.getElementById("description").value;
         var category = document.getElementById("category").value;
         const modal = document.getElementById("myModal");
@@ -222,18 +226,19 @@
                 return false;
             }
         }
-        if(des){
-            var regex = /^[A-Za-z][A-Za-z0-9\s!@#$%^&*()_+=[\]{};':"äöüß,.<>/?-]*$/;
-            if (!regex.test(des)) {
-                errorMsg.innerHTML = "Description must start with an alphabet and should be min. 50 words";
+        if(author) {
+            var regex = /^[A-Za-z][A-Za-z0-9\s!@#$%^&*()_+=[\]{};':"äüöß,.<>/?-]+$]*$/;
+            if (!regex.test(author)) {
+                errorMsg.innerHTML = "Author's name must start with an alphabet.";
                 errorMsg.style.color = "red";
                 modal.style.display = "block";
                 return false;
             }
-            // Remove leading/trailing spaces and count the number of words
+        }
+        if(des){
             const wordCount = des.trim().split(/\s+/).length;
 
-            if (wordCount < 1) {
+            if (wordCount < 50) {
                 errorMsg.innerHTML = "Description must have at least 50 words.";
                 errorMsg.style.color = "red";
                 modal.style.display = "block";
