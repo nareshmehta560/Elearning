@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Upload Course</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            padding-top: 0px;
+            padding-top: 0;
             background-color: #9fbfd3;
         }
 
@@ -18,14 +18,14 @@
             border-color:white;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         header{
             display: flex;
             justify-content: center;
             align-items: center;
             background-color: #42c6e1;
-            margin-top:0px;
+            margin-top:0;
             margin-bottom: 3px;
             height: 60px;
             gap: 20px;
@@ -33,7 +33,7 @@
         #home{
             border: none;
             font-size: larger;
-            margin-: 0px;
+            margin: 0;
             background-color: transparent;
             text-decoration: none;
         }
@@ -154,7 +154,7 @@
     </div>
     <div>
         <label for="description">Description:</label>
-        <textarea id = 'description'th:field="*{description}" rows="4" placeholder="Enter Description (min. 250 words)..." required></textarea>
+        <textarea id = 'description'th:field="*{description}" rows="4" placeholder="Enter Description (min. 50 words)..." required></textarea>
     </div>
     <div>
         <label for="category">Category:</label>
