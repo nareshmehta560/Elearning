@@ -40,7 +40,7 @@ public class WishlistService {
             wishlistRepository.save(wishlist);
         }
     }
-    public List<Course> getCartItemsForUser(User user) {
+    public List<Course> getWishlistItemsForUser(User user) {
         Wishlist wishlist = wishlistRepository.findByUser(user);
         if (wishlist != null) {
             return wishlist.getCourses();

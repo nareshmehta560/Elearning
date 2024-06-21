@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.Map;
 
+@org.springframework.web.bind.annotation.RestController
 public class WishlistController {
     @Autowired
     private UserService userService;
     @Autowired
     private CourseService courseService;
-
     @Autowired
     private WishlistService wishlistService;
 
-    @PostMapping("/addToCart")
+    @PostMapping("/addToWishlist")
     public String addToWishlist(@RequestBody Map<String, String> body) {
         Long courseId = Long.valueOf(body.get("courseId"));
         User user = userService.getCurrentUser();
@@ -63,6 +63,6 @@ public class WishlistController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<Course> getWishlistItems() {
         User user = userService.getCurrentUser();
-        return wishlistService.getCartItemsForUser(user);
+        return wishlistService.getWishlistItemsForUser(user);
     }
 }
