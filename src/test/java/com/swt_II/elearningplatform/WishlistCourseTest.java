@@ -1,5 +1,6 @@
 package com.swt_II.elearningplatform;
 
+import com.swt_II.elearningplatform.model.cart.Cart;
 import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.user.User;
 import com.swt_II.elearningplatform.model.wishlist.Wishlist;
@@ -27,6 +28,7 @@ public class WishlistCourseTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    //Test for adding course to the wishlist
     @Test
     public void testAddCourseToWishlist() {
         User user = new User();
@@ -40,6 +42,23 @@ public class WishlistCourseTest {
 
         verify(wishlistRepository, times(1)).save(wishlist);
         assertEquals(1, wishlist.getCourses().size());
+    }
+
+    //Test for removing course from wishlist
+    @Test
+    public void testRemoveCourseFromCart() {
+        User user = new User();
+        Course course = new Course();
+        Wishlist wishlist = new Wishlist();
+        wishlist.setUser(user);
+        wishlist.getCourses().add(course);
+
+        when(wishlistRepository.findByUser(user)).thenReturn(wishlist);
+
+        wishlistService.removeCourseFromWishlist(user, course);
+
+        verify(wishlistRepository, times(1)).save(wishlist);
+        assertEquals(0, wishlist.getCourses().size());
     }
 
 }
