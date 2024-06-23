@@ -218,12 +218,10 @@
         }
     }
 
-
     //function to add courses to wishlist
     function addToWishlist(courseName, courseId) {
         const wishlistDropdownMenu = document.querySelector('#wishlistDropdown + .dropdown-menu');
         let wishlistItems = wishlistDropdownMenu.querySelectorAll('.dropdown-item');
-
 
         // Check if the course is already in the wishlist
         for (let item of wishlistItems) {
