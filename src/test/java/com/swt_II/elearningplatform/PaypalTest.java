@@ -86,6 +86,13 @@ public class PaypalTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("paymentError"));
     }
+    // test for payment cancel
+    @Test
+    public void testPaymentCancel() throws Exception {
+        mockMvc.perform(get("/payment/cancel"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("paymentCancel"));
+    }
 
 
 }
