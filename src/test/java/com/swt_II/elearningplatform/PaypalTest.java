@@ -79,5 +79,14 @@ public class PaypalTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("paymentSuccess"));
     }
+    // test for payment error
+    @Test
+    public void testPaymentError() throws Exception {
+        mockMvc.perform(get("/payment/error"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("paymentError"));
+    }
+
+
 }
 
