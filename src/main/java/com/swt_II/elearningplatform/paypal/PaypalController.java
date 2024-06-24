@@ -4,6 +4,7 @@ import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequiredArgsConstructor
 @Slf4j
 public class PaypalController {
-
+    @Autowired
     private  final PaypalService paypalService;
 
     @GetMapping("/pay")
