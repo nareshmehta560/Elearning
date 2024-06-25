@@ -49,11 +49,4 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUserName(authentication.getName());
     }
 
-    public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        return userRepository.findByUserName(username);
-    }
-
-
 }

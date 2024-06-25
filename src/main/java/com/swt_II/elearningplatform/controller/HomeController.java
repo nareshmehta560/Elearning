@@ -53,17 +53,6 @@ public class HomeController {
     @Autowired
     private CartService cartService;
 
-    //Handles fetching and displaying courses on the homepage.
-    @GetMapping(value = {"","/","/home"})
-    public String home(Model model) {
-        List<Course> courses = courseService.getAllCourses();
-        model.addAttribute("courses", courses);
-        User user = userService.getCurrentUser();
-        model.addAttribute("user",user);
-        return "home";
-    }
-
-
     @GetMapping(value = "/customLogin")
     public String displayCustomLogin() {
         return "customLogin";
