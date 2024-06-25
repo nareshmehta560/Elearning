@@ -18,14 +18,16 @@
             </div>
 
             <!-- Search Bar -->
-            <form class="d-flex mx-auto" style="position: relative">
-                <input class="form-control me-2" type="search" placeholder="Search..."
+            <form class="d-flex mx-auto" style="position: relative" th:action="@{/search}" method="get">
+                <input class="form-control me-2" type="search" name="keyword" placeholder="Search..."
                        aria-label="Search" style="width: 300px; padding-right: 3rem; border-radius: 20px; border-color: #090000">
                 <button class="btn btn-primary" type="submit"
                         style="background-color:#090000; position: absolute; right: 0; top: 0; height: 100%; padding: 0.5rem 1rem; border-radius:48%; border-color: #090000">
                     <i class="ri-search-line"></i>
                 </button>
             </form>
+
+
 
             <!-- Wishlist and Cart Icons -->
             <div class="nav-item dropdown" >
@@ -71,6 +73,10 @@
                         <a class="btn btn-outline-secondary"
                            href="/Application" th:text="#{navbar.application}"></a>
                     </li>
+                    <li class="m-2 navbar-item " sec:authorize="isAuthenticated()">
+                        <a class="btn btn-outline-secondary"
+                           href="/pay" th:text="#{navbar.pay}"></a>
+                    </li>
 
                     <li class="m-2 navbar-item " sec:authorize="isAuthenticated() and hasRole('ADMIN')">
                         <a class="btn btn-outline-secondary"
@@ -86,15 +92,43 @@
                     <i class="ri-user-2-fill" style="margin-left: 80px;"></i> Profile
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="position: absolute; right: 0; left: auto; margin-top:0;">
-                    <li><a class="dropdown-item" href="/editProfile" >Edit Profile</a></li>
-                    <li><a class="dropdown-item" href="/myCourses" >My Courses</a></li>
+                    <!-- Displaying user's name and email -->
+                    <div>
+                        <li class="dropdown-item-text" th:text="${user.userName}" style="font-weight: bold; font-size: 1.5em;"></li>
+                        <li class="dropdown-item-text" th:text="${user.email}" style="font-size: 1.2em;"></li>
+                    </div>
+
+                    <li><a class="dropdown-item" href="/editProfile">Edit Profile</a></li>
+                    <li><a class="dropdown-item" href="/myCourses">My Courses</a></li>
                     <li><a class="dropdown-item" href="/uploadCourse" th:text="#{navbar.uploadCourse}">Upload Course</a></li>
-                    <li><form th:action="@{/logout}" method="post"><button class="dropdown-item" type="submit" th:text="#{navbar.logout}">Logout</button></form></li>
-                    <li><a class="dropdown-item" href="/deleteAccount" >Delete Account</a></li>
+                    <li><a class="dropdown-item" href="/delete">Delete Account</a></li>
+                        <form th:action="@{/logout}" method="post">
+                            <button class="dropdown-item" type="submit" th:text="#{navbar.logout}">Logout</button>
+                        </form>
+                    </li>
+                    <li><a class="dropdown-item" href="/deleteAccount">Delete Account</a></li>
                 </ul>
             </div>
+
+
         </div>
     </nav>
 </th:block>
+<script type="text/javascript">
+
+    // JavaScript function for searching courses
+    function searchCourses() {
+        console.log("Search button clicked");
+        var searchInput = document.getElementById('searchInput').value;
+        window.location.href = '/search?keyword=' + searchInput;
+    }
+
+    // Event listener for search button click test
+    document.getElementById('searchButton').addEventListener('click', function(event) {
+        event.preventDefault();
+        searchCourses();
+    });
+</script>
+
 </body>
 </html>

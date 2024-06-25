@@ -4,13 +4,15 @@ import com.swt_II.elearningplatform.model.cart.Cart;
 import com.swt_II.elearningplatform.model.wishlist.Wishlist;
 import com.swt_II.elearningplatform.model.role.Role;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@lombok.Getter
-@lombok.Setter
+@Getter
+@Setter
 @Table(name = "user_data")
 public class User {
     @Id

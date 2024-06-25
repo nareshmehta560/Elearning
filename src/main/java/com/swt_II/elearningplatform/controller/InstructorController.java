@@ -3,6 +3,8 @@ package com.swt_II.elearningplatform.controller;
 import com.swt_II.elearningplatform.model.user.Instructor;
 import com.swt_II.elearningplatform.model.user.InstructorService;
 import com.swt_II.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.model.user.UserService;
+import com.swt_II.elearningplatform.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +19,15 @@ import java.util.List;
 public class InstructorController {
     @Autowired
     private InstructorService instructorService;
+    @Autowired
+    private UserService userService;
+
 
 
     @GetMapping(value = "/newInstructors")
     public String approveInstructor(Model model) {
         model.addAttribute("instructors", instructorService.getUnapprovedInstructors());
+        model.addAttribute("user",userService.getCurrentUser());
         return "newInstructors";
     }
 

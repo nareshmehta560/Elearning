@@ -36,6 +36,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(configurer -> {
                 configurer
                     .requestMatchers("/","/home","/customLogin","/register", "/coursesByCategory", "/getCartItems", "/removeFromCart", "/getWishlistItems", "/removeFromWishlist").permitAll()
+                    .requestMatchers(request -> "/search".equals(request.getServletPath())).permitAll() // Allow unauthenticated access to the search endpoint
                     .requestMatchers("/newInstructors").hasRole("ADMIN")
                     //.requestMatchers("/uploadCourse").hasRole("INSTRUCTOR")
                     .requestMatchers("/admin", "/uploadCourse", "/Application", "/CSS/application.css").hasAnyRole("ADMIN","USER")

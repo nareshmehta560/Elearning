@@ -37,9 +37,7 @@ public class Course{
 
     private String fileName;
 
-    @ManyToOne
-    @JoinColumn(name="instructor_id")
-    private Instructor instructor;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Cart_Course",

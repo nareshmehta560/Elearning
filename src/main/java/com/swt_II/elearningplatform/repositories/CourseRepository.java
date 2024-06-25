@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
     // Existierende Methoden
-
     @Query("SELECT DISTINCT c.category FROM Course c")
     List<String> findDistinctCategories();
 
@@ -18,5 +17,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findByCategory(@Param("category") String category);
 
     Course findByName(String name);
+
+    @Query("SELECT c FROM Course c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Course> findByNameContainingIgnoreCase(@Param("keyword") String keyword);
+
 }
 
