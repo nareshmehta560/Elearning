@@ -1,5 +1,6 @@
 package com.swt_II.elearningplatform.model.cart;
 
+ import com.fasterxml.jackson.annotation.JsonIgnore;
  import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.user.User;
 import jakarta.persistence.*;
