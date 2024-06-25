@@ -38,17 +38,13 @@
         }
     </style>
 </head>
-
 <body th:fragment="content">
-
+<div th:if="${message}" id='alertMessage' class="alert alert-success" style="transition: opacity 0.5s ease-out;">
+    <p th:text="${message}" id='msg'></p>
+</div>
+<p th:if="${errorInstructor}" style="color: red">You have no Right for Instructor apply for it</p>
 <div class="container">
-    <h1 class="text-center my-4">Welcome to our Homepage</h1>
-
-    <!-- from dashboard -->
-    <div th:if="${message}" id='alertMessage' class="alert alert-success">
-        <p th:text="${message}" id='msg'></p>
-    </div>
-    <p th:if="${errorInstructor}" style="color: red">You have no Right for Instructor apply for it</p>
+    <h1 class="text-center my-4">Welcome to our E-Learning Platform.</h1>
 
     <div class="row">
         <div class="col-md-12">
@@ -67,9 +63,8 @@
                       <!--  <img th:src="@{'/images/' + ${course.thumbnailUrl}}" class="card-img-top course-thumbnail" alt="Course Image"> -->
                         <div class="card-body">
                             <h5 class="card-title" th:text="${course.name}">Course Title</h5>
-                            <p class="card-text" th:text="${course.category}">Course description...</p>
-                            <p class="card-text" >Author: testUser</p>
-                            <p class="card-text" th:text="${course.description}">Course description...</p>
+                            <h6 class="card-text" th:text="${course.category}">Course description...</h6>
+                            <p class="card-text" th:text="${#strings.concat('Author: ', course.author)}">Author:</p>
                             <!-- Rating (you can use stars or any other representation) -->
                             <div class="rating">
                                 <span class="star">&#9733;</span>
@@ -79,8 +74,13 @@
                                 <span class="star">&#9734;</span> <!-- Example: 4 out of 5 stars -->
                             </div>
                             <p class="course-price" th:text="'€' + ${course.price}">Price</p>
-                            <div class="like-cart">
-                                <span class="like-symbol">&#10084;</span> <span class="cart-symbol">&#128722;</span>
+                            <!-- Course description and action buttons -->
+                            <div class="card-footer" style="background-color: whitesmoke" >
+                                <p id="course-description" th:text="${course.description}" style="display: none;">Course description...</p>
+                                <div style="display: flex;justify-content: space-around; background-color: white;">
+                                    <button class="btn btn-primary btn-sm" th:attr="data-course-id=${course.id}" style="background-color: whitesmoke" ><span class="like-symbol">&#10084;</span></button>
+                                    <button class="btn btn-success btn-sm" th:attr="data-course-id=${course.id} ">Add to Cart<span class="cart-symbol">&#128722;</span> </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -115,40 +115,383 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
+        fetchCartItems();
+        fetchWishlistItems();
+        const alertMessage = document.getElementById('alertMessage');
+        if (alertMessage) {
+            setTimeout(() => {
+                alertMessage.style.opacity = '0';
+                setTimeout(() => alertMessage.style.display = 'none', 500); // Additional delay for smooth transition
+            }, 1000);
+        }
         const cards = document.querySelectorAll('.course-card');
+
         cards.forEach(card => {
             const category = card.querySelector('.card-text').textContent.trim();
             const bgColor = getCategoryColor(category);
             card.style.backgroundColor = bgColor;
+
+            // Attach event listener for "Add to Wishlist" buttons
+            const addToWishlistButton = card.querySelector('.btn-primary');
+            addToWishlistButton.addEventListener('click', function() {
+                const courseName = card.querySelector('.card-title').textContent;
+                if(addToWishlist(courseName)) {
+                    showTemporaryPlusOne('like-symbol');
+                }
+                addToWishlistInDatabase(addToWishlistButton.getAttribute('data-course-id'));
+            });
+
+            // Attach event listener for "Add to Cart" buttons
+            const addToCartButton = card.querySelector('.btn-success');
+            addToCartButton.addEventListener('click', function() {
+                const courseName = card.querySelector('.card-title').textContent;
+                const coursePrice = parseFloat(card.querySelector('.course-price').textContent.replace('€', '')); // Assuming there's a .course-price element
+                if(addToCart(courseName, coursePrice)) {
+                    showTemporaryPlusOne('cart-symbol');
+                }
+                addToCartInDatabase(addToCartButton.getAttribute('data-course-id'));
+            });
         });
+        updateCount('wishlist');
+        updateCount('cart');
     });
-    //filters course by category
-    function filterCourses(category) {
-        const courses = document.querySelectorAll('.course-card');
-        const heading = document.getElementById('featured-courses-heading');
-        let visibleCourses = 0;
-        //shows the filtered courses
-        courses.forEach(course => {
-            if (category === 'All' || course.getAttribute('data-category') === category) {
-                course.style.display = 'block';
-                visibleCourses++;
-            } else {
-                course.style.display = 'none';
+
+    //Function to add course to Cart in database
+    function addToCartInDatabase(courseId) {
+        fetch('/addToCart', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ courseId: courseId })
+        })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch((error) => console.error('Error:', error));
+    }
+
+    //Function to add course to Wishlist in database
+    function addToWishlistInDatabase(courseId) {
+        fetch('/addToWishlist', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ courseId: courseId })
+        })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch((error) => console.error('Error:', error));
+    }
+
+    // Function to fetch and display cart items
+    function fetchWishlistItems() {
+        fetch('/getWishlistItems', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             }
-        });
-        //gives feedback when no course is found
-        if (visibleCourses === 0) {
-            heading.innerHTML = `No ${category} courses available yet, we will get it soon!`;
-            heading.style.color = 'red';
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                data.forEach(item => {
+                    const courseName = item.name;
+                    const courseId = item.id; // Assuming the ID is provided in the data
+                    addToWishlist(courseName, courseId);
+                });
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+
+    // Function to fetch and display cart items
+    function fetchCartItems() {
+        fetch('/getCartItems', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                data.forEach(item => {
+                    const courseName = item.name;
+                    const coursePrice = item.price;
+                    const courseId = item.id; // Assuming the ID is provided in the data
+                    addToCart(courseName, coursePrice, courseId);
+                });
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+
+    // Function to update the counter for wishlist and cart
+    function updateCount(type) {
+        const dropdownMenu = document.querySelector(`#${type}Dropdown + .dropdown-menu`);
+        const countElement = document.getElementById(`${type}Count`);
+        const items = dropdownMenu.querySelectorAll('.dropdown-item:not(.total-amount):not(#checkoutButton)');
+
+        // Filter out the empty message item
+        const actualItems = Array.from(items).filter(item => !item.textContent.includes(`${type.charAt(0).toUpperCase() + type.slice(1)} is empty`));
+        const count = actualItems.length;
+
+        if (count === 0) {
+            countElement.style.display = 'none'; // Hide the badge if count is zero
         } else {
-            if (category === 'All') {
-                heading.innerHTML = 'Featured Courses';
-                heading.style.color = 'blue';
-            } else {
-                heading.innerHTML = `${category} Courses`;
-                heading.style.color = 'green';
+            countElement.style.display = 'block'; // Show the badge if count is greater than zero
+            countElement.textContent = count;
+        }
+        if (type === 'cart') {
+            updateTotalAmount(); // Ensure the total amount is updated
+        }
+    }
+
+    //function to add courses to wishlist
+    function addToWishlist(courseName, courseId) {
+        const wishlistDropdownMenu = document.querySelector('#wishlistDropdown + .dropdown-menu');
+        let wishlistItems = wishlistDropdownMenu.querySelectorAll('.dropdown-item');
+
+        // Check if the course is already in the wishlist
+        for (let item of wishlistItems) {
+            if (item.textContent.includes(courseName)) {
+                return false; // Exit with false if the course is already in the wishlist
             }
         }
+
+        if (wishlistItems.length === 1 && wishlistItems[0].textContent === 'Wishlist is empty') {
+            wishlistDropdownMenu.innerHTML = ''; // Clear the "Wishlist is empty" message
+        }
+
+        const newWishlistItem = document.createElement('li');
+        const wishlistItemLink = document.createElement('a');
+        wishlistItemLink.className = 'dropdown-item d-flex justify-content-between align-items-center';
+        wishlistItemLink.href = '#';
+        wishlistItemLink.textContent = courseName;
+
+        const removeButton = document.createElement('span');
+        removeButton.className = 'fas fa-trash-alt'; // Font Awesome trash icon
+        removeButton.style.cursor = 'pointer';
+        removeButton.style.marginLeft = '10px';
+        removeButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            newWishlistItem.remove();
+            removeFromWishlist(courseId);
+            if (wishlistDropdownMenu.children.length === 0) {
+                const emptyMessage = document.createElement('li');
+                emptyMessage.innerHTML = '<a class="dropdown-item" href="#">Wishlist is empty</a>';
+                wishlistDropdownMenu.appendChild(emptyMessage);
+            }
+            updateCount('wishlist'); // Update the wishlist count
+        });
+
+        wishlistItemLink.appendChild(removeButton);
+        newWishlistItem.appendChild(wishlistItemLink);
+        wishlistDropdownMenu.appendChild(newWishlistItem);
+        updateCount('wishlist'); // Update the wishlist count
+
+        return true; // Return true if the item was added
+    }
+
+    // Function to remove item from cart in the database
+    function removeFromWishlist(courseId) {
+        fetch('/removeFromWishlist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ courseId: courseId })
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Log response message
+                fetchCartItems(); // Refresh the cart items
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+
+    //function to add course to cart
+    function addToCart(courseName, coursePrice, courseId) {
+        const cartDropdownMenu = document.querySelector('#cartDropdown + .dropdown-menu');
+        let cartItems = cartDropdownMenu.querySelectorAll('.dropdown-item:not(.total-amount):not(#checkoutButton)');
+
+        // Check if the course is already in the cart
+        for (let item of cartItems) {
+            if (item.textContent.includes(courseName)) {
+                return false; // Exit with false if the course is already in the cart
+            }
+        }
+
+        if (cartItems.length === 1 && cartItems[0].textContent === 'Cart is empty') {
+            cartDropdownMenu.querySelector('.dropdown-item').remove(); // Remove the "Cart is empty" message
+        }
+
+        const newCartItem = document.createElement('li');
+        const cartItemLink = document.createElement('a');
+        cartItemLink.className = 'dropdown-item d-flex justify-content-between align-items-center';
+        cartItemLink.href = '#';
+        cartItemLink.textContent = `${courseName} - €${coursePrice.toFixed(2)}`;
+        cartItemLink.dataset.price = coursePrice;
+
+        const removeButton = document.createElement('span');
+        removeButton.className = 'fas fa-trash-alt'; // Font Awesome trash icon
+        removeButton.style.cursor = 'pointer';
+        removeButton.style.marginLeft = '10px';
+        removeButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            newCartItem.remove();
+            updateTotalAmount(); // Update the total amount when an item is removed
+            updateCount('cart'); // Update the cart count
+            removeFromCart(courseId);
+            // Check if the cart is empty and display the "Cart is empty" message
+            if (cartDropdownMenu.querySelectorAll('.dropdown-item:not(.total-amount):not(#checkoutButton)').length === 0) {
+                displayEmptyCartMessage();
+            }
+        });
+
+        cartItemLink.appendChild(removeButton);
+        newCartItem.appendChild(cartItemLink);
+        cartDropdownMenu.insertBefore(newCartItem, cartDropdownMenu.querySelector('.dropdown-divider'));
+        updateTotalAmount(); // Update the total amount when a new item is added
+        updateCount('cart'); // Update the cart count
+
+        return true; // Return true if the item was added
+    }
+
+
+    // Function to remove item from cart in the database
+    function removeFromCart(courseId) {
+        fetch('/removeFromCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ courseId: courseId })
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Log response message
+                fetchCartItems(); // Refresh the cart items
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+
+    // Function to display "Cart is empty" message
+    function displayEmptyCartMessage() {
+        const cartDropdownMenu = document.querySelector('#cartDropdown + .dropdown-menu');
+        const emptyMessage = document.createElement('li');
+        emptyMessage.innerHTML = '<a class="dropdown-item" href="#">Cart is empty</a>';
+        cartDropdownMenu.insertBefore(emptyMessage, cartDropdownMenu.querySelector('.dropdown-divider'));
+        // Hide total amount and checkout button
+        const totalAmountElement = cartDropdownMenu.querySelector('.total-amount');
+        const checkoutButton = document.getElementById('checkoutButton');
+        if (totalAmountElement) {
+            totalAmountElement.style.display = 'none';
+        }
+        if (checkoutButton) {
+            checkoutButton.style.display = 'none';
+        }
+    }
+    //function to display +1 when adding item to cart or wishlist temporarily.
+    function showTemporaryPlusOne(symbolClass) {
+        const symbolElement = document.querySelector(`.${symbolClass}`);
+        const plusOneElement = document.createElement('span');
+        plusOneElement.textContent = '+1';
+        plusOneElement.style.position = 'absolute';
+        plusOneElement.style.color = 'green';
+        plusOneElement.style.fontSize = '1.5em';
+        plusOneElement.style.top = '-10px';
+        plusOneElement.style.right = '0';
+        plusOneElement.style.animation = 'fadeOut 1s forwards';
+
+        symbolElement.parentElement.appendChild(plusOneElement);
+
+        // Remove the element after the animation is done
+        setTimeout(() => {
+            plusOneElement.remove();
+        }, 1000);
+    }
+
+    // CSS Animation
+    const style = document.createElement('style');
+    style.textContent = `
+    @keyframes fadeOut {
+        0% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-20px); }
+    }
+    `;
+    document.head.append(style);
+
+    // Function to update the total amount in the cart
+    function updateTotalAmount() {
+        const cartDropdownMenu = document.querySelector('#cartDropdown + .dropdown-menu');
+        const cartItems = cartDropdownMenu.querySelectorAll('.dropdown-item:not(.total-amount):not(#checkoutButton):not(:empty)');
+        let totalAmount = 0;
+
+        cartItems.forEach(item => {
+            const coursePrice = parseFloat(item.dataset.price);
+            if (!isNaN(coursePrice)) {
+                totalAmount += coursePrice;
+            }
+        });
+
+        const totalAmountElement = document.querySelector('.total-amount .totalAmount');
+        const checkoutButton = document.getElementById('checkoutButton');
+
+        if (totalAmountElement) {
+            totalAmountElement.textContent = `€${totalAmount.toFixed(2)}`;
+        }
+
+        // Show or hide total amount and checkout button based on the total amount
+        if (totalAmount > 0) {
+            if (checkoutButton) {
+                checkoutButton.style.display = 'flex';
+            }
+        } else {
+            if (checkoutButton) {
+                checkoutButton.style.display = 'none';
+            }
+        }
+
+    }
+
+    //function to display all the categories in the dropdown dynamically
+    function fetchAndRenderCategories() {
+        fetch('/categories')
+            .then(response => response.json())
+            .then(categories => {
+                const categoriesDropdown = document.getElementById('categoriesDropdown');
+                const dropdownMenu = categoriesDropdown.nextElementSibling;
+
+                // Clear existing categories
+                dropdownMenu.innerHTML = '';
+
+                // Add "All Categories" option
+                const allCategoriesOption = document.createElement('li');
+                allCategoriesOption.innerHTML = '<a class="dropdown-item" href="/coursesByCategory">All Categories</a>';
+                dropdownMenu.appendChild(allCategoriesOption);
+
+                // Add fetched categories
+                categories.forEach(category => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<a class="dropdown-item" href="/coursesByCategory(category=${category})">${category}</a>`;
+                    dropdownMenu.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching categories:', error));
     }
 </script>
 

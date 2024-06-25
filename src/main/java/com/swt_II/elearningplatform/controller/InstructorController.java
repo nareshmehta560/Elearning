@@ -34,7 +34,7 @@ public class InstructorController {
     @PostMapping(value = "/approveInstructor")
     public String approveInstructor(@RequestParam Long id) {
         instructorService.approveInstructor(id);
-        return "redirect:/newInstructors";
+        return "redirect:/home";
     }
 
     @PostMapping(value = "/deleteInstructor")
