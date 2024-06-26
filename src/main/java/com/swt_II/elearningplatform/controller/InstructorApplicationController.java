@@ -45,10 +45,6 @@ public class InstructorApplicationController {
     InstructorApplicationController(InstructorRepository instructorRepository) {
         this.instructorRepository = instructorRepository;
     }
-    @GetMapping("/CSS/application.css")
-    public String getCss() {
-        return "CSS/Application.css";
-    }
 
     @GetMapping("/Application")
     public String getApplicationForm(Model model) {

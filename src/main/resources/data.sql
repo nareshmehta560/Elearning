@@ -28,7 +28,11 @@ INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (30, 1); -- USER
 INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (40, 1); -- USER
 INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (50, 1); -- USER
 INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (60, 1); -- USER
-INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (70, 1); -- USER
+INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (70, 1);-- USER
+INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (80, 1); -- USER
+INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (90, 1); -- USER
+INSERT INTO USER_ROLE (USER_ID, ROLE_ID) VALUES (100, 1); -- USER
+
 
 
 
@@ -178,42 +182,42 @@ INSERT INTO COURSE (
                 'Physics',
                 'Newton',
                 'Physics for Beginners',
-                'Physics',
+                'Science',
                 550.00
             ),(
                 13,
                 'Advanced Physics',
                 'Newton',
                 'Advanced Physics for Beginners',
-                'Physics',
+                'Science',
                 550.00
             ),(
                 14,
                 'Chemistry',
                 'Rutherford',
                 'Chemistry for Beginners',
-                'Chemistry',
+                'Science',
                 550.00
             ),(
                 15,
                 'Advanced Chemistry',
                 'Rutherford',
                 'Advanced Chemistry for Beginners',
-                'Chemistry',
+                'Science',
                 550.00
             ),(
                 16,
                 'Biology',
                 'Darwin',
                 'Biology for Beginners',
-                'Biology',
+                'Science',
                 550.00
             ),(
                 17,
                 'Advanced Biology',
                 'Darwin',
                 'Advanced Biology for Beginners',
-                'Biology',
+                'Science',
                 550.00
             ),(
                 18,
@@ -458,14 +462,14 @@ INSERT INTO COURSE (
                 'Home Improvement',
                 'Bob Vila',
                 'Home Improvement for Beginners',
-                'Home Improvement',
+                'Others',
                 550.00
             ),(
                 53,
                 'Advanced Home Improvement',
                 'Bob Vila',
                 'Advanced Home Improvement for Beginners',
-                'Home Improvement',
+                'Others',
                 550.00
             );
 
