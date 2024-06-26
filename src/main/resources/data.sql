@@ -85,7 +85,7 @@ INSERT INTO COURSE (
     CATEGORY,
     PRICE
 ) VALUES (
-             1,
+             1000,
              'Java Programming',
              'James Gosling',
              'Java Programming for Beginners',
@@ -93,7 +93,7 @@ INSERT INTO COURSE (
              100.00
          ),
          (
-             2,
+             2000,
              'Spring Boot',
              'VMWare',
              'Spring Boot for Beginners',
@@ -101,7 +101,7 @@ INSERT INTO COURSE (
              150.00
          ),
          (
-             3,
+             3000,
              'Spring Security',
              'VMWare',
              'Spring Security for Beginners',
@@ -109,7 +109,7 @@ INSERT INTO COURSE (
              200.00
          ),
          (
-             4,
+             4000,
              'Spring Data JPA',
              'VMWare',
              'Spring Data JPA for Beginners',
@@ -117,7 +117,7 @@ INSERT INTO COURSE (
              250.00
          ),
          (
-             5,
+             5000,
              'Spring MVC',
              'VMWare',
              'Spring MVC for Beginners',
@@ -125,7 +125,7 @@ INSERT INTO COURSE (
              300.00
          ),
          (
-             6,
+             6000,
              'Spring AOP',
              'VMWare',
              'Spring AOP for Beginners',
@@ -133,7 +133,7 @@ INSERT INTO COURSE (
              350.00
          ),
          (
-             7,
+             7000,
              'Spring Cloud',
              'VMWare',
              'Spring Cloud for Beginners',
@@ -141,7 +141,7 @@ INSERT INTO COURSE (
              400.00
          ),
          (
-             8,
+             8000,
              'Spring Batch',
              'VMWare',
              'Spring Batch for Beginners',
@@ -149,7 +149,7 @@ INSERT INTO COURSE (
              450.00
          ),
          (
-             9,
+             9000,
              'Spring Kafka',
              'VMWare',
              'Spring Kafka for Beginners',
@@ -157,7 +157,7 @@ INSERT INTO COURSE (
              500.00
          ),
          (
-             10,
+             10000,
              'Spring Microservices',
              'VMWare',
              'Spring Microservices for Beginners',

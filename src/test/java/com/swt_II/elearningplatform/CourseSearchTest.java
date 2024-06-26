@@ -27,17 +27,17 @@ public class CourseSearchTest {
     public void testSearchCoursesByKeyword() {
         // Setup
         Course  course1 = new Course();
-        course1.setName("Java Basics");
+        course1.setName("Javaw Basics");
         Course course2 = new Course();
-        course2.setName("Advanced Java");
+        course2.setName("Advanced Javaw");
         courseRepository.save(course1);
         courseRepository.save(course2);
 
         // Positive case: search for "java"
-        List<Course> resultPositive = courseService.searchCoursesByKeyword("java");
+        List<Course> resultPositive = courseService.searchCoursesByKeyword("javaw");
         assertEquals(2, resultPositive.size());
-        assertEquals("Java Basics", resultPositive.get(0).getName());
-        assertEquals("Advanced Java", resultPositive.get(1).getName());
+        assertEquals("Javaw Basics", resultPositive.get(0).getName());
+        assertEquals("Advanced Javaw", resultPositive.get(1).getName());
 
         // Negative case: search for "python"
         List<Course> resultNegative = courseService.searchCoursesByKeyword("python");
