@@ -33,13 +33,13 @@ public class CourseService {
     public List<Course> getCoursesByCategory(String category) {
         return courseRepository.findByCategory(category);
     }
-    public Course findByName(String name) {
-        return courseRepository.findByName(name);
-    }
 
 
     public List<Course> searchCoursesByKeyword(String keyword) {
         return courseRepository.findByNameContainingIgnoreCase(keyword);
+    }
+    public List<String> getAllCategories() {
+        return courseRepository.findDistinctCategories();
     }
 
 }

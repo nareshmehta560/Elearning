@@ -33,18 +33,9 @@ public class HomeController {
 
 
     @Autowired
-    private DaoAuthenticationProvider authenticationProvider;
-
-
+    private CourseRepository courseRepository;
     //Handles fetching and displaying courses on the homepage.
-    @GetMapping(value = {"","/","/home"})
-    public String home(Model model) {
-        List<Course> courses = courseService.getAllCourses();
-        model.addAttribute("courses", courses);
-        User user = userService.getCurrentUser();
-        model.addAttribute("user",user);
-        return "home";
-    }
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -54,8 +45,18 @@ public class HomeController {
     @Autowired
     private CartService cartService;
 
-    @GetMapping(value = "/customLogin")
 
+    @GetMapping(value = {"","/","/home"})
+    public String home(Model model) {
+        List<Course> courses = courseService.getAllCourses();
+        model.addAttribute("courses", courses);
+        User user = userService.getCurrentUser();
+        model.addAttribute("user",user);
+        return "home";
+    }
+
+
+    @GetMapping(value = "/customLogin")
     public String displayCustomLogin() {
         return "customLogin";
     }
@@ -122,8 +123,7 @@ public class HomeController {
     }
 
 
-    @Autowired
-    private CourseRepository courseRepository;
+
     @GetMapping(value = "/coursesByCategory")
     public String getCoursesByCategory(@RequestParam(required = false) String category, Model model) {
         logger.info("Requested category: {}", category); // Check if the category is correct

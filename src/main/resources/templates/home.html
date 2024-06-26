@@ -399,10 +399,20 @@
         }
 
     }
+    function fetchAndRenderCategoriesOnce() {
+        fetchAndRenderCategories();
+        document.getElementById('categoriesDropdown').removeEventListener('mouseover', fetchAndRenderCategoriesOnce);
+    }
 
+    document.getElementById('categoriesDropdown').addEventListener('mouseover', fetchAndRenderCategoriesOnce);
     //function to display all the categories in the dropdown dynamically
     function fetchAndRenderCategories() {
-        fetch('/categories')
+        fetch('/categories', {
+            headers: {
+                'Accept': 'application/json'
+            }
+
+        })
             .then(response => response.json())
             .then(categories => {
                 const categoriesDropdown = document.getElementById('categoriesDropdown');
@@ -419,12 +429,14 @@
                 // Add fetched categories
                 categories.forEach(category => {
                     const listItem = document.createElement('li');
-                    listItem.innerHTML = `<a class="dropdown-item" href="/coursesByCategory(category=${category})">${category}</a>`;
+                    listItem.innerHTML = `<a class="dropdown-item" href="/coursesByCategory?category=${encodeURIComponent(category)}">${category}</a>`;
                     dropdownMenu.appendChild(listItem);
                 });
             })
             .catch(error => console.error('Error fetching categories:', error));
     }
+
+
     document.getElementById('checkoutButton').addEventListener('click', function() {
         // Get the total amount value
         const totalAmountElement = document.querySelector('.totalAmount');

@@ -32,7 +32,7 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf(csrf -> csrf.ignoringRequestMatchers("/addToCart","/getCartItems", "/removeFromCart") )// Disable CSRF protection for
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/addToCart","/getCartItems", "/removeFromCart","/categories","/**"))// Disable CSRF protection for
             .authorizeHttpRequests(configurer -> {
                 configurer
                     .requestMatchers("/","/home","/customLogin","/register", "/coursesByCategory", "/getCartItems", "/removeFromCart").permitAll()
