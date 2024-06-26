@@ -48,7 +48,7 @@ public class SpringBootConfig implements WebMvcConfigurer {
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**")
+        registry.addResourceHandler("/static/**", "/templates/CSS/**")
                 .addResourceLocations("classpath:/static/")
                 .setCachePeriod(0)  // Set the cache period to 0 to disable caching
                 .resourceChain(true)

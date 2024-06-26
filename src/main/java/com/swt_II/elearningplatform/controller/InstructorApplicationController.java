@@ -49,6 +49,7 @@ public class InstructorApplicationController {
     public String getCss() {
         return "CSS/Application.css";
     }
+
     @GetMapping("/Application")
     public String getApplicationForm(Model model) {
         model.addAttribute("applicationForm", applicationForm);

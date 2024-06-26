@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-            th:replace="~{basic/layout :: layout(~{::content}, #{homePage.pageTitle})}">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{basic/layout :: layout(~{::content}, #{homePage.pageTitle})}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,9 +22,6 @@
             text-align: center;
         }
 
-        .course-card {
-            background-color: #f8f9fa; /* Default background color */
-        }
 
         .card-title {
             font-weight: bold;
@@ -36,14 +33,27 @@
             font-weight: bold;
             color: #333;
         }
+        .hero-section {
+            background-size: cover;
+            color: #fff;
+            padding: 100px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 
 <body th:fragment="content">
 
 <div class="container">
-    <h1 class="text-center my-4">Welcome to our Homepage</h1>
+    <section id="welcome" class="text-center py-5 hero-section">
+        <div class="container">
+            <h1 >Welcome to Our E-learningApp</h1>
+             <p style="font-size: 20px">Your gateway to endless learning opportunities.
+                Unlock Your Potential with Expert-Led Courses. </br>
+                Learn at your own pace, with lifetime access on mobile and desktop</p>
+        </div>
 
+    </section>
     <!-- from dashboard -->
     <div th:if="${message}" id='alertMessage' class="alert alert-success">
         <p th:text="${message}" id='msg'></p>
@@ -60,10 +70,10 @@
         </div>
         <div class="col-md-12">
             <div class="row" >
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" th:each="course : ${courses}">
-                    <div class="card course-card" th:attr="data-category=${course.category}">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" style="background-color: #f8f9fa" th:each="course : ${courses}">
+                    <div class="card course-card bg-info" th:attr="data-category=${course.category}">
                       <!--  <img th:src="@{'/images/' + ${course.thumbnailUrl}}" class="card-img-top course-thumbnail" alt="Course Image"> -->
-                        <div class="card-body">
+                        <div class="card-body ">
                             <h5 class="card-title" th:text="${course.name}">Course Title</h5>
                             <h6 class="card-text" th:text="${course.category}">Course description...</h6>
                             <p class="card-text" th:text="${#strings.concat('Author: ', course.author)}">Author:</p>
@@ -77,7 +87,7 @@
                             </div>
                             <p class="course-price" th:text="'€' + ${course.price}">Price</p>
                             <!-- Course description and action buttons -->
-                            <div class="card-footer" style="background-color: whitesmoke" >
+                            <div class="card-footer" style="background-color: whitesmoke" sec:authorize="isAuthenticated()">
                                 <p id="course-description" th:text="${course.description}" style="display: none;">Course description...</p>
                                 <div style="display: flex;justify-content: space-around; background-color: white;">
                                     <button class="btn btn-primary btn-sm" th:attr="data-course-id=${course.id}" style="background-color: whitesmoke" ><span class="like-symbol">&#10084;</span></button>
@@ -117,6 +127,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
+        fetchAndRenderCategories();
         fetchCartItems();
         const cards = document.querySelectorAll('.course-card');
 
@@ -405,6 +416,8 @@
     }
 
     document.getElementById('categoriesDropdown').addEventListener('mouseover', fetchAndRenderCategoriesOnce);
+
+    // Run the function when the document is loaded
     //function to display all the categories in the dropdown dynamically
     function fetchAndRenderCategories() {
         fetch('/categories', {

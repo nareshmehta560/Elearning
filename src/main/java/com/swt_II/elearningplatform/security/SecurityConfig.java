@@ -35,10 +35,10 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.ignoringRequestMatchers("/addToCart","/getCartItems", "/removeFromCart","/categories","/**"))// Disable CSRF protection for
             .authorizeHttpRequests(configurer -> {
                 configurer
-                    .requestMatchers("/","/home","/customLogin","/register", "/coursesByCategory", "/getCartItems", "/removeFromCart").permitAll()
+                    .requestMatchers("/","/home","/customLogin","/register", "/coursesByCategory", "/getCartItems", "/removeFromCart","/categories","/search","/Application").permitAll()
                     .requestMatchers("/newInstructors").hasRole("ADMIN")
-                    //.requestMatchers("/uploadCourse").hasRole("INSTRUCTOR")
-                    .requestMatchers("/admin", "/uploadCourse", "/Application", "/CSS/application.css").hasAnyRole("ADMIN","USER")
+
+                    .requestMatchers("/admin", "/uploadCourse", "/CSS/application.css").hasAnyRole("ADMIN","USER")
                     .anyRequest().authenticated();
         }).logout(LogoutConfigurer::permitAll)
                 .formLogin(form -> form.loginPage("/customLogin")
