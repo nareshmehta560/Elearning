@@ -4,7 +4,7 @@ INSERT INTO ROLE (ID, ROLE_NAME) VALUES (20, 'ADMIN');
 INSERT INTO ROLE (ID, ROLE_NAME) VALUES (30, 'INSTRUCTOR');
 
 -- INSERT USER
-INSERT INTO USER_DATA (ID, USER_NAME, PASSWORD, EMAIL) VALUES (10, 'testUser1', '$2a$12$gjtM8RCZKZd717KRpUOQleLxr7A88R8wds/JAdxwDX5vkBzndN51u', 'TEST1@GMAIL.COM'),
+INSERT INTO USER_DATA (ID, USER_NAME, PASSWORD, EMAIL) VALUES (10, 'testUser', '$2a$12$gjtM8RCZKZd717KRpUOQleLxr7A88R8wds/JAdxwDX5vkBzndN51u', 'TEST1@GMAIL.COM'),
                                                               (20, 'Naresh', '$2a$12$sjkLU.SRlQlM/Muijrh.quM7sFgCIhC8SWao3U5JBSLT.l34cADDy', 'naresh@gmail.com'),
                                                               (30, 'Bibek', '$2a$12$gjtM8RCZKZd717KRpUOQleLxr7A88R8wds/JAdxwDX5vkBzndN51u', 'bibek@gmail.com'),
                                                               (40, 'sashi', '$2a$12$gjtM8RCZKZd717KRpUOQleLxr7A88R8wds/JAdxwDX5vkBzndN51u', 'sashi@gmail.com'),

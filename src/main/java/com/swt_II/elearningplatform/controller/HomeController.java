@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class HomeController {
@@ -152,6 +153,13 @@ public class HomeController {
 
         }
         return "home";
+    }
+
+    @GetMapping("/myCourses")
+    public String getMyCourse(Model model) {
+        Set<Course> courses = userService.getEnrolledCourses();
+        model.addAttribute("courses", courses);
+        return "myCourses";
     }
 
 

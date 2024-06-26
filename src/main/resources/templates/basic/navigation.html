@@ -67,7 +67,7 @@
                         <a class="btn btn-outline-secondary"
                            href="/register" th:text="#{navbar.register}"></a>
                     </li>
-                    <li class="m-2 navbar-item " sec:authorize="isAuthenticated()">
+                    <li class="m-2 navbar-item " sec:authorize="isAuthenticated() and !hasRole('INSTRUCTOR')">
                         <a class="btn btn-outline-secondary"
                            href="/Application" th:text="#{navbar.application}"></a>
                     </li>

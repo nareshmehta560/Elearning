@@ -2,6 +2,11 @@ package com.swt_II.elearningplatform.paypal;
 
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
+import com.swt_II.elearningplatform.model.cart.Cart;
+import com.swt_II.elearningplatform.model.cart.CartService;
+import com.swt_II.elearningplatform.model.course.Course;
+import com.swt_II.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.model.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +17,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class PaypalController {
     @Autowired
     private  final PaypalService paypalService;
+    @Autowired
+    private  final UserService userService;
+    @Autowired
+    private  final CartService cartService;
 
     @GetMapping("/pay")
     public String home(@RequestParam("amount") String amount, Model model){
@@ -48,6 +59,14 @@ public class PaypalController {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             if(payment.getState().equals("approved")) {
+                User user = userService.getCurrentUser();
+                List<Course> courses = cartService.getCartItemsForUser(user);
+                Cart cart = cartService.getCartForUser(user);
+                for(Course course : courses) {
+                    user.getCourses().add(course);
+                }
+                userService.saveUser(user);
+                cart.getCourses().clear();
                 return "paymentSuccess";
             }
         } catch (Exception e) {
