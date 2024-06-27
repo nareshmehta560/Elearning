@@ -3,6 +3,11 @@ package com.swt_II.elearningplatform;
 
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
+import com.swt_II.elearningplatform.model.cart.Cart;
+import com.swt_II.elearningplatform.model.cart.CartService;
+import com.swt_II.elearningplatform.model.course.Course;
+import com.swt_II.elearningplatform.model.user.User;
+import com.swt_II.elearningplatform.model.user.UserService;
 import com.swt_II.elearningplatform.paypal.PaypalController;
 import com.swt_II.elearningplatform.paypal.PaypalService;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +20,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -34,6 +42,12 @@ public class PaypalTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
+
+    @MockBean
+    private UserService userService;
+
+    @MockBean
+    private CartService cartService;
 
     @InjectMocks
     private PaypalController paypalController;
@@ -70,14 +84,35 @@ public class PaypalTest {
     //Test for paypal payment success
     @Test
     public void testPaymentSuccess() throws Exception {
+        // Mock the Payment
         Payment mockPayment = new Payment();
         mockPayment.setState("approved");
 
-        when(paypalService.executePayment(anyString(), anyString())).thenReturn(mockPayment);
+        // Mock the User
+        User mockUser = new User();
+        mockUser.setCourses(new HashSet<>());
 
+        // Mock the Cart
+        Cart mockCart = new Cart();
+        mockCart.setCourses(new ArrayList<>());
+
+        // Mock the Course
+        Course mockCourse = new Course();
+        List<Course> mockCourses = Collections.singletonList(mockCourse);
+
+        // Define the behavior of your mocks
+        when(paypalService.executePayment(anyString(), anyString())).thenReturn(mockPayment);
+        when(userService.getCurrentUser()).thenReturn(mockUser);
+        when(cartService.getCartItemsForUser(mockUser)).thenReturn(mockCourses);
+        when(cartService.getCartForUser(mockUser)).thenReturn(mockCart);
+
+        // Perform the request
         mockMvc.perform(get("/payment/success").param("paymentId", "123").param("PayerID", "456"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("paymentSuccess"));
+
+        // Verify that saveUser was called
+        verify(userService, times(1)).saveUser(mockUser);
     }
     // test for payment error
     @Test

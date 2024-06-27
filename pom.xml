@@ -8,11 +8,12 @@
 		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
+	<groupId>com.edu</groupId>
 	<artifactId>elearningplatform</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>elearningplatform</name>
 	<description>Demo project for Spring Boot</description>
+    <packaging>jar</packaging>
 	<properties>
 		<java.version>20</java.version>
 	</properties>
