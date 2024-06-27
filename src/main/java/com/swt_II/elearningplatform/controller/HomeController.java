@@ -46,6 +46,10 @@ public class HomeController {
     @Autowired
     private CartService cartService;
 
+    @GetMapping(value = {"/editProfile", "/deleteAccount"})
+    public String redirectNotFound() {
+        return "redirect:/home";
+    }
 
     @GetMapping(value = {"","/","/home"})
     public String home(Model model) {
