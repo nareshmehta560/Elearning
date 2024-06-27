@@ -50,7 +50,6 @@ public class HomeController {
     public String redirectNotFound() {
         return "redirect:/home";
     }
-
     @GetMapping(value = {"","/","/home"})
     public String home(Model model) {
         List<Course> courses = courseService.getAllCourses();
