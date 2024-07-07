@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-            th:replace="~{basic/layout :: layout(~{::content}, #{homePage.pageTitle})}">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{basic/layout :: layout(~{::content}, #{homePage.pageTitle})}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,9 +22,6 @@
             text-align: center;
         }
 
-        .course-card {
-            background-color: #f8f9fa; /* Default background color */
-        }
 
         .card-title {
             font-weight: bold;
@@ -36,32 +33,47 @@
             font-weight: bold;
             color: #333;
         }
+        .hero-section {
+            background-size: cover;
+            color: #fff;
+            padding: 100px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
+
 <body th:fragment="content">
-<div th:if="${message}" id='alertMessage' class="alert alert-success" style="transition: opacity 0.5s ease-out;">
-    <p th:text="${message}" id='msg'></p>
-</div>
-<p th:if="${errorInstructor}" style="color: red">You have no Right for Instructor apply for it</p>
+
 <div class="container">
-    <h1 class="text-center my-4">Welcome to our E-Learning Platform.</h1>
+    <section id="welcome" class="text-center py-5 hero-section">
+        <div class="container">
+            <h1 >Welcome to Our E-learningApp</h1>
+             <p style="font-size: 20px">Your gateway to endless learning opportunities.
+                Unlock Your Potential with Expert-Led Courses. </br>
+                Learn at your own pace, with lifetime access on mobile and desktop</p>
+        </div>
+
+    </section>
+    <!-- from dashboard -->
+    <div th:if="${message}" id='alertMessage' class="alert alert-success">
+        <p th:text="${message}" id='msg'></p>
+    </div>
+    <p th:if="${errorInstructor}" style="color: red">You have no Right for Instructor apply for it</p>
 
     <div class="row">
         <div class="col-md-12">
             <h2 class="mb-4" id="featured-courses-heading">Featured Courses</h2>
         </div>
-    </div>
-    <!-- this code is  for displaying the message no courses available -->
-    <div th:if="${noCoursesMessage}" class="alert alert-warning" role="alert">
-        <span th:text="${noCoursesMessage}"></span>
-    </div>
-
-    <div class="col-md-12">
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" th:each="course : ${courses}">
-                    <div class="card course-card" th:attr="data-category=${course.category}">
+        <!-- this code is  for displaying the message no courses available -->
+        <div th:if="${noCoursesMessage}" class="alert alert-warning" role="alert">
+            <span th:text="${noCoursesMessage}"></span>
+        </div>
+        <div class="col-md-12">
+            <div class="row" >
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4" style="background-color: #f8f9fa" th:each="course : ${courses}">
+                    <div class="card course-card bg-info" th:attr="data-category=${course.category}">
                       <!--  <img th:src="@{'/images/' + ${course.thumbnailUrl}}" class="card-img-top course-thumbnail" alt="Course Image"> -->
-                        <div class="card-body">
+                        <div class="card-body ">
                             <h5 class="card-title" th:text="${course.name}">Course Title</h5>
                             <h6 class="card-text" th:text="${course.category}">Course description...</h6>
                             <p class="card-text" th:text="${#strings.concat('Author: ', course.author)}">Author:</p>
@@ -75,7 +87,7 @@
                             </div>
                             <p class="course-price" th:text="'€' + ${course.price}">Price</p>
                             <!-- Course description and action buttons -->
-                            <div class="card-footer" style="background-color: whitesmoke" >
+                            <div class="card-footer" style="background-color: whitesmoke" sec:authorize="isAuthenticated()">
                                 <p id="course-description" th:text="${course.description}" style="display: none;">Course description...</p>
                                 <div style="display: flex;justify-content: space-around; background-color: white;">
                                     <button class="btn btn-primary btn-sm" th:attr="data-course-id=${course.id}" style="background-color: whitesmoke" ><span class="like-symbol">&#10084;</span></button>
@@ -115,15 +127,9 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
+        fetchAndRenderCategories();
         fetchCartItems();
         fetchWishlistItems();
-        const alertMessage = document.getElementById('alertMessage');
-        if (alertMessage) {
-            setTimeout(() => {
-                alertMessage.style.opacity = '0';
-                setTimeout(() => alertMessage.style.display = 'none', 500); // Additional delay for smooth transition
-            }, 1000);
-        }
         const cards = document.querySelectorAll('.course-card');
 
         cards.forEach(card => {
@@ -155,7 +161,6 @@
         updateCount('wishlist');
         updateCount('cart');
     });
-
     //Function to add course to Cart in database
     function addToCartInDatabase(courseId) {
         fetch('/addToCart', {
@@ -185,7 +190,6 @@
             .then(data => console.log(data))
             .catch((error) => console.error('Error:', error));
     }
-
     // Function to fetch and display cart items
     function fetchWishlistItems() {
         fetch('/getWishlistItems', {
@@ -211,7 +215,6 @@
             })
             .catch((error) => console.error('Error:', error));
     }
-
     // Function to fetch and display cart items
     function fetchCartItems() {
         fetch('/getCartItems', {
@@ -260,6 +263,7 @@
         }
     }
 
+
     //function to add courses to wishlist
     function addToWishlist(courseName, courseId) {
         const wishlistDropdownMenu = document.querySelector('#wishlistDropdown + .dropdown-menu');
@@ -305,8 +309,7 @@
 
         return true; // Return true if the item was added
     }
-
-    // Function to remove item from cart in the database
+    // Function to remove item from wishlist in the database
     function removeFromWishlist(courseId) {
         fetch('/removeFromWishlist', {
             method: 'POST',
@@ -322,6 +325,7 @@
             })
             .catch((error) => console.error('Error:', error));
     }
+
 
     //function to add course to cart
     function addToCart(courseName, coursePrice, courseId) {
@@ -370,8 +374,6 @@
 
         return true; // Return true if the item was added
     }
-
-
     // Function to remove item from cart in the database
     function removeFromCart(courseId) {
         fetch('/removeFromCart', {
@@ -388,7 +390,6 @@
             })
             .catch((error) => console.error('Error:', error));
     }
-
     // Function to display "Cart is empty" message
     function displayEmptyCartMessage() {
         const cartDropdownMenu = document.querySelector('#cartDropdown + .dropdown-menu');
@@ -465,12 +466,23 @@
                 checkoutButton.style.display = 'none';
             }
         }
-
+    }
+    function fetchAndRenderCategoriesOnce() {
+        fetchAndRenderCategories();
+        document.getElementById('categoriesDropdown').removeEventListener('mouseover', fetchAndRenderCategoriesOnce);
     }
 
+    document.getElementById('categoriesDropdown').addEventListener('mouseover', fetchAndRenderCategoriesOnce);
+
+    // Run the function when the document is loaded
     //function to display all the categories in the dropdown dynamically
     function fetchAndRenderCategories() {
-        fetch('/categories')
+        fetch('/categories', {
+            headers: {
+                'Accept': 'application/json'
+            }
+
+        })
             .then(response => response.json())
             .then(categories => {
                 const categoriesDropdown = document.getElementById('categoriesDropdown');
@@ -487,13 +499,26 @@
                 // Add fetched categories
                 categories.forEach(category => {
                     const listItem = document.createElement('li');
-                    listItem.innerHTML = `<a class="dropdown-item" href="/coursesByCategory(category=${category})">${category}</a>`;
+                    listItem.innerHTML = `<a class="dropdown-item" href="/coursesByCategory?category=${encodeURIComponent(category)}">${category}</a>`;
                     dropdownMenu.appendChild(listItem);
                 });
             })
             .catch(error => console.error('Error fetching categories:', error));
     }
-</script>
 
+
+    document.getElementById('checkoutButton').addEventListener('click', function() {
+        // Get the total amount value
+        const totalAmountElement = document.querySelector('.totalAmount');
+        let totalAmount = totalAmountElement.textContent.trim();
+
+        // Remove the currency symbol if present
+        totalAmount = totalAmount.replace('€', '').trim();
+
+        // Redirect to the payment URL with the total amount as a query parameter
+        const paymentUrl = `/pay?amount=${encodeURIComponent(totalAmount)}`;
+        window.location.href = paymentUrl;
+    });
+</script>
 </body>
 </html>

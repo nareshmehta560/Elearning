@@ -1,5 +1,6 @@
 package com.swt_II.elearningplatform.model.user;
 
+import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.role.Role;
 import com.swt_II.elearningplatform.model.role.RoleService;
 import com.swt_II.elearningplatform.repositories.UserRepository;
@@ -14,6 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +50,13 @@ public class UserService implements UserDetailsService {
             return null;
         }
         return userRepository.findByUserName(authentication.getName());
+    }
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+    public Set<Course> getEnrolledCourses() {
+        User user = getCurrentUser();
+        return  user.getCourses();
     }
 
 }

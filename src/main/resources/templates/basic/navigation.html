@@ -3,17 +3,14 @@
 <th:block th:fragment="navigation">
     <nav class="navbar navbar-expand-md bg-white fixed-top border border-1 py-0">
         <div class="container-fluid d-flex justify-content-center align-items-center" >
-            <a class="navbar-brand " href="/home">Home</a>
+            <a class="navbar-brand " style="margin-right: 80px; color: orange; font-weight: bold" href="/home">E-Learning</a>
 
             <!-- Categories Dropdown -->
             <div class="dropdown" style="margin-right: 80px">
-                <a class="nav-link dropdown-toggle" href="#" role="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false" onclick="fetchAndRenderCategories()">Categories</a>
-                <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                <a class="nav-link dropdown-toggle" role="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">Filter-Categories</a>
+                <ul class="dropdown-menu" aria-labelledby="categoriesDropdown" style="max-height: 500px; overflow-y: auto;">
                     <li><a class="dropdown-item" href="/coursesByCategory">All Categories</a></li>
                     <!-- Dynamically generated categories -->
-                    <li th:each="categoryItem : ${categories}">
-                        <a class="dropdown-item" th:href="@{/coursesByCategory(category=${categoryItem})}" th:text="${categoryItem}"></a>
-                    </li>
                 </ul>
             </div>
 
@@ -47,7 +44,7 @@
                     <span class="badge bg-danger position-absolute top-0 start-100 translate-middle p-2 rounded-pill" id="cartCount">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="cartDropdown">
-                    <li><a class="dropdown-item" href="#">Cart is empty</a></li>
+                    <li><a class="dropdown-item" >Cart is empty</a></li>
                     <li class="dropdown-divider"></li>
                     <li class="total-amount d-flex justify-content-around align-items-center">
                         <span>Total:</span>
@@ -69,13 +66,9 @@
                         <a class="btn btn-outline-secondary"
                            href="/register" th:text="#{navbar.register}"></a>
                     </li>
-                    <li class="m-2 navbar-item " sec:authorize="isAuthenticated()">
+                    <li class="m-2 navbar-item " sec:authorize="isAuthenticated() and !hasRole('INSTRUCTOR')">
                         <a class="btn btn-outline-secondary"
                            href="/Application" th:text="#{navbar.application}"></a>
-                    </li>
-                    <li class="m-2 navbar-item " sec:authorize="isAuthenticated()">
-                        <a class="btn btn-outline-secondary"
-                           href="/pay" th:text="#{navbar.pay}"></a>
                     </li>
 
                     <li class="m-2 navbar-item " sec:authorize="isAuthenticated() and hasRole('ADMIN')">
@@ -101,7 +94,6 @@
                     <li><a class="dropdown-item" href="/editProfile">Edit Profile</a></li>
                     <li><a class="dropdown-item" href="/myCourses">My Courses</a></li>
                     <li><a class="dropdown-item" href="/uploadCourse" th:text="#{navbar.uploadCourse}">Upload Course</a></li>
-                    <li><a class="dropdown-item" href="/delete">Delete Account</a></li>
                         <form th:action="@{/logout}" method="post">
                             <button class="dropdown-item" type="submit" th:text="#{navbar.logout}">Logout</button>
                         </form>
@@ -114,21 +106,6 @@
         </div>
     </nav>
 </th:block>
-<script type="text/javascript">
-
-    // JavaScript function for searching courses
-    function searchCourses() {
-        console.log("Search button clicked");
-        var searchInput = document.getElementById('searchInput').value;
-        window.location.href = '/search?keyword=' + searchInput;
-    }
-
-    // Event listener for search button click test
-    document.getElementById('searchButton').addEventListener('click', function(event) {
-        event.preventDefault();
-        searchCourses();
-    });
-</script>
 
 </body>
 </html>

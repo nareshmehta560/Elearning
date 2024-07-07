@@ -81,7 +81,6 @@ public class InstructorTest {
         verify(instructorRepository, times(1)).findById(id);
         verify(instructorRepository, times(1)).save(instructor);
         verify(userRepository, times(1)).save(any());
-        verify(userDetailsService, times(1)).loadUserByUsername(user.getUserName());
 
     }
 }

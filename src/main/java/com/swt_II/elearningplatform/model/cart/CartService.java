@@ -49,5 +49,8 @@ public class CartService {
             return List.of(); // Return an empty list if the cart is null
         }
     }
+    public Cart getCartForUser(User user) {
+        return cartRepository.findByUser(user);
+    }
 
 }

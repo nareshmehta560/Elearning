@@ -2,6 +2,7 @@ package com.swt_II.elearningplatform.model.course;
 
 import com.swt_II.elearningplatform.model.cart.Cart;
 import com.swt_II.elearningplatform.model.user.Instructor;
+import com.swt_II.elearningplatform.model.user.User;
 import com.swt_II.elearningplatform.model.wishlist.Wishlist;
 import jakarta.persistence.*;
 
@@ -9,7 +10,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -37,8 +40,6 @@ public class Course{
 
     private String fileName;
 
-
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Cart_Course",
             joinColumns = @JoinColumn(name = "course_id"),
@@ -51,4 +52,11 @@ public class Course{
             inverseJoinColumns = @JoinColumn(name = "wishlist_id"))
     private List<Wishlist> wishlists= new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "User_Course",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<User>  users = new HashSet<>();
+
+   
 }

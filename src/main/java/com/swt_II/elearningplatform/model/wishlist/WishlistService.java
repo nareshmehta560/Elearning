@@ -21,7 +21,7 @@ public class WishlistService {
 
     @Transactional
     public void addCourseToWishlist(User user, Course course) {
-       Wishlist wishlist = wishlistRepository.findByUser(user);
+        Wishlist wishlist = wishlistRepository.findByUser(user);
         if (wishlist == null) {
             wishlist = new Wishlist();
             wishlist.setUser(user);
