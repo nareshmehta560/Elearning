@@ -47,7 +47,12 @@ public class InstructorApplicationController {
     }
 
     @GetMapping("/Application")
-    public String getApplicationForm(Model model) {
+    public String getApplicationForm(Model model,RedirectAttributes redirectAttributes) {
+
+        if(instructorService.haveAlreadyApplied(userService.getCurrentUser().getId())) {
+            redirectAttributes.addFlashAttribute("message","You have already applied as an Instructor. Please wait for approval.");
+            return "redirect:/home";
+        }
         model.addAttribute("applicationForm", applicationForm);
         model.addAttribute("user",userService.getCurrentUser());
         return "Application";

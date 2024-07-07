@@ -47,6 +47,9 @@ public class InstructorService {
          userRepository.save(user);
 
     }
+    public boolean haveAlreadyApplied(Long id) {
+        return instructorRepository.existsInstructorByUser_Id(id);
+    }
 
     public void deleteInstructor(Long id) {
         Instructor instructor = instructorRepository.findById(id).get();
