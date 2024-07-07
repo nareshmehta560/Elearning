@@ -1,6 +1,7 @@
 package com.swt_II.elearningplatform.model.user;
 
 import com.swt_II.elearningplatform.model.cart.Cart;
+import com.swt_II.elearningplatform.model.course.Course;
 import com.swt_II.elearningplatform.model.wishlist.Wishlist;
 import com.swt_II.elearningplatform.model.role.Role;
 import jakarta.persistence.*;
@@ -8,7 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -35,6 +38,19 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade=CascadeType.ALL)
     private Instructor instructor;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Wishlist wishlist;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "User_Course",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courses;
+
 
     public User(String firstName, String lastName, String userName, String email, String password, String confirmPassword) {
         this.firstName = firstName;
@@ -68,11 +84,10 @@ public class User {
         }
         this.roles.add(role);
     }
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Cart cart;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Wishlist wishlist;
-
+    public void addCourse(Course course){
+        if (this.courses == null) {
+            this.courses = new HashSet<>();
+        }
+        this.courses.add(course);
+    }
 }

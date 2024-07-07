@@ -59,9 +59,13 @@ public class CourseController {
                 .body( new ByteArrayResource(course.getField()));
     }
 
-    @Autowired
-    private CourseRepository courseRepository;
-    //Handles fetching and displaying courses on the homepage.
+    @GetMapping(value = "/categories",produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<String> showCategories() {
+        List<String> categories = courseService.getAllCategories();
+        return categories;
+    }
+
 
 
 }

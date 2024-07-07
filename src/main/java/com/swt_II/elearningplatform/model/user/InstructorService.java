@@ -26,6 +26,9 @@ public class InstructorService {
 
     private final UserDetailsService userDetailsService;
 
+    @Autowired
+    private UserService userService;
+
     public InstructorService(InstructorRepository instructorRepository, RoleService roleService, UserRepository userRepository,UserDetailsService userDetailsService) {
         this.instructorRepository = instructorRepository;
         this.roleService = roleService;
@@ -42,10 +45,10 @@ public class InstructorService {
         User user = instructor.getUser();
          user.addRole(roleService.getRoleFromRoleName("INSTRUCTOR"));
          userRepository.save(user);
-        // Update authorities in current session
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUserName());
-        Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(newAuth);
+
+    }
+    public boolean haveAlreadyApplied(Long id) {
+        return instructorRepository.existsInstructorByUser_Id(id);
     }
 
     public void deleteInstructor(Long id) {

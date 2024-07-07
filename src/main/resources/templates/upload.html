@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Upload Course</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            padding-top: 0px;
+            padding-top: 0;
             background-color: #9fbfd3;
         }
 
@@ -18,29 +18,30 @@
             border-color:white;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgb(9, 0, 0);
         }
-        header{
+        header {
             display: flex;
-            justify-content: center;
             align-items: center;
-            background-color: #42c6e1;
-            margin-top:0px;
+            justify-content: center;
+            position: relative;
+            background-color: #d0ecf3;
+            margin-top:0;
             margin-bottom: 3px;
             height: 60px;
             gap: 20px;
         }
-        #home{
-            border: none;
-            font-size: larger;
-            margin-: 0px;
-            background-color: transparent;
+
+        header a#home {
+            position: absolute;
+            left: 5px;
+            color: orange;
+            font-weight: bold;
             text-decoration: none;
         }
-        #home:hover{
-            color:Orange;
-            font-size: larger;
-            font-weight:bold;
+
+        header h2 {
+            margin: 0;
         }
 
         label {
@@ -131,8 +132,8 @@
 </head>
 <body>
 <header>
+    <a href="/home" id="home">E-Learning</a>
     <h2>Upload a New Course</h2>
-    <a href="/home" id="home">Home</a>
 </header>
 
 <!-- Display error message -->

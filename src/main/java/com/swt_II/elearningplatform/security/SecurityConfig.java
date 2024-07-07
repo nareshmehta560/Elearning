@@ -32,14 +32,12 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf(csrf -> csrf.ignoringRequestMatchers("/addToCart","/getCartItems", "/removeFromCart", "/addToWishlist","/getWishlistItems", "/removeFromWishlist") )// Disable CSRF protection for
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/addToCart","/getCartItems", "/removeFromCart", "/addToWishlist","/getWishlistItems", "/removeFromWishlist","/categories","/**"))// Disable CSRF protection for
             .authorizeHttpRequests(configurer -> {
                 configurer
-                    .requestMatchers("/","/home","/customLogin","/register", "/coursesByCategory", "/getCartItems", "/removeFromCart", "/getWishlistItems", "/removeFromWishlist").permitAll()
-                    .requestMatchers(request -> "/search".equals(request.getServletPath())).permitAll() // Allow unauthenticated access to the search endpoint
-                    .requestMatchers("/newInstructors").hasRole("ADMIN")
-                    //.requestMatchers("/uploadCourse").hasRole("INSTRUCTOR")
-                    .requestMatchers("/admin", "/uploadCourse", "/Application", "/CSS/application.css").hasAnyRole("ADMIN","USER")
+                    .requestMatchers("/","/home","/customLogin","/register", "/coursesByCategory", "/removeFromCart","/getCartItems","/getWishlistItems", "/removeFromWishlist","/categories","/search").permitAll()
+                    .requestMatchers("/admin", "/uploadCourse","/removeFromCart","/Application").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/newInstructors").hasRole("ADMIN")
                     .anyRequest().authenticated();
         }).logout(LogoutConfigurer::permitAll)
                 .formLogin(form -> form.loginPage("/customLogin")

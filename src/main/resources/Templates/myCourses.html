@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyCourses</title>
+    <link th:href="@{/webjars/bootstrap/5.3.1/dist/css/bootstrap.min.css}" rel="stylesheet">
+
+    <style>
+        .course-card {
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.2s;
+            margin-bottom: 20px; /* Add margin-bottom to each card for spacing */
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .course-card {
+            background-color: #f8f9fa; /* Default background color */
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .course-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .rating .star {
+            color: #FFD700; /* Gold color for stars */
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: #d0ecf3;
+            margin-top:0;
+            margin-bottom: 3px;
+            height: 60px;
+            gap: 20px;
+        }
+        header a#home {
+            position: absolute;
+            left: 5px;
+            color: orange;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <a href="/home" id="home">E-Learning</a>
+    <h2>My Courses</h2>
+</header>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 " th:each="course : ${courses}">
+                    <div class="card course-card h-100 text-center text-bg-primary" th:attr="data-category=${course.category}">
+                        <!--  <img th:src="@{'/images/' + ${course.thumbnailUrl}}" class="card-img-top course-thumbnail" alt="Course Image"> -->
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${course.name}">Course Title</h5>
+                            <h6 class="card-text" th:text="${course.category}">Course Category</h6>
+                            <p class="card-text" th:text="${#strings.concat('Author: ', course.author)}">Author:</p>
+                            <!-- Rating (you can use stars or any other representation) -->
+                            <div class="rating">
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9734;</span> <!-- Example: 4 out of 5 stars -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.1/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

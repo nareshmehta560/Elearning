@@ -27,4 +27,3 @@ public class Wishlist {
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> courses = new ArrayList<>();
 }
-

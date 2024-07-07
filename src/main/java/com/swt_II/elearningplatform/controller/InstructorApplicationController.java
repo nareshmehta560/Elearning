@@ -45,12 +45,14 @@ public class InstructorApplicationController {
     InstructorApplicationController(InstructorRepository instructorRepository) {
         this.instructorRepository = instructorRepository;
     }
-    @GetMapping("/CSS/application.css")
-    public String getCss() {
-        return "CSS/Application.css";
-    }
+
     @GetMapping("/Application")
-    public String getApplicationForm(Model model) {
+    public String getApplicationForm(Model model,RedirectAttributes redirectAttributes) {
+
+        if(instructorService.haveAlreadyApplied(userService.getCurrentUser().getId())) {
+            redirectAttributes.addFlashAttribute("message","You have already applied as an Instructor. Please wait for approval.");
+            return "redirect:/home";
+        }
         model.addAttribute("applicationForm", applicationForm);
         model.addAttribute("user",userService.getCurrentUser());
         return "Application";
