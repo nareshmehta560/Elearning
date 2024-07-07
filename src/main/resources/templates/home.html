@@ -140,9 +140,11 @@
             // Attach event listener for "Add to Wishlist" buttons
             const addToWishlistButton = card.querySelector('.btn-primary');
             addToWishlistButton.addEventListener('click', function() {
-                if(addToWishlist(card.querySelector('.card-title').textContent)) {
+                const courseName = card.querySelector('.card-title').textContent;
+                if(addToWishlist(courseName)) {
                     showTemporaryPlusOne('like-symbol');
                 }
+                addToWishlistInDatabase(addToWishlistButton.getAttribute('data-course-id'));
             });
 
             // Attach event listener for "Add to Cart" buttons
