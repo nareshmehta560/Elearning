@@ -38,9 +38,6 @@ public class InstructorService {
     public List<Instructor> getUnapprovedInstructors() {
         return instructorRepository.findAllByIsApprovedFalse();
     }
-    public boolean haveAlreadyApplied(Long id) {
-        return instructorRepository.findById(id).isPresent();
-    }
     public void approveInstructor(Long id) {
         Instructor instructor = instructorRepository.findById(id).get();
         instructor.setApproved(true);
@@ -49,6 +46,9 @@ public class InstructorService {
          user.addRole(roleService.getRoleFromRoleName("INSTRUCTOR"));
          userRepository.save(user);
 
+    }
+    public boolean haveAlreadyApplied(Long id) {
+        return instructorRepository.existsInstructorByUser_Id(id);
     }
 
     public void deleteInstructor(Long id) {

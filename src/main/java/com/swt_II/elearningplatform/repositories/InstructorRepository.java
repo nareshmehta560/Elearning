@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface InstructorRepository extends CrudRepository<Instructor, Long>  {
      List<Instructor> findAllByIsApprovedFalse();
+        boolean existsInstructorByUser_Id(Long id);
 
 }
