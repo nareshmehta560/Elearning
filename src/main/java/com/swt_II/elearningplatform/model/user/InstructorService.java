@@ -38,6 +38,9 @@ public class InstructorService {
     public List<Instructor> getUnapprovedInstructors() {
         return instructorRepository.findAllByIsApprovedFalse();
     }
+    public boolean haveAlreadyApplied(Long id) {
+        return instructorRepository.findById(id).isPresent();
+    }
     public void approveInstructor(Long id) {
         Instructor instructor = instructorRepository.findById(id).get();
         instructor.setApproved(true);
