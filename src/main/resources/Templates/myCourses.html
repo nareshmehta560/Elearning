@@ -39,10 +39,36 @@
         .rating .star {
             color: #FFD700; /* Gold color for stars */
         }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: #d0ecf3;
+            margin-top:0;
+            margin-bottom: 3px;
+            height: 60px;
+            gap: 20px;
+        }
+        header a#home {
+            position: absolute;
+            left: 5px;
+            color: orange;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        header h2 {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
-       <h4 class="text-center mt-5">My Learning</h4>
+<header>
+    <a href="/home" id="home">E-Learning</a>
+    <h2>My Courses</h2>
+</header>
 <div class="container">
     <div class="row mt-5">
         <div class="col-md-12">
