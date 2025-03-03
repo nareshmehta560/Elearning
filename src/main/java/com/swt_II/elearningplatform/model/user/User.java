@@ -27,6 +27,9 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
+    private boolean enabled = true;
+    private boolean accountNonLocked = true;
+    private int failedLoginAttempts = 0;
     @Transient
     private String confirmPassword;
 

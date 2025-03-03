@@ -42,6 +42,7 @@ public class SecurityConfig {
         }).logout(LogoutConfigurer::permitAll)
                 .formLogin(form -> form.loginPage("/customLogin")
                         .loginProcessingUrl("/performLogin")
+                        .failureHandler(new CustomFailureHandler())
                         .defaultSuccessUrl("/home")
                         .permitAll());
         return http.build();

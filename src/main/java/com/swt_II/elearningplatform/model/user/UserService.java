@@ -58,5 +58,13 @@ public class UserService implements UserDetailsService {
         User user = getCurrentUser();
         return  user.getCourses();
     }
+    public void increaseFailedAttempts(User user) {
+        user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
+
+    }
+    public void lock(User user) {
+        user.setAccountNonLocked(false);
+        saveUser(user);
+    }
 
 }

@@ -178,298 +178,298 @@ INSERT INTO COURSE (
              'Mathe',
              550.00
          ),(
-                12,
-                'Physics',
-                'Newton',
-                'Physics for Beginners',
-                'Science',
-                550.00
-            ),(
-                13,
-                'Advanced Physics',
-                'Newton',
-                'Advanced Physics for Beginners',
-                'Science',
-                550.00
-            ),(
-                14,
-                'Chemistry',
-                'Rutherford',
-                'Chemistry for Beginners',
-                'Science',
-                550.00
-            ),(
-                15,
-                'Advanced Chemistry',
-                'Rutherford',
-                'Advanced Chemistry for Beginners',
-                'Science',
-                550.00
-            ),(
-                16,
-                'Biology',
-                'Darwin',
-                'Biology for Beginners',
-                'Science',
-                550.00
-            ),(
-                17,
-                'Advanced Biology',
-                'Darwin',
-                'Advanced Biology for Beginners',
-                'Science',
-                550.00
-            ),(
-                18,
-                'History',
-                'Herodotus',
-                'History for Beginners',
-                'History',
-                550.00
-            ),(
-                19,
-                'Advanced History',
-                'Herodotus',
-                'Advanced History for Beginners',
-                'History',
-                550.00
-            ),(
-                20,
-                'Geography',
-                'Eratosthenes',
-                'Geography for Beginners',
-                'Geography',
-                550.00
-            ),(
-                21,
-                'Advanced Geography',
-                'Eratosthenes',
-                'Advanced Geography for Beginners',
-                'Geography',
-                550.00
-            ),(
-                22,
-                'Economics',
-                'Adam Smith',
-                'Economics for Beginners',
-                'Economics',
-                550.00
-            ),(
-                23,
-                'Advanced Economics',
-                'Adam Smith',
-                'Advanced Economics for Beginners',
-                'Economics',
-                550.00
-            ),(
-                24,
-                'Political Science',
-                'Aristotle',
-                'Political Science for Beginners',
-                'Political Science',
-                550.00
-            ),(
-                25,
-                'Advanced Political Science',
-                'Aristotle',
-                'Advanced Political Science for Beginners',
-                'Political Science',
-                550.00
-            ),(
-                26,
-                'Sociology',
-                'Auguste Comte',
-                'Sociology for Beginners',
-                'Sociology',
-                550.00
-            ),(
-                27,
-                'Advanced Sociology',
-                'Auguste Comte',
-                'Advanced Sociology for Beginners',
-                'Sociology',
-                550.00
-            ),(
-                28,
-                'Psychology',
-                'Sigmund Freud',
-                'Psychology for Beginners',
-                'Psychology',
-                550.00
-            ),(
-                29,
-                'Advanced Psychology',
-                'Sigmund Freud',
-                'Advanced Psychology for Beginners',
-                'Psychology',
-                550.00
-            ),(
-                30,
-                'Philosophy',
-                'Plato',
-                'Philosophy for Beginners',
-                'Philosophy',
-                550.00
-            ),(
-                31,
-                'Advanced Philosophy',
-                'Plato',
-                'Advanced Philosophy for Beginners',
-                'Philosophy',
-                550.00
-            ),(
-                32,
-                'Literature',
-                'Homer',
-                'Literature for Beginners',
-                'Literature',
-                550.00
-            ),(
-                33,
-                'Advanced Literature',
-                'Homer',
-                'Advanced Literature for Beginners',
-                'Literature',
-                550.00
-            ),(
-                34,
-                'Art',
-                'Leonardo da Vinci',
-                'Art for Beginners',
-                'Art',
-                550.00
-            ),(
-                35,
-                'Advanced Art',
-                'Leonardo da Vinci',
-                'Advanced Art for Beginners',
-                'Art',
-                550.00
-            ),(
-                36,
-                'Music',
-                'Beethoven',
-                'Music for Beginners',
-                'Music',
-                550.00
-            ),(
-                37,
-                'Advanced Music',
-                'Beethoven',
-                'Advanced Music for Beginners',
-                'Music',
-                550.00
-            ),(
-                38,
-                'Dance',
-                'Martha Graham',
-                'Dance for Beginners',
-                'Dance',
-                550.00
-            ),(
-                39,
-                'Advanced Dance',
-                'Martha Graham',
-                'Advanced Dance for Beginners',
-                'Dance',
-                550.00
-            ),(
-                40,
-                'Theatre',
-                'Shakespeare',
-                'Theatre for Beginners',
-                'Theatre',
-                550.00
-            ),(
-                41,
-                'Advanced Theatre',
-                'Shakespeare',
-                'Advanced Theatre for Beginners',
-                'Theatre',
-                550.00
-            ),(
-                42,
-                'Film',
-                'Alfred Hitchcock',
-                'Film for Beginners',
-                'Film',
-                550.00
-            ),(
-                43,
-                'Advanced Film',
-                'Alfred Hitchcock',
-                'Advanced Film for Beginners',
-                'Film',
-                550.00
-            ),(
-                44,
-                'Photography',
-                'Ansel Adams',
-                'Photography for Beginners',
-                'Photography',
-                550.00
-            ),(
-                45,
-                'Advanced Photography',
-                'Ansel Adams',
-                'Advanced Photography for Beginners',
-                'Photography',
-                550.00
-            ),(
-                46,
-                'Fashion',
-                'Coco Chanel',
-                'Fashion for Beginners',
-                'Fashion',
-                550.00
-            ),(
-                47,
-                'Advanced Fashion',
-                'Coco Chanel',
-                'Advanced Fashion for Beginners',
-                'Fashion',
-                550.00
-            ),(
-                48,
-                'Culinary Arts',
-                'Julia Child',
-                'Culinary Arts for Beginners',
-                'Culinary Arts',
-                550.00
-            ),(
-                49,
-                'Advanced Culinary Arts',
-                'Julia Child',
-                'Advanced Culinary Arts for Beginners',
-                'Culinary Arts',
-                550.00
-            ),(
-                50,
-                'Gardening',
-                'Vita Sackville-West',
-                'Gardening for Beginners',
-                'Gardening',
-                550.00
-            ),(
-                51,
-                'Advanced Gardening',
-                'Vita Sackville-West',
-                'Advanced Gardening for Beginners',
-                'Gardening',
-                550.00
-            ),(
-                52,
-                'Home Improvement',
-                'Bob Vila',
-                'Home Improvement for Beginners',
-                'Others',
-                550.00
-            ),(
-                53,
-                'Advanced Home Improvement',
-                'Bob Vila',
-                'Advanced Home Improvement for Beginners',
-                'Others',
-                550.00
-            );
+             12,
+             'Physics',
+             'Newton',
+             'Physics for Beginners',
+             'Science',
+             550.00
+         ),(
+             13,
+             'Advanced Physics',
+             'Newton',
+             'Advanced Physics for Beginners',
+             'Science',
+             550.00
+         ),(
+             14,
+             'Chemistry',
+             'Rutherford',
+             'Chemistry for Beginners',
+             'Science',
+             550.00
+         ),(
+             15,
+             'Advanced Chemistry',
+             'Rutherford',
+             'Advanced Chemistry for Beginners',
+             'Science',
+             550.00
+         ),(
+             16,
+             'Biology',
+             'Darwin',
+             'Biology for Beginners',
+             'Science',
+             550.00
+         ),(
+             17,
+             'Advanced Biology',
+             'Darwin',
+             'Advanced Biology for Beginners',
+             'Science',
+             550.00
+         ),(
+             18,
+             'History',
+             'Herodotus',
+             'History for Beginners',
+             'History',
+             550.00
+         ),(
+             19,
+             'Advanced History',
+             'Herodotus',
+             'Advanced History for Beginners',
+             'History',
+             550.00
+         ),(
+             20,
+             'Geography',
+             'Eratosthenes',
+             'Geography for Beginners',
+             'Geography',
+             550.00
+         ),(
+             21,
+             'Advanced Geography',
+             'Eratosthenes',
+             'Advanced Geography for Beginners',
+             'Geography',
+             550.00
+         ),(
+             22,
+             'Economics',
+             'Adam Smith',
+             'Economics for Beginners',
+             'Economics',
+             550.00
+         ),(
+             23,
+             'Advanced Economics',
+             'Adam Smith',
+             'Advanced Economics for Beginners',
+             'Economics',
+             550.00
+         ),(
+             24,
+             'Political Science',
+             'Aristotle',
+             'Political Science for Beginners',
+             'Political Science',
+             550.00
+         ),(
+             25,
+             'Advanced Political Science',
+             'Aristotle',
+             'Advanced Political Science for Beginners',
+             'Political Science',
+             550.00
+         ),(
+             26,
+             'Sociology',
+             'Auguste Comte',
+             'Sociology for Beginners',
+             'Sociology',
+             550.00
+         ),(
+             27,
+             'Advanced Sociology',
+             'Auguste Comte',
+             'Advanced Sociology for Beginners',
+             'Sociology',
+             550.00
+         ),(
+             28,
+             'Psychology',
+             'Sigmund Freud',
+             'Psychology for Beginners',
+             'Psychology',
+             550.00
+         ),(
+             29,
+             'Advanced Psychology',
+             'Sigmund Freud',
+             'Advanced Psychology for Beginners',
+             'Psychology',
+             550.00
+         ),(
+             30,
+             'Philosophy',
+             'Plato',
+             'Philosophy for Beginners',
+             'Philosophy',
+             550.00
+         ),(
+             31,
+             'Advanced Philosophy',
+             'Plato',
+             'Advanced Philosophy for Beginners',
+             'Philosophy',
+             550.00
+         ),(
+             32,
+             'Literature',
+             'Homer',
+             'Literature for Beginners',
+             'Literature',
+             550.00
+         ),(
+             33,
+             'Advanced Literature',
+             'Homer',
+             'Advanced Literature for Beginners',
+             'Literature',
+             550.00
+         ),(
+             34,
+             'Art',
+             'Leonardo da Vinci',
+             'Art for Beginners',
+             'Art',
+             550.00
+         ),(
+             35,
+             'Advanced Art',
+             'Leonardo da Vinci',
+             'Advanced Art for Beginners',
+             'Art',
+             550.00
+         ),(
+             36,
+             'Music',
+             'Beethoven',
+             'Music for Beginners',
+             'Music',
+             550.00
+         ),(
+             37,
+             'Advanced Music',
+             'Beethoven',
+             'Advanced Music for Beginners',
+             'Music',
+             550.00
+         ),(
+             38,
+             'Dance',
+             'Martha Graham',
+             'Dance for Beginners',
+             'Dance',
+             550.00
+         ),(
+             39,
+             'Advanced Dance',
+             'Martha Graham',
+             'Advanced Dance for Beginners',
+             'Dance',
+             550.00
+         ),(
+             40,
+             'Theatre',
+             'Shakespeare',
+             'Theatre for Beginners',
+             'Theatre',
+             550.00
+         ),(
+             41,
+             'Advanced Theatre',
+             'Shakespeare',
+             'Advanced Theatre for Beginners',
+             'Theatre',
+             550.00
+         ),(
+             42,
+             'Film',
+             'Alfred Hitchcock',
+             'Film for Beginners',
+             'Film',
+             550.00
+         ),(
+             43,
+             'Advanced Film',
+             'Alfred Hitchcock',
+             'Advanced Film for Beginners',
+             'Film',
+             550.00
+         ),(
+             44,
+             'Photography',
+             'Ansel Adams',
+             'Photography for Beginners',
+             'Photography',
+             550.00
+         ),(
+             45,
+             'Advanced Photography',
+             'Ansel Adams',
+             'Advanced Photography for Beginners',
+             'Photography',
+             550.00
+         ),(
+             46,
+             'Fashion',
+             'Coco Chanel',
+             'Fashion for Beginners',
+             'Fashion',
+             550.00
+         ),(
+             47,
+             'Advanced Fashion',
+             'Coco Chanel',
+             'Advanced Fashion for Beginners',
+             'Fashion',
+             550.00
+         ),(
+             48,
+             'Culinary Arts',
+             'Julia Child',
+             'Culinary Arts for Beginners',
+             'Culinary Arts',
+             550.00
+         ),(
+             49,
+             'Advanced Culinary Arts',
+             'Julia Child',
+             'Advanced Culinary Arts for Beginners',
+             'Culinary Arts',
+             550.00
+         ),(
+             50,
+             'Gardening',
+             'Vita Sackville-West',
+             'Gardening for Beginners',
+             'Gardening',
+             550.00
+         ),(
+             51,
+             'Advanced Gardening',
+             'Vita Sackville-West',
+             'Advanced Gardening for Beginners',
+             'Gardening',
+             550.00
+         ),(
+             52,
+             'Home Improvement',
+             'Bob Vila',
+             'Home Improvement for Beginners',
+             'Others',
+             550.00
+         ),(
+             53,
+             'Advanced Home Improvement',
+             'Bob Vila',
+             'Advanced Home Improvement for Beginners',
+             'Others',
+             550.00
+         );
 
