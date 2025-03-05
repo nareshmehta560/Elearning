@@ -1,6 +1,7 @@
 package com.swt_II.elearningplatform.security;
 
 import com.swt_II.elearningplatform.model.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -12,6 +13,13 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+    @Autowired
+    private  UserService userService;
+    @Autowired
+    private CustomFailureHandler customFailureHandler;
+    @Autowired
+    private CustomSuccessHandler customSuccessHandler;
+
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web -> web.ignoring().requestMatchers("/h2-console/**","/webjars/**",
@@ -42,8 +50,8 @@ public class SecurityConfig {
         }).logout(LogoutConfigurer::permitAll)
                 .formLogin(form -> form.loginPage("/customLogin")
                         .loginProcessingUrl("/performLogin")
-                        .failureHandler(new CustomFailureHandler())
-                        .defaultSuccessUrl("/home")
+                        .failureHandler(customFailureHandler)
+                        .successHandler(customSuccessHandler)
                         .permitAll());
         return http.build();
     }

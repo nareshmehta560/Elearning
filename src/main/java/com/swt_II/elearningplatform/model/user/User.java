@@ -8,10 +8,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Getter
@@ -27,9 +25,12 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-    private boolean enabled = true;
-    private boolean accountNonLocked = true;
-    private int failedLoginAttempts = 0;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean accountNonLocked ;
+    @Column(columnDefinition = "int default 0")
+    private int failedLoginAttempts ;
+    private LocalDateTime lockTime;
     @Transient
     private String confirmPassword;
 
